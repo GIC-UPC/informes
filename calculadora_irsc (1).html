@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora orientativa — nivell IRSC</title>
+<style>
+  :root{
+    --ink:#1c2a24;
+    --paper:#f6f4ef;
+    --line:#c9c2b3;
+    --accent:#2f5d4e;
+    --accent-soft:#e4ede9;
+    --danger:#8a3324;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Georgia",serif;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:2.5rem 1.5rem 4rem;
+  }
+  h1{
+    font-size:1.5rem;
+    font-weight:600;
+    margin:0 0 0.25rem;
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:0.92rem;
+    color:#5a5245;
+    margin:0 0 2rem;
+    max-width:46ch;
+  }
+  fieldset{
+    border:none;
+    border-top:1px solid var(--line);
+    padding:1.4rem 0;
+    margin:0;
+  }
+  legend{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:0.78rem;
+    text-transform:none;
+    color:#5a5245;
+    padding:0 0 0.6rem;
+    float:left;
+    width:100%;
+  }
+  .row{
+    display:flex;
+    align-items:baseline;
+    gap:1rem;
+    margin-bottom:0.9rem;
+  }
+  label{
+    flex:1 1 auto;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:0.95rem;
+  }
+  .hint{
+    display:block;
+    font-size:0.78rem;
+    color:#8a8272;
+    margin-top:0.15rem;
+  }
+  input[type=number]{
+    width:9.5rem;
+    padding:0.5rem 0.6rem;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:#fff;
+    color:var(--ink);
+  }
+  input[type=number]:focus{
+    outline:2px solid var(--accent);
+    outline-offset:1px;
+  }
+  button{
+    margin-top:1.6rem;
+    width:100%;
+    padding:0.85rem;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    color:#fff;
+    background:var(--accent);
+    border:none;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  button:active{ transform:translateY(1px); }
+  #result{
+    margin-top:1.8rem;
+    padding:1.3rem 1.4rem;
+    border-radius:4px;
+    background:var(--accent-soft);
+    display:none;
+  }
+  #result.show{ display:block; }
+  #result .ratio{
+    font-size:2.1rem;
+    font-weight:600;
+    line-height:1;
+  }
+  #result .tram{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:0.95rem;
+    margin-top:0.5rem;
+  }
+  #result .pts{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:0.85rem;
+    color:#4a5f56;
+    margin-top:0.2rem;
+  }
+  .note{
+    margin-top:2.2rem;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:0.8rem;
+    color:#8a8272;
+    border-top:1px solid var(--line);
+    padding-top:1rem;
+  }
+  .note strong{ color:var(--danger); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Nivell de renda orientatiu (IRSC)</h1>
+  <p class="subtitle">Càlcul estimatiu segons l'Indicador de Renda de Suficiència de Catalunya, ponderat pel nombre i tipus de membres de la unitat familiar (escala d'equivalència OCDE modificada, la mateixa metodologia que fan servir Idescat i Eurostat per mesurar risc de pobresa).</p>
+
+  <form id="calc">
+    <fieldset>
+      <legend>Composició de la unitat familiar</legend>
+      <div class="row">
+        <label for="adults">Persones adultes (14 anys o més)
+          <span class="hint">Inclou el/la sol·licitant i els progenitors o tutors</span>
+        </label>
+        <input type="number" id="adults" min="1" value="1" required>
+      </div>
+      <div class="row">
+        <label for="minors">Menors de 14 anys al domicili familiar
+          <span class="hint">Ponderen menys que un adult (escala d'equivalència OCDE)</span>
+        </label>
+        <input type="number" id="minors" min="0" value="0" required>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Ingressos (suma de tots els membres de la unitat familiar)</legend>
+      <div class="row">
+        <label for="general">Base imposable general
+          <span class="hint">Casella 435 del certificat de renda (IRPF)</span>
+        </label>
+        <input type="number" id="general" min="0" step="0.01" value="0" required>
+      </div>
+      <div class="row">
+        <label for="estalvi">Base imposable de l'estalvi
+          <span class="hint">Casella 460 del certificat de renda (IRPF)</span>
+        </label>
+        <input type="number" id="estalvi" min="0" step="0.01" value="0" required>
+      </div>
+    </fieldset>
+
+    <button type="submit">Calcula el nivell orientatiu</button>
+  </form>
+
+  <div id="result">
+    <div class="ratio" id="ratioValue">—</div>
+    <div class="tram" id="tramValue"></div>
+    <div class="pts" id="ptsValue"></div>
+  </div>
+
+  <p class="note">
+    Aquest resultat és <strong>orientatiu i no vinculant</strong>. La puntuació oficial la calcula l'òrgan gestor a partir dels certificats de renda aportats. IRSC anual 2026: 9.622,18 €.
+  </p>
+
+</div>
+
+<script>
+const IRSC_ANUAL = 9622.18;
+
+const TRAMS = [
+  { max: 1.0, punts: 70 },
+  { max: 1.5, punts: 58 },
+  { max: 2.0, punts: 46 },
+  { max: 2.5, punts: 34 },
+  { max: 3.0, punts: 22 },
+  { max: 3.5, punts: 10 },
+  { max: Infinity, punts: 0 }
+];
+
+document.getElementById('calc').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const adults = Math.max(1, parseFloat(document.getElementById('adults').value) || 1);
+  const minors = Math.max(0, parseFloat(document.getElementById('minors').value) || 0);
+  const general = Math.max(0, parseFloat(document.getElementById('general').value) || 0);
+  const estalvi = Math.max(0, parseFloat(document.getElementById('estalvi').value) || 0);
+
+  const ingressosTotals = general + estalvi;
+
+  // Escala d'equivalència OCDE modificada:
+  // 1.0 pel primer adult, 0.5 per cada adult addicional, 0.3 per cada menor de 14
+  const factorEquivalencia = 1.0 + 0.5 * (adults - 1) + 0.3 * minors;
+
+  const rendaEquivalent = ingressosTotals / factorEquivalencia;
+  const ratio = rendaEquivalent / IRSC_ANUAL;
+
+  const tram = TRAMS.find(t => ratio <= t.max);
+
+  document.getElementById('ratioValue').textContent = ratio.toFixed(2) + ' × IRSC';
+  document.getElementById('tramValue').textContent =
+    'Renda equivalent estimada: ' + rendaEquivalent.toLocaleString('ca-ES', {maximumFractionDigits:0}) + ' €/any · factor d\'equivalència: ' + factorEquivalencia.toFixed(2);
+  document.getElementById('ptsValue').textContent =
+    'Tram orientatiu del barem de renda: ' + tram.punts + ' punts sobre 70';
+
+  document.getElementById('result').classList.add('show');
+});
+</script>
+
+</body>
+</html>
