@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<title>KPI IV Pla d'Igualtat — UPC</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --upc-blue:#004E8A;
+    --upc-red:#C1272D;
+    --grey:#666;
+    --bg:#f0f1f3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    margin:0;
+    padding:24px;
+    color:#222;
+  }
+  .wrap{max-width:1050px;margin:0 auto;}
+  header{margin-bottom:0;}
+  header h1{margin:0 0 2px;color:var(--upc-blue);font-size:1.4rem;}
+  header p{margin:0 0 14px;color:var(--grey);font-size:0.85rem;}
+
+  /* --- Pestanyes estil Excel --- */
+  .tabbar{display:flex;gap:3px;border-bottom:2px solid var(--upc-blue);}
+  .tab{
+    padding:9px 20px;
+    background:#dfe3e8;
+    color:#444;
+    font-size:0.85rem;
+    font-weight:bold;
+    border:1px solid #c3c8ce;
+    border-bottom:none;
+    border-radius:6px 6px 0 0;
+    cursor:pointer;
+    user-select:none;
+  }
+  .tab:hover{background:#e9ecf0;}
+  .tab.active{
+    background:#fff;
+    color:var(--upc-blue);
+    border-color:var(--upc-blue);
+    border-bottom:2px solid #fff;
+    margin-bottom:-2px;
+  }
+
+  .panel{display:none;background:#fff;padding:26px;border-radius:0 0 10px 10px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+  .panel.active{display:block;}
+
+  section.kpi{border-top:1px solid #eee;padding-top:20px;margin-top:20px;}
+  section.kpi:first-child{border-top:none;margin-top:0;padding-top:0;}
+  section.kpi h2{color:var(--upc-blue);font-size:1.1rem;margin:0 0 14px;}
+  .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;align-items:start;}
+  @media (max-width:800px){.grid{grid-template-columns:1fr;}}
+  table.data{width:100%;border-collapse:collapse;font-size:0.8rem;}
+  table.data th{text-align:left;padding:4px 2px;border-bottom:1px solid #ddd;}
+  table.data td{padding:3px 2px;text-align:center;}
+  table.data td:first-child{text-align:left;}
+  .note{font-size:0.76rem;color:var(--grey);margin-top:8px;}
+  canvas{max-height:260px;}
+
+  /* Resum */
+  .obj-card{border-left:5px solid var(--upc-blue);background:#f7f9fb;padding:14px 18px;margin-bottom:14px;border-radius:4px;}
+  .obj-card h3{margin:0 0 6px;color:var(--upc-blue);font-size:0.95rem;}
+  .obj-card p{margin:2px 0;font-size:0.85rem;}
+  footer{text-align:center;font-size:0.72rem;color:var(--grey);margin-top:16px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>KPI — IV Pla d'Igualtat UPC</h1>
+    <p>Font: KPI_gènere.xlsx | GIC, UPC — Informe Desembre 2025</p>
+  </header>
+
+  <div class="tabbar" id="tabbar">
+    <div class="tab active" data-tab="resum">Resum</div>
+    <div class="tab" data-tab="o1">O1</div>
+    <div class="tab" data-tab="o2">O2</div>
+    <div class="tab" data-tab="o3">O3</div>
+    <div class="tab" data-tab="o4">O4</div>
+    <div class="tab" data-tab="o5">O5</div>
+  </div>
+
+  <!-- RESUM -->
+  <div class="panel active" id="panel-resum">
+    <div class="obj-card">
+      <h3>O1 — Dones matriculades a graus, màsters i doctorats</h3>
+      <p>[Text pendent d'afinar: tendència, xifra clau, alerta si n'hi ha]</p>
+    </div>
+    <div class="obj-card">
+      <h3>O2 — Dones en la carrera professional (PDI/PTGAS)</h3>
+      <p>[Text pendent d'afinar]</p>
+    </div>
+    <div class="obj-card">
+      <h3>O3 — Dones en òrgans de govern i decisió</h3>
+      <p>[Text pendent d'afinar]</p>
+    </div>
+    <div class="obj-card">
+      <h3>O4 — Perspectiva de gènere en docència, recerca i gestió</h3>
+      <p>[Text pendent d'afinar]</p>
+    </div>
+    <div class="obj-card">
+      <h3>O5 — Coneixement del Pla, visibilitat i sensibilització</h3>
+      <p>[Text pendent d'afinar]</p>
+    </div>
+  </div>
+
+  <!-- O1 -->
+  <div class="panel" id="panel-o1">
+    <section class="kpi">
+      <h2>O1. Dones en nou accés (Grau, Màster, Doctorat)</h2>
+      <div class="grid">
+        <div><canvas id="chart-o1"></canvas></div>
+        <div>
+          <table class="data">
+            <tr><th>Etapa</th><th>Dones 25</th><th>Homes 25</th></tr>
+            <tr><td>Grau</td><td>2.042</td><td>4.340</td></tr>
+            <tr><td>Màster</td><td>1.147</td><td>2.036</td></tr>
+            <tr><td>Doctorat</td><td>115</td><td>229</td></tr>
+          </table>
+          <p class="note">[Text pendent]</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- O2 -->
+  <div class="panel" id="panel-o2">
+    <section class="kpi">
+      <h2>KPI 2.1 — % Dones PDI per categoria</h2>
+      <div class="grid">
+        <div><canvas id="chart-o2-pdi"></canvas></div>
+        <div>
+          <table class="data">
+            <tr><th>Categoria</th><th>D 25</th><th>H 25</th></tr>
+            <tr><td>Catedràtica/a</td><td>68</td><td>225</td></tr>
+            <tr><td>Titular+Agregada+CEU</td><td>262</td><td>649</td></tr>
+            <tr><td>Col·laboradora+TEU</td><td>23</td><td>100</td></tr>
+            <tr><td>Lectora+aj.doctor</td><td>129</td><td>278</td></tr>
+            <tr><td>Associada+substituta</td><td>386</td><td>1.034</td></tr>
+          </table>
+          <p class="note">[Text pendent]</p>
+        </div>
+      </div>
+    </section>
+    <section class="kpi">
+      <h2>KPI 2.2 — % Dones PTGAS, personal laboral</h2>
+      <div class="grid">
+        <div><canvas id="chart-o2-laboral"></canvas></div>
+        <div>
+          <table class="data">
+            <tr><th>Grup</th><th>D 25</th><th>H 25</th></tr>
+            <tr><td>Lliure designació</td><td>12</td><td>6</td></tr>
+            <tr><td>Grup Laboral I</td><td>69</td><td>169</td></tr>
+            <tr><td>Grup Laboral II</td><td>33</td><td>93</td></tr>
+            <tr><td>Grup Laboral III</td><td>80</td><td>108</td></tr>
+            <tr><td>Grup Laboral IV</td><td>37</td><td>34</td></tr>
+          </table>
+          <p class="note">PAS Laboral 2025: 36,0% dones / 64,0% homes (total).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpi">
+      <h2>KPI 2.3 — % Dones PTGAS, personal funcionari</h2>
+      <div class="grid">
+        <div><canvas id="chart-o2-funcionari"></canvas></div>
+        <div>
+          <table class="data">
+            <tr><th>Subgrup</th><th>D 25</th><th>H 25</th></tr>
+            <tr><td>A1</td><td>143</td><td>46</td></tr>
+            <tr><td>A2</td><td>173</td><td>41</td></tr>
+            <tr><td>C1</td><td>369</td><td>40</td></tr>
+            <tr><td>C2</td><td>164</td><td>25</td></tr>
+          </table>
+          <p class="note">PAS Funcionari 2025: 84,8% dones / 15,2% homes (total). Nota: molt més feminitzat que el laboral.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- O3 -->
+  <div class="panel" id="panel-o3">
+    <section class="kpi">
+      <h2>KPI 3.1 — % Dones en òrgans de govern</h2>
+      <div class="grid">
+        <div><canvas id="chart-o3"></canvas></div>
+        <div>
+          <table class="data">
+            <tr><th>Càrrec</th><th>D 25</th><th>H 25</th></tr>
+            <tr><td>Vicerectorats</td><td>6</td><td>7</td></tr>
+            <tr><td>Direcció centres</td><td>12</td><td>6</td></tr>
+            <tr><td>Direcció departament</td><td>11</td><td>26</td></tr>
+            <tr><td>Secretaries</td><td>17</td><td>22</td></tr>
+          </table>
+          <p class="note">[Text pendent]</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- O4 -->
+  <div class="panel" id="panel-o4">
+    <section class="kpi">
+      <h2>KPI 4.1–4.3 — Tesis, IP i contractes pre/postdoctorals</h2>
+      <div class="grid">
+        <div><canvas id="chart-o4"></canvas></div>
+        <div>
+          <table class="data">
+            <tr><th>Indicador</th><th>D 25</th><th>H 25</th></tr>
+            <tr><td>IP principal</td><td>199</td><td>496</td></tr>
+            <tr><td>Contr. predoctoral</td><td>181</td><td>334</td></tr>
+            <tr><td>Contr. postdoctoral</td><td>16</td><td>51</td></tr>
+          </table>
+          <p class="note">[Text pendent]</p>
+        </div>
+      </div>
+    </section>
+    <section class="kpi">
+      <h2>KPI 4.4 — Accions formatives d'igualtat (PTGAS/PDI)</h2>
+      <canvas id="chart-o4-4" style="max-width:500px;"></canvas>
+    </section>
+  </div>
+
+  <!-- O5 -->
+  <div class="panel" id="panel-o5">
+    <section class="kpi">
+      <h2>KPI 5.1 — Assistència a tallers i jornades</h2>
+      <canvas id="chart-o5-1" style="max-width:500px;"></canvas>
+    </section>
+    <section class="kpi">
+      <h2>KPI 5.2 — % comunitat que coneix el Pla (2022 vs 2025)</h2>
+      <canvas id="chart-o5-2"></canvas>
+    </section>
+    <section class="kpi">
+      <h2>KPI 5.3 — Visualitzacions web d'Igualtat (2024 vs 2025)</h2>
+      <canvas id="chart-o5-3"></canvas>
+    </section>
+  </div>
+
+  <footer>Estructura de prova — GIC, UPC. Text i estil pendents de validar.</footer>
+</div>
+
+<script>
+const years = [2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const years45 = [2021,2022,2023,2024,2025];
+const charts = {}; // lazy init registry
+
+function makeLine(id, labels, datasets, title, pct=true){
+  charts[id] = () => new Chart(document.getElementById(id), {
+    type:'line',
+    data:{ labels, datasets: datasets.map(d=>({...d, tension:0.25})) },
+    options:{ responsive:true, plugins:{title:{display:true,text:title}},
+      scales:{ y: pct ? {ticks:{callback:v=>(v*100).toFixed(0)+'%'}, min:0} : {} } }
+  });
+}
+function makeBar(id, labels, datasets, title){
+  charts[id] = () => new Chart(document.getElementById(id), {
+    type:'bar',
+    data:{ labels, datasets },
+    options:{ responsive:true, plugins:{title:{display:true,text:title}} }
+  });
+}
+
+// O1
+makeLine('chart-o1', years, [
+  {label:'Grau', data:[0.2576,0.2646,0.2804,0.2971,0.3080,0.3172,0.3095,0.3223,0.3208], borderColor:'#004E8A'},
+  {label:'Màster', data:[0.3713,0.3687,0.3790,0.3407,0.3868,0.3960,0.3935,0.3634,0.3536], borderColor:'#C1272D'},
+  {label:'Doctorat', data:[0.3060,0.3220,0.2760,0.2810,0.3080,0.3140,0.3200,0.3470,0.3340], borderColor:'#2E8B57'}
+], '% dones en nou accés');
+
+// O2
+makeLine('chart-o2-pdi', years, [
+  {label:'Catedràtica/a', data:[0.0928,0.1097,0.1102,0.1111,0.1317,0.1719,0.1977,0.1993,0.2321], borderColor:'#004E8A'},
+  {label:'Titular+Agregada+CEU', data:[0.2738,0.2740,0.2776,0.2787,0.2746,0.2777,0.2694,0.2821,0.2876], borderColor:'#C1272D'},
+  {label:"Col·laboradora+TEU", data:[0.2915,0.2939,0.2951,0.2744,0.2886,0.2626,0.2516,0.2117,0.1870], borderColor:'#2E8B57'},
+  {label:'Lectora+aj.doctor', data:[0.2083,0.2895,0.4082,0.3714,0.3596,0.3110,0.3453,0.3158,0.3170], borderColor:'#E8A400'},
+  {label:'Associada+substituta', data:[0.2566,0.2602,0.2674,0.2563,0.2483,0.2563,0.2644,0.2699,0.2718], borderColor:'#7A4FA3'}
+], '% dones PDI per categoria');
+
+makeLine('chart-o2-laboral', years, [
+  {label:'Lliure designació', data:[0.7273,0.5714,0.5714,0.5,0.5,0.4706,0.5294,0.5333,0.6667], borderColor:'#004E8A'},
+  {label:'Grup Laboral I', data:[0.3704,0.3658,0.3586,0.3574,0.3577,0.3205,0.3186,0.3018,0.2899], borderColor:'#C1272D'},
+  {label:'Grup Laboral II', data:[0.2910,0.2849,0.2905,0.2938,0.2516,0.2365,0.2432,0.2609,0.2619], borderColor:'#2E8B57'},
+  {label:'Grup Laboral III', data:[0.3607,0.3783,0.3957,0.3725,0.3913,0.3722,0.3702,0.3902,0.4255], borderColor:'#E8A400'},
+  {label:'Grup Laboral IV', data:[0.4211,0.4490,0.4694,0.4792,0.5370,0.5593,0.5577,0.4762,0.5211], borderColor:'#7A4FA3'}
+], '% dones PTGAS laboral, per grup');
+
+makeLine('chart-o2-funcionari', years, [
+  {label:'Subgrup A1', data:[0.7227,0.7422,0.7308,0.7328,0.7405,0.7628,0.7552,0.7622,0.7566], borderColor:'#004E8A'},
+  {label:'Subgrup A2', data:[0.8249,0.8084,0.8023,0.8047,0.8058,0.8109,0.8254,0.8060,0.8084], borderColor:'#C1272D'},
+  {label:'Subgrup C1', data:[0.9153,0.9135,0.9127,0.9024,0.9010,0.8973,0.9086,0.9038,0.9022], borderColor:'#2E8B57'},
+  {label:'Subgrup C2', data:[0.9870,0.9780,0.9160,0.9241,0.9325,0.9100,0.8614,0.8813,0.8677], borderColor:'#E8A400'}
+], '% dones PTGAS funcionari, per subgrup', true);
+
+// O3
+makeLine('chart-o3', years, [
+  {label:'Vicerectorat', data:[0.125,0.222,0.182,0.400,0.364,0.417,0.462,0.462,0.462], borderColor:'#004E8A'},
+  {label:'Direcció centre docent', data:[0.222,0.263,0.222,0.294,0.368,0.412,0.412,0.611,0.667], borderColor:'#C1272D'},
+  {label:'Direcció departament', data:[0.1875,0.1515,0.1515,0.1471,0.200,0.2703,0.2778,0.2778,0.2973], borderColor:'#2E8B57'},
+  {label:'Secretaries', data:[0.2778,0.2973,0.3514,0.4324,0.4737,0.5405,0.5128,0.5128,0.4359], borderColor:'#E8A400'}
+], '% dones per càrrec de govern');
+
+// O4
+makeLine('chart-o4', years, [
+  {label:'% Dones IP principal', data:[0.1950,0.1980,0.2136,0.2315,0.2305,0.2412,0.2476,0.2658,0.2863], borderColor:'#004E8A'},
+  {label:'% Contr. predoctorals', data:[0.2931,0.2903,0.3333,0.3590,0.3134,0.3234,0.3043,0.3243,0.3515], borderColor:'#C1272D'},
+  {label:'% Contr. postdoctorals', data:[0.3220,0.3833,0.4423,0.3929,0.3387,0.3310,0.3200,0.2639,0.2388], borderColor:'#2E8B57'}
+], "% dones — recerca i contractes");
+
+makeBar('chart-o4-4', years45, [
+  {label:'PTGAS', data:[5,6,10,17,19], backgroundColor:'#004E8A'},
+  {label:'PDI', data:[5,6,12,17,19], backgroundColor:'#C1272D'}
+], "Accions formatives d'igualtat");
+
+// O5
+makeBar('chart-o5-1', years45, [
+  {label:'Assistents (PTGAS+PDI)', data:[88,59,342,255,274], backgroundColor:'#004E8A'}
+], 'Assistència a tallers i jornades');
+
+makeBar('chart-o5-2', ['Estudiantat D','Estudiantat H','PTGAS D','PTGAS H','PDI D','PDI H'], [
+  {label:'2022', data:[54.55,51.36,83.38,82.45,81.53,76.77], backgroundColor:'#004E8A'},
+  {label:'2025', data:[44.27,42.18,74.50,73.54,74.58,64.81], backgroundColor:'#C1272D'}
+], "% que coneix les accions del Pla d'Igualtat");
+
+makeBar('chart-o5-3', ['Portal Igualtat','Pla Igualtat','PROU','8M','25N','11F'], [
+  {label:'2024', data:[3289,836,637,818,682,365], backgroundColor:'#004E8A'},
+  {label:'2025', data:[2479,725,1450,678,672,910], backgroundColor:'#C1272D'}
+], 'Visualitzacions per pàgina');
+
+// --- Tab logic: lazy chart init ---
+const inited = new Set();
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    const id = 'panel-'+tab.dataset.tab;
+    document.getElementById(id).classList.add('active');
+
+    // init charts belonging to this panel, once
+    document.getElementById(id).querySelectorAll('canvas').forEach(c=>{
+      if(!inited.has(c.id) && charts[c.id]){ charts[c.id](); inited.add(c.id); }
+    });
+  });
+});
+// init resum tab charts (none) — nothing to do
+</script>
+</body>
+</html>
