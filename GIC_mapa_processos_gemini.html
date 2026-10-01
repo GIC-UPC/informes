@@ -309,119 +309,106 @@
     </section>
 
     <script>
-        // Mostra de dades representatives dels 78 processos segons l'informe de diagnòstic de la tardor de 2026
-        const processos = [
-            {
-                id: 1,
-                nom: "Acollida i contractació de becaris",
-                familia: "Becaris: cicle de vida",
-                unitat: "Transversal",
-                estat: "Documentat",
-                responsable: "Tutor/a de becaris",
-                sensible: false,
-                eines: "Guia tutors, Excel horaris",
-                propostaIA: "Generació automàtica del pla d'acollida i checklist inicial adaptat al perfil."
-            },
-            {
-                id: 2,
-                nom: "Reconeixement de crèdits ECTS per activitats",
-                familia: "Convocatòries, ajuts i reconeixements",
-                unitat: "USIS",
-                estat: "Coix",
-                responsable: "Pendent de definir (3 gestors actuals)",
-                sensible: false,
-                eines: "EACAT, E-Tramita",
-                propostaIA: "Pilot prioritari: Unificació de criteri i automatització d'esborranys de resolució."
-            },
-            {
-                id: 3,
-                nom: "Protocol PROU (Aassetjament i violència)",
-                familia: "Casos sensibles individuals",
-                unitat: "Igualtat",
-                estat: "No-Localitzat",
-                responsable: "Unitat d'Igualtat",
-                sensible: true,
-                eines: "Bústia confidencial",
-                propostaIA: "Anàlisi estructurada de procediment. (Línia Vermella: Sense IA en dades reals)."
-            },
-            {
-                id: 4,
-                nom: "Procediment de Canvi de Nom (Col·lectiu Trans)",
-                familia: "Casos sensibles individuals",
-                unitat: "Igualtat",
-                estat: "No-Localitzat",
-                responsable: "Unitat d'Igualtat / Secretaria",
-                sensible: true,
-                eines: "eRegistre, BBDD interna",
-                propostaIA: "Plantilles SOP buides per estandarditzar el circuit intern d'execució."
-            },
-            {
-                id: 5,
-                nom: "Circuit de despeses i viatges",
-                familia: "Gestió econòmica",
-                unitat: "Transversal",
-                estat: "Documentat",
-                responsable: "Gestió Econòmica",
-                sensible: false,
-                eines: "SAP, Guia de Viatges",
-                propostaIA: "Validació prèvia de requisits de liquidació mitjançant assistent virtual."
-            },
-            {
-                id: 6,
-                nom: "Tramitació via EACAT i E-Tramita",
-                familia: "Tramitació i signatura",
-                unitat: "Transversal",
-                estat: "Coix",
-                responsable: "Equip de Tramitació",
-                sensible: false,
-                eines: "EACAT, Plataformes Gencat",
-                propostaIA: "Unificació de les 3 guies manuals existents en un únic directori de coneixement."
-            },
-            {
-                id: 7,
-                nom: "Adaptacions docents per estudiants amb discapacitat",
-                familia: "Casos sensibles individuals",
-                unitat: "Inclusió",
-                estat: "No-Localitzat",
-                responsable: "Tècnic/a d'Inclusió",
-                sensible: true,
-                eines: "Informes d'Inclusió",
-                propostaIA: "Generació de models tipus de recomanacions docents anònimes."
-            },
-            {
-                id: 8,
-                nom: "Atenció multicanal i Bústies compartides (Zero Inbox)",
-                familia: "Atenció i comunicació",
-                unitat: "Transversal",
-                estat: "Documentat",
-                responsable: "Equip d'Atenció",
-                sensible: false,
-                eines: "Gmail, Guia Zero Inbox",
-                propostaIA: "Classificació automàtica i esborranys de resposta automàtics per bústies del GIC."
-            },
-            {
-                id: 9,
-                nom: "Elaboració de la Memòria Anual de la Unitat",
-                familia: "Coneixement, qualitat i indicadors",
-                unitat: "Transversal",
-                estat: "No-Localitzat",
-                responsable: "Cap de Secció / Direcció",
-                sensible: false,
-                eines: "PowerBI, Looker Studio",
-                propostaIA: "Redacció assistida de resums executius a partir d'indicadors numèrics."
-            },
-            {
-                id: 10,
-                nom: "Control i seguiment de la caducitat de convenis",
-                familia: "Governança i relació institucional",
-                unitat: "CCD",
-                estat: "No-Localitzat",
-                responsable: "Responsable de Convenis",
-                sensible: false,
-                eines: "GConvenis",
-                propostaIA: "Alertes automàtiques programades 3 mesos abans de la caducitat del conveni."
-            }
-        ];
+        // Carrega completa dels 78 processos estructurats per les 10 famílies de l'informe de diagnòstic
+const processos = [
+    // 1. Tramitació i signatura (9 processos)
+    { id: 1, nom: "Tramitació via EACAT i E-Tramita", familia: "Tramitació i signatura", unitat: "Transversal", estat: "Coix", responsable: "Equip de Tramitació", sensible: false, eines: "EACAT, E-Tramita", propostaIA: "Unificació de les 3 guies manuals existents." },
+    { id: 2, nom: "Gestió d'eRegistre i entrames de documents", familia: "Tramitació i signatura", unitat: "Transversal", estat: "Documentat", responsable: "Secretaria / Suport", sensible: false, eines: "eRegistre", propostaIA: "Categorització i triatge automàtic d'assumptes." },
+    { id: 3, nom: "Circuit de signatura electrònica de resolucions", familia: "Tramitació i signatura", unitat: "Transversal", estat: "No-Localitzat", responsable: "Secretaria Tècnica", sensible: false, eines: "Portasignatures UPC", propostaIA: "Alertes automàtiques de signatures pendents o a punt de caducar." },
+    { id: 4, nom: "Validació de poders i representació legal", familia: "Tramitació i signatura", unitat: "USIS", estat: "No-Localitzat", responsable: "Tècnic/a Jurídic/a", sensible: false, eines: "EACAT", propostaIA: "Checklist de verificació de poders abans de la signatura." },
+    { id: 5, nom: "Gestió de notificacions electròniques oficials", familia: "Tramitació i signatura", unitat: "Transversal", estat: "No-Localitzat", responsable: "Administració", sensible: false, eines: "e-NOTUM", propostaIA: "Integració de resums diaris automàtics de notificacions rebudes." },
+    { id: 6, nom: "Instància genèrica i atenció a sol·licituds oficials", familia: "Tramitació i signatura", unitat: "Transversal", estat: "No-Localitzat", responsable: "Atenció a l'Usuari", sensible: false, eines: "Seu Electrònica", propostaIA: "Plantilles de resposta estàndard generades per IA." },
+    { id: 7, nom: "Publicació en taulers oficials i D DOGC/BOE", familia: "Tramitació i signatura", unitat: "USIS", estat: "No-Localitzat", responsable: "Gestió Administrativa", sensible: false, eines: "EACAT / Tauler", propostaIA: "Generador de resums i metadades per a la publicació oficial." },
+    { id: 8, nom: "Custòdia i arxivament de documents tramitats", familia: "Tramitació i signatura", unitat: "Transversal", estat: "Documentat", responsable: "Gestió Documental", sensible: false, eines: "iArxiu / Drive", propostaIA: "Nomenclatura i etiquetatge automàtic de documents desats." },
+    { id: 9, nom: "Certificats d'actuacions administratives", familia: "Tramitació i signatura", unitat: "USIS", estat: "Coix", responsable: "Secretaria", sensible: false, eines: "Aplicatiu de Gestió", propostaIA: "Generació automàtica de l'esborrany de certificat." },
+
+    // 2. Convocatòries, ajuts i reconeixements (6 processos)
+    { id: 10, nom: "Reconeixement de crèdits ECTS per activitats", familia: "Convocatòries, ajuts i reconeixements", unitat: "USIS", estat: "Coix", responsable: "3 gestors (Pendent d'unificar)", sensible: false, eines: "EACAT, E-Tramita", propostaIA: "Pilot prioritari d'unificació i validació prèvia del barem." },
+    { id: 11, nom: "Convocatòria d'ajuts interns i beques de suport", familia: "Convocatòries, ajuts i reconeixements", unitat: "USIS", estat: "No-Localitzat", responsable: "Tècnic/a de Projectes", sensible: false, eines: "Filtres d'Excel", propostaIA: "Barem automàtic de sol·licituds segons criteris d'elegibilitat." },
+    { id: 12, nom: "Gestió i justificació de subvencions rebudes", familia: "Convocatòries, ajuts i reconeixements", unitat: "CCD", estat: "No-Localitzat", responsable: "Gestió Econòmica / CCD", sensible: false, eines: "SAP, Gestió de Projectes", propostaIA: "Anàlisi i comparativa de justificacions econòmiques." },
+    { id: 13, nom: "Avaluació i baremació de sol·licituds de premi/ajut", familia: "Convocatòries, ajuts i reconeixements", unitat: "USIS", estat: "No-Localitzat", responsable: "Comissió d'Avaluació", sensible: false,eines: "Excel / Forms", propostaIA: "Filtratge i comparativa de sol·licituds segons barems establerts." },
+    { id: 14, nom: "Notificació de resolució i al·legacions d'ajuts", familia: "Convocatòries, ajuts i reconeixements", unitat: "USIS", estat: "No-Localitzat", responsable: "Gestió d'Ajuts", sensible: false, eines: "Seu Electrònica", propostaIA: "Model de resolució i automatització de la notificació per correu." },
+    { id: 15, nom: "Certificats de reconeixement institucional o premis", familia: "Convocatòries, ajuts i reconeixements", unitat: "USIS", estat: "No-Localitzat", responsable: "Suport Institucional", sensible: false, eines: "Disseny / PDF", propostaIA: "Generador massiu de certificats personalitzats en PDF." },
+
+    // 3. Casos sensibles individuals (8 processos - Protecció RGPD)
+    { id: 16, nom: "Protocol PROU (Aassetjament i violència)", familia: "Casos sensibles individuals", unitat: "Igualtat", estat: "No-Localitzat", responsable: "Unitat d'Igualtat", sensible: true, eines: "Bústia confidencial", propostaIA: "Estandardització de la plantilla de circuit intern (Sense IA en dades reals)." },
+    { id: 17, nom: "Procediment de Canvi de Nom (Col·lectiu Trans)", familia: "Casos sensibles individuals", unitat: "Igualtat", estat: "No-Localitzat", responsable: "Unitat d'Igualtat", sensible: true, eines: "eRegistre, BBDD", propostaIA: "Redacció de SOP únic i checklist de verificació de canvi en BBDD." },
+    { id: 18, nom: "Adaptacions docents per estudiants amb discapacitat", familia: "Casos sensibles individuals", unitat: "Inclusió", estat: "No-Localitzat", responsable: "Tècnic/a d'Inclusió", sensible: true, eines: "Informes sanitaris", propostaIA: "Generació de models tipus de recomanacions anònimes per al professorat." },
+    { id: 19, nom: "Atenció i acompanyament en mediació universitària", familia: "Casos sensibles individuals", unitat: "Mediació", estat: "No-Localitzat", responsable: "Servei de Mediació", sensible: true,eines: "Forms intern / Entrevistes", propostaIA: "Plantilles per a l'anonimització d'actes i resums de sessions." },
+    { id: 20, nom: "Exempcions de preus públics per violència masclista", familia: "Casos sensibles individuals", unitat: "Igualtat", estat: "Coix", responsable: "Gestió d'Igualtat", sensible: true, eines: "eRegistre / SIDI", propostaIA: "Guia de verificació segura de documentació acreditativa." },
+    { id: 21, nom: "Gestió d'incidències per assetjament laboral / PTGAS", familia: "Casos sensibles individuals", unitat: "Igualtat", estat: "No-Localitzat", responsable: "Igualtat / Persones", sensible: true, eines: "Bústia interna", propostaIA: "Circuit de triatge i assignació del cas al comitè." },
+    { id: 22, nom: "Atenció a la diversitat i suport en exàmens", familia: "Casos sensibles individuals", unitat: "Inclusió", estat: "No-Localitzat", responsable: "Tècnic/a d'Inclusió", sensible: true, eines: "Posta en contacte docent", propostaIA: "Avisos automàtics programats als coordinadors de docència." },
+    { id: 23, nom: "Acompanyament psicopedagògic especialitzat", familia: "Casos sensibles individuals", unitat: "Inclusió", estat: "No-Localitzat", responsable: "Equip d'Inclusió", sensible: true, eines: "Agenda confidencial", propostaIA: "Estructuració de fitxes per al seguiment d'atencions." },
+
+    // 4. Atenció i comunicació (7 processos)
+    { id: 24, nom: "Atenció multicanal i Zero Inbox per a bústies compartides", familia: "Atenció i comunicació", unitat: "Transversal", estat: "Documentat", responsable: "Equip d'Atenció", sensible: false, eines: "Gmail, Guia Zero Inbox", propostaIA: "Classificació automàtica i esborranys de respostes tipus." },
+    { id: 25, nom: "Gestió i actualització del Sites intern del GIC", familia: "Atenció i comunicació", unitat: "Transversal", estat: "Documentat", responsable: "Comunicació GIC", sensible: false, eines: "Google Sites", propostaIA: "Anàlisi periòdica d'enllaços trencats o contingut desactualitzat." },
+    { id: 26, nom: "Novedats, bulletins i comunicació interna", familia: "Atenció i comunicació", unitat: "Transversal", estat: "No-Localitzat", responsable: "Equip de Comunicació", sensible: false, eines: "Mailchimp / Sympa", propostaIA: "Redacció assistida de resums per a bulletins interns." },
+    { id: 27, nom: "Resolució de consultes de procediments universitaris", familia: "Atenció i comunicació", unitat: "USIS", estat: "No-Localitzat", responsable: "Atenció a l'Usuari", sensible: false, eines: "CRM / Bústia", propostaIA: "FAQ dinàmica amb cerca intel·ligent sobre el Sites." },
+    { id: 28, nom: "Gestió de xarxes socials i difusió institucional", familia: "Atenció i comunicació", unitat: "Transversal", estat: "No-Localitzat", responsable: "Community Manager", sensible: false, eines: "X, Instagram, LinkedIn", propostaIA: "Adaptació de comunicats a diferents formats de xarxa." },
+    { id: 29, nom: "Organització i difusió de campanyes de sensibilització", familia: "Atenció i comunicació", unitat: "Igualtat / Inclusió", estat: "No-Localitzat", responsable: "Unitats especialitzades", sensible: false, eines: "Canva, Web GIC", propostaIA: "Pla de publicació i textos promocionals per a la campanya." },
+    { id: 30, nom: "Gestió de suggeriments i reclamacions de servei", familia: "Atenció i comunicació", unitat: "Transversal", estat: "No-Localitzat", responsable: "Qualitat / Atenció", sensible: false, eines: "Bústia de Queixes", propostaIA: "Classificació temàtica de queixes per identificar punts de millora." },
+
+    // 5. Persones i recursos interns (15 processos)
+    { id: 31, nom: "Acollida i onboarding de PTGAS / PAS a la unitat", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Documentat", responsable: "Cap de Secció", sensible: false, eines: "Checklist Drive", propostaIA: "Pla d'acollida interactiu amb checklist de tasques." },
+    { id: 32, nom: "Control horari, vacances i permisos del personal", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Documentat", responsable: "Secretaria / Direcció", sensible: false, eines: "Portal PAS / PTGAS", propostaIA: "Resum mensual automatitzat de cobertes i torns." },
+    { id: 33, nom: "Gestió de baixes mèdiques i substitucions", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Documentat", responsable: "Gestió de Personal", sensible: false, eines: "Nomenclatura / HR", propostaIA: "Ruta de redistribució de tasques durant baixes temporals." },
+    { id: 34, nom: "Assignació de rols, equips i matriu de competències", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Documentat", responsable: "Direcció del GIC", sensible: false, eines: "Mapa de rols Drive", propostaIA: "Matriu de polivalència i alertes per punts únics de fallada." },
+    { id: 35, nom: "Manteniment del directori de contactes i organigrama", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Documentat", responsable: "Secretaria", sensible: false, eines: "Directori UPC", propostaIA: "Sincronització i detecció automàtica de contactes obsolets." },
+    { id: 36, nom: "Coordinació i pla de formació contínua de l'equip", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Documentat", responsable: "Formació / Caps", sensible: false, eines: "Servei de Desenvolupament", propostaIA: "Detecció de necessitats formatives basada en canvis normatius." },
+    { id: 37, nom: "Gestió d'equips informàtics i permisos d'accés (TIC)", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Coix", responsable: "Enllaç TIC / Suport", sensible: false, eines: "TIC UPC / Tiquets", propostaIA: "Checklist automatitzat d'altes i baixes de fitxers i permisos." },
+    { id: 38, nom: "Avaluació de riscos laborals i prevenció (PRL)", familia: "Persones i recursos interns", unitat: "Transversal", estat: "Coix", responsable: "Delegat/da PRL", sensible: false, eines: "Servei de Prevenció", propostaIA: "Calendari de revisió d'espais i equips de treball." },
+    { id: 39, nom: "Coordinació de teletreball i torns presencials", familia: "Persones i recursos interns", unitat: "Transversal", estat: "No-Localitzat", responsable: "Caps de Unitat", sensible: false, eines: "Calendari Compartit", propostaIA: "Quadrants de presencialitat generats automàticament." },
+    { id: 40, nom: "Gestió de mobilitat interna del personal", familia: "Persones i recursos interns", unitat: "Transversal", estat: "No-Localitzat", responsable: "Direcció", sensible: false, eines: "Servei de Personal", propostaIA: "Resum de tasques pendents de traspassar al nou lloc." },
+    { id: 41, nom: "Solicitud i gestió de material d'oficina i fungibles", familia: "Persones i recursos interns", unitat: "Transversal", estat: "No-Localitzat", responsable: "Administració", sensible: false, eines: "Catalèg de compres", propostaIA: "Revisió periòdica d'estoc mínim amb formulari d'alerta." },
+    { id: 42, nom: "Acreditacions, targes d'accés i claus d'espais", familia: "Persones i recursos interns", unitat: "Transversal", estat: "No-Localitzat", responsable: "Consergeria / Secretaria", sensible: false, eines: "Gestió d'Accessos", propostaIA: "Registre digital de lliurament i devolució de claus." },
+    { id: 43, nom: "Avaluació de l'acompliment i objectius anuals", familia: "Persones i recursos interns", unitat: "Transversal", estat: "No-Localitzat", responsable: "Direcció / Caps", sensible: false, eines: "Avaluació UPC", propostaIA: "Recopilació d'indicadors de compliment per a les reunions d'avaluació." },
+    { id: 44, nom: "Organització de reunions d'equip i actes interns", familia: "Persones i recursos interns", unitat: "Transversal", estat: "No-Localitzat", responsable: "Secretaria / Totes", sensible: false, eines: "Google Meet / Cal", propostaIA: "Generació automàtica de resums executius de reunions d'equip." },
+    { id: 45, nom: "Resolució de conflictes i clima laboral", familia: "Persones i recursos interns", unitat: "Mediation / Direcció", estat: "No-Localitzat", responsable: "Mediació", sensible: true, eines: "Sessions de diàleg", propostaIA: "Framework de diàleg estructurat i recomanacions d'acord." },
+
+    // 6. Espais i esdeveniments (6 processos)
+    { id: 46, nom: "Reserva i gestió d'aules, sales i espais interiors", familia: "Espais i esdeveniments", unitat: "Transversal", estat: "Documentat", responsable: "Consergeria / Secretaria", sensible: false, eines: "Aplicatiu de Reserves", propostaIA: "Validació automàtica de capacitat i requeriments tècnics." },
+    { id: 47, nom: "Organització logística de jornades i esdeveniments", familia: "Espais i esdeveniments", unitat: "Transversal", estat: "No-Localitzat", responsable: "Equip organitzador", sensible: false, eines: "Checklist Drive", propostaIA: "Cronograma de tasques i avisos automàtics a proveïdors." },
+    { id: 48, nom: "Gestió de càtering, megafonia i serveis auxiliars", familia: "Espais i esdeveniments", unitat: "Transversal", estat: "No-Localitzat", responsable: "Gestió d'Esdeveniments", sensible: false, eines: "Contractes marc", propostaIA: "Calculadora de pressupost tipus i comanda automàtica." },
+    { id: 49, nom: "Inscripcions i control d'assistència a jornades", familia: "Espais i esdeveniments", unitat: "Transversal", estat: "No-Localitzat", responsable: "Suport Logístic", sensible: false, eines: "Forms / Codi QR", propostaIA: "Enviament automàtic de certificats d'assistència." },
+    { id: 50, nom: "Avaluació de la satisfacció dels esdeveniments", familia: "Espais i esdeveniments", unitat: "Transversal", estat: "No-Localitzat", responsable: "Qualitat", sensible: false, eines: "Forms / Enquestes", propostaIA: "Anàlisi de sentiment dels comentaris dels assistents." },
+    { id: 51, nom: "Manteniment, neteja i resolució d'incidències d'espais", familia: "Espais i esdeveniments", unitat: "Transversal", estat: "No-Localitzat", responsable: "Manteniment", sensible: false, eines: "Tiquets d'Espais", propostaIA: "Priorització i seguiment d'incidències pendents d'espai." },
+
+    // 7. Gestió econòmica (6 processos)
+    { id: 52, nom: "Circuit de despeses, justificacions i viatges", familia: "Gestió econòmica", unitat: "Transversal", estat: "Documentat", responsable: "Gestió Econòmica", sensible: false, eines: "SAP, Guia Viatges", propostaIA: "Validació prèvia de requeriments de despesa abans de SAP." },
+    { id: 53, nom: "Gestió de compres, comandes i proveïdors", familia: "Gestió econòmica", unitat: "Transversal", estat: "Documentat", responsable: "Gestió Econòmica", sensible: false, eines: "SAP / Mòdul Compres", propostaIA: "Verificació de conformitat de factures en comparació a la comanda." },
+    { id: 54, nom: "Concessió i pagament de visites de menors / ajuts", familia: "Gestió econòmica", unitat: "USIS", estat: "Documentat", responsable: "Gestió Econòmica", sensible: false, eines: "SAP / Excel", propostaIA: "Alertes per pagaments pendents i comprovació de certificats." },
+    { id: 55, nom: "Seguiment i tancament del pressupost anual del GIC", familia: "Gestió econòmica", unitat: "Transversal", estat: "Coix", responsable: "Responsable Econòmic/a", sensible: false, eines: "SAP, PowerBI", propostaIA: "Predicció d'execució pressupostària a final d'exercici." },
+    { id: 56, nom: "Gestió d'ingressos, preus públics i facturació", familia: "Gestió econòmica", unitat: "USIS", estat: "No-Localitzat", responsable: "Gestió Econòmica", sensible: false, eines: "SAP Ingressos", propostaIA: "Auditoria automàtica de cobraments pendents." },
+    { id: 57, nom: "Audit i preparació de justificacions econòmiques externes", familia: "Gestió econòmica", unitat: "CCD / USIS", estat: "No-Localitzat", responsable: "Gestió Econòmica", sensible: false, eines: "Carpeta de Justificació", propostaIA: "Estructuració del paquet documental per a auditors." },
+
+    // 8. Becaris: cicle de vida (3 processos)
+    { id: 58, nom: "Acollida i contractació de becaris", familia: "Becaris: cicle de vida", unitat: "Transversal", estat: "Documentat", responsable: "Tutor/a de Becaris", sensible: false, eines: "Guia tutors, Excel", propostaIA: "Generació automàtica del pla d'acollida i taula d'horaris." },
+    { id: 59, nom: "Seguiment i gestió d'incidències durant la beca", familia: "Becaris: cicle de vida", unitat: "Transversal", estat: "Documentat", responsable: "Tutor/a / Personal", sensible: false, eines: "Full de Seguiment", propostaIA: "Avisos automàtics per lliurament de memòries d'activitat." },
+    { id: 60, nom: "Avaluació final i tancament de la beca d'aprenentatge", familia: "Becaris: cicle de vida", unitat: "Transversal", estat: "No-Localitzat", responsable: "Tutor/a de Becaris", sensible: false, eines: "Formulari d'Avaluació", propostaIA: "Redacció de l'esborrany de certificat de pràctiques realitzades." },
+
+    // 9. Coneixement, qualitat i indicadors (12 processos)
+    { id: 61, nom: "Disseny i manteniment dels Dashboards en PowerBI/Looker", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "Documentat", responsable: "Tècnic/a d'Indicadors", sensible: false, eines: "PowerBI, Looker Studio", propostaIA: "Generació de narració de text explicativa dels gràfics." },
+    { id: 62, nom: "Elaboració de la Memòria Anual de la Unitat", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "Coix", responsable: "Direcció / Tots", sensible: false, eines: "PowerBI / Drive", propostaIA: "Redacció assistida del capítol d'assoliments a partir de dades." },
+    { id: 63, nom: "Definició i actualització del diccionari d'indicadors GIC", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Responsable de Qualitat", sensible: false, eines: "Excel Indicadors", propostaIA: "Estandardització de les fórmules de càlcul de KPI." },
+    { id: 64, nom: "Disseny, enviament i anàlisi d'enquestes de satisfacció", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Qualitat", sensible: false, eines: "Qualtrics / Forms", propostaIA: "Extracció de temes clau dels comentaris oberts de l'enquesta." },
+    { id: 65, nom: "Manteniment de la Mapificació de Processos (SOPs)", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Copilot / Processos", sensible: false, eines: "HTML / Sites", propostaIA: "Actualització de l'estat dels 78 processos en temps real." },
+    { id: 66, nom: "Calendari de recollida de dades i mètrica periòdica", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Tècnic/a d'Indicadors", sensible: false, eines: "Google Calendar", propostaIA: "Alertes als responsables per introduir les dades del mes." },
+    { id: 67, nom: "Avaluació del Pla de Millora Contínua del GIC", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Direcció", sensible: false, eines: "Pla Estratègic", propostaIA: "Anàlisi del percentatge d'assoliment d'objectius per trimestres." },
+    { id: 68, nom: "Auditoria interna de qualitat de la documentació", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Equip de Qualitat", sensible: false, eines: "Drive Audit", propostaIA: "Identificació de fitxers obsolets o sens versió formal." },
+    { id: 69, nom: "Preparació de dades per a la Memòria de la UPC", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Tècnic/a d'Indicadors", sensible: false, eines: "PowerBI", propostaIA: "Consolidació de taules de dades per a Gabinet de Planificació." },
+    { id: 70, nom: "Gestió i custòdia de la BBDD del repositori de la unitat", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Gestió Documental", sensible: false, eines: "Drive GIC", propostaIA: "Reordenació automàtica i cerca semàntica de fitxers." },
+    { id: 71, nom: "Analítica de visites i ús del Sites intern", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Comunicació / IA", sensible: false, eines: "Google Analytics", propostaIA: "Identificació de les pàgines de guies més consultades." },
+    { id: 72, nom: "Benchmarking i coordinació de bones pràctiques amb UTGs", familia: "Coneixement, qualitat i indicadors", unitat: "Transversal", estat: "No-Localitzat", responsable: "Direcció del GIC", sensible: false, eines: "Reunions UTG", propostaIA: "Resum comparatiu de procediments d'altres unitats." },
+
+    // 10. Governança i relació institucional (6 processos)
+    { id: 73, nom: "Control i seguiment de la caducitat de convenis", familia: "Governança i relació institucional", unitat: "CCD", estat: "Documentat", responsable: "Responsable de Convenis", sensible: false, eines: "GConvenis", propostaIA: "Alertes automàtiques programades 3 mesos abans de la caducitat." },
+    { id: 74, nom: "Gestió i tramitació de nous convenis institucionals", familia: "Governança i relació institucional", unitat: "USIS / CCD", estat: "Documentat", responsable: "Jurídic / Convenis", sensible: false, eines: "GConvenis, eRegistre", propostaIA: "Revisió de clàusules tipus mitjançant assistent de lectura." },
+    { id: 75, nom: "Suport a la Comissió de Compromís Social i Igualtat", familia: "Governança i relació institucional", unitat: "Transversal", estat: "Documentat", responsable: "Secretaria de Comissió", sensible: false, eines: "Actes Drive", propostaIA: "Generació de l'esborrany d'acta a partir dels punts del dia." },
+    { id: 76, nom: "Coordinació amb els vicerectorats de referència", familia: "Governança i relació institucional", unitat: "Transversal", estat: "Coix", responsable: "Direcció del GIC", sensible: false, eines: "Informes executius", propostaIA: "Preparació de punts de seguiment abans de cada reunió." },
+    { id: 77, nom: "Atenció a requeriments d'òrgans de govern o Sindicatura", familia: "Governança i relació institucional", unitat: "Transversal", estat: "No-Localitzat", responsable: "Direcció", sensible: false, eines: "Bústia Oficial", propostaIA: "Estructuració del paquet de respostes i recopilació d'evidències." },
+    { id: 78, nom: "Representació en xarxes universitàries externes", familia: "Governança i relació institucional", unitat: "Transversal", estat: "No-Localitzat", responsable: "Direcció / Tècnics", sensible: false, eines: "Memòries Xarxa", propostaIA: "Resum executiu d'acords i compromisos de les trobades." }
+];
 
         const processGrid = document.getElementById('processGrid');
         const searchInput = document.getElementById('searchInput');
