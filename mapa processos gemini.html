@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIC - Mapa Dinàmic i Diagnòstic de Processos (UPC)</title>
+    <style>
+        :root {
+            --upc-blue: #0072C6;
+            --upc-dark-blue: #004B87;
+            --upc-gray-bg: #F4F6F8;
+            --upc-card-bg: #FFFFFF;
+            --upc-text: #1F2937;
+            --upc-border: #E5E7EB;
+            
+            --status-doc: #10B981;
+            --status-coix: #F59E0B;
+            --status-noloc: #EF4444;
+            --rgpd-red: #DC2626;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--upc-gray-bg);
+            color: var(--upc-text);
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        header {
+            background-color: var(--upc-dark-blue);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* KPI Dashboard */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: var(--upc-card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--upc-border);
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .kpi-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .kpi-card.total .number { color: var(--upc-blue); }
+        .kpi-card.doc .number { color: var(--status-doc); }
+        .kpi-card.coix .number { color: var(--status-coix); }
+        .kpi-card.noloc .number { color: var(--status-noloc); }
+
+        /* Controls / Filters */
+        .controls {
+            background: var(--upc-card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--upc-border);
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--upc-border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--upc-blue);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 10px 14px;
+            border: 1px solid var(--upc-border);
+            border-radius: 6px;
+            background-color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* Process List Grid */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .process-card {
+            background: var(--upc-card-bg);
+            border: 1px solid var(--upc-border);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .process-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .family-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background-color: #E0F2FE;
+            color: #0369A1;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .status-pill {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .status-pill.Documentat { background-color: var(--status-doc); }
+        .status-pill.Coix { background-color: var(--status-coix); }
+        .status-pill.No-Localitzat { background-color: var(--status-noloc); }
+
+        .process-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--upc-text);
+        }
+
+        .process-meta {
+            font-size: 0.85rem;
+            color: #6B7280;
+            margin-bottom: 14px;
+        }
+
+        .process-meta p {
+            margin-bottom: 4px;
+        }
+
+        .rgpd-alert {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--rgpd-red);
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+        }
+
+        .ia-box {
+            background-color: #F0FDF4;
+            border-left: 3px solid #22C55E;
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: #15803D;
+            margin-top: 12px;
+        }
+
+        .ia-box strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Gabinet d'Innovació i Comunitat (GIC)</h1>
+        <p>Mapa Dinàmic de Processos, Diagnòstic i Pla de Millora amb IA (Octubre 2026)</p>
+    </header>
+
+    <!-- KPI Dashboard -->
+    <section class="kpi-container">
+        <div class="kpi-card total">
+            <div>Total Processos</div>
+            <div class="number" id="kpi-total">78</div>
+        </div>
+        <div class="kpi-card doc">
+            <div>Documentats (26%)</div>
+            <div class="number" id="kpi-doc">20</div>
+        </div>
+        <div class="kpi-card coix">
+            <div>Coixos / Revisar (12%)</div>
+            <div class="number" id="kpi-coix">9</div>
+        </div>
+        <div class="kpi-card noloc">
+            <div>No Localitzats (62%)</div>
+            <div class="number" id="kpi-noloc">48</div>
+        </div>
+    </section>
+
+    <!-- Controls -->
+    <section class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cercar procés per nom, responsable o descripció...">
+        </div>
+        <div class="filter-group">
+            <select id="filterFamily">
+                <option value="">Totes les Famílies</option>
+                <option value="Tramitació i signatura">Tramitació i signatura</option>
+                <option value="Convocatòries, ajuts i reconeixements">Convocatòries, ajuts i reconeixements</option>
+                <option value="Casos sensibles individuals">Casos sensibles individuals</option>
+                <option value="Atenció i comunicació">Atenció i comunicació</option>
+                <option value="Persones i recursos interns">Persones i recursos interns</option>
+                <option value="Espais i esdeveniments">Espais i esdeveniments</option>
+                <option value="Gestió econòmica">Gestió econòmica</option>
+                <option value="Becaris: cicle de vida">Becaris: cicle de vida</option>
+                <option value="Coneixement, qualitat i indicadors">Coneixement, qualitat i indicadors</option>
+                <option value="Governança i relació institucional">Governança i relació institucional</option>
+            </select>
+
+            <select id="filterStatus">
+                <option value="">Tots els Estats</option>
+                <option value="Documentat">Documentat</option>
+                <option value="Coix">Coix / Revisar</option>
+                <option value="No-Localitzat">No Localitzat</option>
+            </select>
+
+            <select id="filterUnit">
+                <option value="">Totes les Unitats</option>
+                <option value="USIS">USIS</option>
+                <option value="CCD">CCD</option>
+                <option value="Igualtat">Igualtat</option>
+                <option value="Inclusió">Inclusió</option>
+                <option value="Mediació">Mediació</option>
+                <option value="Transversal">Transversal / General</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Grid de Processos -->
+    <section class="process-grid" id="processGrid">
+        <!-- Generat dinàmicament via JavaScript -->
+    </section>
+
+    <script>
+        // Mostra de dades representatives dels 78 processos segons l'informe de diagnòstic de la tardor de 2026
+        const processos = [
+            {
+                id: 1,
+                nom: "Acollida i contractació de becaris",
+                familia: "Becaris: cicle de vida",
+                unitat: "Transversal",
+                estat: "Documentat",
+                responsable: "Tutor/a de becaris",
+                sensible: false,
+                eines: "Guia tutors, Excel horaris",
+                propostaIA: "Generació automàtica del pla d'acollida i checklist inicial adaptat al perfil."
+            },
+            {
+                id: 2,
+                nom: "Reconeixement de crèdits ECTS per activitats",
+                familia: "Convocatòries, ajuts i reconeixements",
+                unitat: "USIS",
+                estat: "Coix",
+                responsable: "Pendent de definir (3 gestors actuals)",
+                sensible: false,
+                eines: "EACAT, E-Tramita",
+                propostaIA: "Pilot prioritari: Unificació de criteri i automatització d'esborranys de resolució."
+            },
+            {
+                id: 3,
+                nom: "Protocol PROU (Aassetjament i violència)",
+                familia: "Casos sensibles individuals",
+                unitat: "Igualtat",
+                estat: "No-Localitzat",
+                responsable: "Unitat d'Igualtat",
+                sensible: true,
+                eines: "Bústia confidencial",
+                propostaIA: "Anàlisi estructurada de procediment. (Línia Vermella: Sense IA en dades reals)."
+            },
+            {
+                id: 4,
+                nom: "Procediment de Canvi de Nom (Col·lectiu Trans)",
+                familia: "Casos sensibles individuals",
+                unitat: "Igualtat",
+                estat: "No-Localitzat",
+                responsable: "Unitat d'Igualtat / Secretaria",
+                sensible: true,
+                eines: "eRegistre, BBDD interna",
+                propostaIA: "Plantilles SOP buides per estandarditzar el circuit intern d'execució."
+            },
+            {
+                id: 5,
+                nom: "Circuit de despeses i viatges",
+                familia: "Gestió econòmica",
+                unitat: "Transversal",
+                estat: "Documentat",
+                responsable: "Gestió Econòmica",
+                sensible: false,
+                eines: "SAP, Guia de Viatges",
+                propostaIA: "Validació prèvia de requisits de liquidació mitjançant assistent virtual."
+            },
+            {
+                id: 6,
+                nom: "Tramitació via EACAT i E-Tramita",
+                familia: "Tramitació i signatura",
+                unitat: "Transversal",
+                estat: "Coix",
+                responsable: "Equip de Tramitació",
+                sensible: false,
+                eines: "EACAT, Plataformes Gencat",
+                propostaIA: "Unificació de les 3 guies manuals existents en un únic directori de coneixement."
+            },
+            {
+                id: 7,
+                nom: "Adaptacions docents per estudiants amb discapacitat",
+                familia: "Casos sensibles individuals",
+                unitat: "Inclusió",
+                estat: "No-Localitzat",
+                responsable: "Tècnic/a d'Inclusió",
+                sensible: true,
+                eines: "Informes d'Inclusió",
+                propostaIA: "Generació de models tipus de recomanacions docents anònimes."
+            },
+            {
+                id: 8,
+                nom: "Atenció multicanal i Bústies compartides (Zero Inbox)",
+                familia: "Atenció i comunicació",
+                unitat: "Transversal",
+                estat: "Documentat",
+                responsable: "Equip d'Atenció",
+                sensible: false,
+                eines: "Gmail, Guia Zero Inbox",
+                propostaIA: "Classificació automàtica i esborranys de resposta automàtics per bústies del GIC."
+            },
+            {
+                id: 9,
+                nom: "Elaboració de la Memòria Anual de la Unitat",
+                familia: "Coneixement, qualitat i indicadors",
+                unitat: "Transversal",
+                estat: "No-Localitzat",
+                responsable: "Cap de Secció / Direcció",
+                sensible: false,
+                eines: "PowerBI, Looker Studio",
+                propostaIA: "Redacció assistida de resums executius a partir d'indicadors numèrics."
+            },
+            {
+                id: 10,
+                nom: "Control i seguiment de la caducitat de convenis",
+                familia: "Governança i relació institucional",
+                unitat: "CCD",
+                estat: "No-Localitzat",
+                responsable: "Responsable de Convenis",
+                sensible: false,
+                eines: "GConvenis",
+                propostaIA: "Alertes automàtiques programades 3 mesos abans de la caducitat del conveni."
+            }
+        ];
+
+        const processGrid = document.getElementById('processGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterFamily = document.getElementById('filterFamily');
+        const filterStatus = document.getElementById('filterStatus');
+        const filterUnit = document.getElementById('filterUnit');
+
+        function renderProcesses(items) {
+            processGrid.innerHTML = '';
+
+            if (items.length === 0) {
+                processGrid.innerHTML = '<div class="no-results">No s\'ha trobat cap procés amb els filtres seleccionats.</div>';
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'process-card';
+
+                const rgpdTag = item.sensible 
+                    ? `<div class="rgpd-alert">⚠️ LÍNIA VERMELLA RGPD (Dades Sensibles)</div>` 
+                    : '';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="family-badge">${item.familia}</span>
+                            <span class="status-pill ${item.estat}">${item.estat.replace('-', ' ')}</span>
+                        </div>
+                        <h3 class="process-title">${item.nom}</h3>
+                        <div class="process-meta">
+                            <p><strong>Unitat:</strong> ${item.unitat}</p>
+                            <p><strong>Responsable:</strong> ${item.responsable}</p>
+                            <p><strong>Eines:</strong> ${item.eines}</p>
+                            ${rgpdTag}
+                        </div>
+                    </div>
+                    <div class="ia-box">
+                        <strong>🤖 Proposta d'Optimització / IA:</strong>
+                        ${item.propostaIA}
+                    </div>
+                `;
+                processGrid.appendChild(card);
+            });
+        }
+
+        function filterData() {
+            const searchText = searchInput.value.toLowerCase();
+            const selectedFamily = filterFamily.value;
+            const selectedStatus = filterStatus.value;
+            const selectedUnit = filterUnit.value;
+
+            const filtered = processos.filter(item => {
+                const matchesSearch = item.nom.toLowerCase().includes(searchText) || 
+                                      item.responsable.toLowerCase().includes(searchText) ||
+                                      item.eines.toLowerCase().includes(searchText);
+                
+                const matchesFamily = selectedFamily === '' || item.familia === selectedFamily;
+                const matchesStatus = selectedStatus === '' || item.estat === selectedStatus;
+                const matchesUnit = selectedUnit === '' || item.unitat === selectedUnit;
+
+                return matchesSearch && matchesFamily && matchesStatus && matchesUnit;
+            });
+
+            renderProcesses(filtered);
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', filterData);
+        filterFamily.addEventListener('change', filterData);
+        filterStatus.addEventListener('change', filterData);
+        filterUnit.addEventListener('change', filterData);
+
+        // Inicialització
+        renderProcesses(processos);
+    </script>
+</body>
+</html>
