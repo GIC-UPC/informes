@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR-GIC-BEC-001: Gestió del Cicle de Vida de les Beques d'Aprenentatge</title>
+    <style>
+        :root {
+            --upc-blue: #0072C6;
+            --upc-dark-blue: #004B87;
+            --upc-gray-bg: #F8FAFC;
+            --upc-card-bg: #FFFFFF;
+            --upc-text: #1E293B;
+            --upc-border: #CBD5E1;
+            --upc-light-border: #E2E8F0;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--upc-gray-bg);
+            color: var(--upc-text);
+            line-height: 1.6;
+            padding: 30px 15px;
+        }
+
+        .document-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--upc-card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--upc-border);
+        }
+
+        /* Action Bar for PDF/Print */
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .btn-print {
+            background-color: var(--upc-dark-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: var(--upc-blue);
+        }
+
+        /* ISO Header Table */
+        .iso-header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .iso-header-table td {
+            border: 2px solid var(--upc-dark-blue);
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        .iso-logo-cell {
+            width: 30%;
+            text-align: center;
+            background-color: #F0F7FF;
+        }
+
+        .iso-logo-cell h2 {
+            font-size: 1.1rem;
+            color: var(--upc-dark-blue);
+            font-weight: 800;
+        }
+
+        .iso-title-cell {
+            width: 45%;
+            text-align: center;
+        }
+
+        .iso-title-cell h1 {
+            font-size: 1.2rem;
+            color: var(--upc-dark-blue);
+            margin-bottom: 4px;
+        }
+
+        .iso-title-cell p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .iso-meta-cell {
+            width: 25%;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            background-color: #F8FAFC;
+        }
+
+        /* Approval Table */
+        .approval-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .approval-table th, .approval-table td {
+            border: 1px solid var(--upc-border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .approval-table th {
+            background-color: #F1F5F9;
+            color: var(--upc-dark-blue);
+        }
+
+        /* Section Headings */
+        h2.section-title {
+            font-size: 1.25rem;
+            color: var(--upc-dark-blue);
+            border-bottom: 2px solid var(--upc-blue);
+            padding-bottom: 6px;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p, li {
+            font-size: 0.95rem;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* General Tables Styling */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 0.9rem;
+        }
+
+        table.data-table th {
+            background-color: var(--upc-dark-blue);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table.data-table td {
+            border: 1px solid var(--upc-light-border);
+            padding: 10px 12px;
+            vertical-align: top;
+        }
+
+        table.data-table tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* RACI Table specific */
+        .raci-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Diagram / Flowchart CSS */
+        .flowchart-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: #F0F7FF;
+            border: 1px dashed var(--upc-blue);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .flow-step {
+            background: white;
+            border: 1px solid var(--upc-blue);
+            border-radius: 6px;
+            padding: 10px 14px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--upc-dark-blue);
+            flex: 1;
+            min-width: 140px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .flow-arrow {
+            font-size: 1.2rem;
+            color: var(--upc-blue);
+            font-weight: bold;
+        }
+
+        /* Callout Boxes */
+        .rgpd-box {
+            background-color: #FEF2F2;
+            border-left: 4px solid var(--danger);
+            padding: 16px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .rgpd-box strong {
+            color: #991B1B;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-inc { background-color: #FEF3C7; color: #92400E; }
+
+        /* Print Media Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .document-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .action-bar {
+                display: none;
+            }
+            .flowchart-container {
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="document-container">
+        
+        <!-- Action Bar -->
+        <div class="action-bar">
+            <button class="btn-print" onclick="window.print()">
+                🖨️ Imprimir / Desar en PDF
+            </button>
+        </div>
+
+        <!-- ISO Header Block -->
+        <table class="iso-header-table">
+            <tr>
+                <td class="iso-logo-cell">
+                    <h2>UPC - GIC</h2>
+                    <p style="font-size:0.75rem; color:#64748B;">Gabinet d'Innovació i Comunitat</p>
+                </td>
+                <td class="iso-title-cell">
+                    <h1>SISTEMA DE GESTIÓ DE LA QUALITAT</h1>
+                    <p>PROCEDIMENT OPERATIU ESTÀNDARD (ISO 9001:2015)</p>
+                    <p style="color:var(--upc-blue); margin-top:4px;">Gestió del Cicle de Vida de les Beques d'Aprenentatge</p>
+                </td>
+                <td class="iso-meta-cell">
+                    <strong>Codi:</strong> PR-GIC-BEC-001<br>
+                    <strong>Versió:</strong> 01<br>
+                    <strong>Data:</strong> Octubre 2026<br>
+                    <strong>Pàgina:</strong> 1 de 4<br>
+                    <strong>Estat:</strong> En vigor
+                </td>
+            </tr>
+        </table>
+
+        <!-- Approval Table -->
+        <table class="approval-table">
+            <tr>
+                <th>Elaborat per:</th>
+                <th>Revisat per:</th>
+                <th>Aprovat per:</th>
+            </tr>
+            <tr>
+                <td>Tècnic/a de Gestió i Processos del GIC</td>
+                <td>Responsable de Qualitat / Operacions</td>
+                <td>Direcció del Gabinet d'Innovació i Comunitat</td>
+            </tr>
+        </table>
+
+        <!-- 1. Objectiu -->
+        <h2 class="section-title">1. Objectiu</h2>
+        <p>Establir la metodologia normalitzada per a la planificació, sol·licitud, selecció, formalització, seguiment, gestió d'incidències i tancament de les Beques d'Aprenentatge adscrites al Gabinet d'Innovació i Comunitat (GIC) de la UPC, assegurant el compliment normatiu, l'eficiència operativa i la millora contínua del servei[cite: 1].</p>
+
+        <!-- 2. Abast -->
+        <h2 class="section-title">2. Abast</h2>
+        <p>Aquest procediment s'aplica a totes les sol·licituds i convocatòries de beques d'aprenentatge gestionades pel GIC en qualsevol de les seves unitats o àrees vinculades (USIS, CCD, Inclusió, Igualtat, Mediació i àrees Transversals)[cite: 1].</p>
+
+        <!-- 3. Documents de Referència -->
+        <h2 class="section-title">3. Documents de Referència i Normativa</h2>
+        <ul>
+            <li><strong>ISO 9001:2015:</strong> Requisits dels Sistemes de Gestió de la Qualitat (Clàusula 8.1 <em>Planificació i control operacional</em> i 8.5 <em>Producció i provisió del servei</em>).</li>
+            <li><strong>Normativa UPC:</strong> Normativa de Beques d'Aprenentatge de la Universitat Politècnica de Catalunya (febrer 2019).</li>
+            <li><strong>RGPD / LOPDGDD:</strong> Reglament General de Protecció de Dades (UE 2016/679) i Llei Orgànica 3/2018.</li>
+            <li><strong>Mapa de Processos del GIC:</strong> Família <em>Becaris: cicle de vida</em> (Processos #58, #59 i #60)[cite: 1].</li>
+        </ul>
+
+        <!-- 4. Definicions -->
+        <h2 class="section-title">4. Definicions i Abreviatures</h2>
+        <ul>
+            <li><strong>GIC:</strong> Gabinet d'Innovació i Comunitat[cite: 1].</li>
+            <li><strong>SP:</strong> Servei de Personal de la UPC.</li>
+            <li><strong>SE:</strong> Servei Econòmic de la UPC.</li>
+            <li><strong>Pla de Treball:</strong> Document que defineix les activitats d'aprenentatge, horaris, tutor/a i condicions de la beca.</li>
+            <li><strong>SOP:</strong> Procediment Operatiu Estàndard (Standard Operating Procedure).</li>
+        </ul>
+
+        <!-- 5. RACI Matrix -->
+        <h2 class="section-title">5. Matriu de Responsabilitats (RACI)</h2>
+        <p>Assignació de rols en el desenvolupament del cicle de vida de la beca:</p>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Fase / Activitat del Procés</th>
+                    <th style="width:12%">Tutor/a</th>
+                    <th style="width:12%">Gestora (MR)</th>
+                    <th style="width:12%">Resp. Àrea</th>
+                    <th style="width:12%">Serv. Personal</th>
+                    <th style="width:12%">Estudiant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Redacció del Pla de Treball</td>
+                    <td class="raci-cell">R / A</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">I</td>
+                </tr>
+                <tr>
+                    <td>Revisió de fons econòmic</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">R / A</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">I</td>
+                </tr>
+                <tr>
+                    <td>Alta i publicació de la convocatòria</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">R</td>
+                    <td class="raci-cell">A</td>
+                    <td class="raci-cell">A</td>
+                    <td class="raci-cell">I</td>
+                </tr>
+                <tr>
+                    <td>Entrevistes i Selecció</td>
+                    <td class="raci-cell">R</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">I</td>
+                </tr>
+                <tr>
+                    <td>Tramitació Document d'Acceptació</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">A</td>
+                    <td class="raci-cell">R</td>
+                </tr>
+                <tr>
+                    <td>Resolució d'Incidències</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">R / A</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">R</td>
+                    <td class="raci-cell">C</td>
+                </tr>
+                <tr>
+                    <td>Avaluació Final i Tancament (#60)</td>
+                    <td class="raci-cell">R / A</td>
+                    <td class="raci-cell">C</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">I</td>
+                    <td class="raci-cell">R</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-size:0.8rem; color:#64748B;">*Llegenda: <strong>R</strong>: Responsable d'executar | <strong>A</strong>: Aprovador / Autoritat | <strong>C</strong>: Consultat | <strong>I</strong>: Informat</p>
+
+        <!-- 6. Desenvolupament del Procediment -->
+        <h2 class="section-title">6. Desenvolupament del Procediment</h2>
+        
+        <div class="flowchart-container">
+            <div class="flow-step">1. Sol·licitud & Pla de Treball</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">2. Validació Econòmica</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">3. Publicació (SP)</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">4. Selecció & Entrevistes</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">5. Acceptació Seu Electrònica</div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">6. Incorporació i Tancament</div>
+        </div>
+
+        <h3 style="font-size:1rem; color:var(--upc-dark-blue); margin-top:20px; margin-bottom:8px;">6.1. Fase 1: Planificació i Convocatòria</h3>
+        <ol>
+            <li><strong>Elaboració del Pla de Treball:</strong> El Tutor/a assignat redacta la memòria de tasques d'aprenentatge, horaris i perfil requerit segons el model oficial.</li>
+            <li><strong>Validació Pressupostària:</strong> La Persona Gestora de Beques del GIC (MR) verifica la disponibilitat de crèdit amb el Servei Econòmic/SP i assigna el codi de partida corresponent.</li>
+            <li><strong>Alta a la Plataforma:</strong> La Persona Gestora introdueix la sol·licitud a la plataforma oficial de beques (Millot).</li>
+            <li><strong>Aprovació i Publicació:</strong> El Responsable d'Àrea dona el vist-i-plau per correu electrònic i el Servei de Personal (SP) publica oficialment la convocatòria.</li>
+        </ol>
+
+        <h3 style="font-size:1rem; color:var(--upc-dark-blue); margin-top:20px; margin-bottom:8px;">6.2. Fase 2: Selecció i Contractació</h3>
+        <ol>
+            <li><strong>Avaluació de Candidatures:</strong> Un cop tancat el termini de presentació, el SP i el Tutor/a revisen les sol·licituds. El Tutor/a realitza les entrevistes de selecció segons els criteris del barem.</li>
+            <li><strong>Adjudicació:</strong> El SP notifica la resolució a la persona seleccionada.</li>
+            <li><strong>Acceptació i Alta:</strong> L'estudiant signa el Document d'Acceptació a través de la Seu Electrònica de la UPC. Un cop validat pel SP, l'estudiant s'incorpora en la data d'inici prevista.</li>
+        </ol>
+
+        <h3 style="font-size:1rem; color:var(--upc-dark-blue); margin-top:20px; margin-bottom:8px;">6.3. Fase 3: Gestió d'Excepcions i Incidències (Control de Canvis)</h3>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:15%">Codi Incidència</th>
+                    <th style="width:30%">Tipologia d'Incidència</th>
+                    <th>Actuació Requerida / Circuit d'Esmena</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge badge-inc">INC-01</span></td>
+                    <td>Modificació del Pla de Treball publicat</td>
+                    <td>El Tutor/a redacta un escrit justificatiu signat. La Gestora el tramet al SP per a la modificació oficial.</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-inc">INC-02</span></td>
+                    <td>Convocatòria Deserta</td>
+                    <td>La Gestora sol·licita formalment al SP l'ampliació del termini de presentació de candidatures.</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-inc">INC-03</span></td>
+                    <td>Renúncia de l'Estudiant</td>
+                    <td>L'estudiant formalitza la renúncia a la Seu Electrònica. La Gestora sol·licita al SP l'adjudicació a la següent persona de la llista de reserva o l'alliberament del fons per a una nova convocatòria.</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-inc">INC-04</span></td>
+                    <td>Duplicitat de Beca</td>
+                    <td>L'estudiant renuncia a una de les beques via Seu Electrònica. La Gestora demana al SP alliberar el crèdit i reassignar-lo.</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-inc">INC-05</span></td>
+                    <td>Renovació de Beca</td>
+                    <td>La Gestora comprova que l'estudiant <strong>no supera el límit màxim de 24 mesos</strong> d'acumulació de beca. Si compleix el requisit, tramita la pròrroga amb el SP.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="font-size:1rem; color:var(--upc-dark-blue); margin-top:20px; margin-bottom:8px;">6.4. Fase 4: Tancament i Avaluació Final (Procés #60)</h3>
+        <ol>
+            <li><strong>Notificació de Fi de Beca:</strong> El sistema / Master Excel emet una alerta automàtica 30 dies abans de la data de finalització.</li>
+            <li><strong>Lliurament de Memòria:</strong> L'estudiant presenta la Memòria d'Activitats realitzades i el qüestionari de satisfacció.</li>
+            <li><strong>Certificació d'Aprofitament:</strong> El Tutor/a valida el compliment de les hores i emet l'avaluació favorable. La Gestora tramita la baixa de permisos TIC i de carpetes de treball.</li>
+        </ol>
+
+        <!-- 7. Indicadors del Procés (KPIs) -->
+        <h2 class="section-title">7. Indicadors del Procés (KPIs de Qualitat)</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Indicador</th>
+                    <th>Fórmula de Càlcul</th>
+                    <th style="width:15%">Target (Objectiu)</th>
+                    <th style="width:15%">Freqüència</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Eficiència de Coberta</strong></td>
+                    <td>(Beques incorporades en data / Total beques convocades) × 100</td>
+                    <td>&ge; 90%</td>
+                    <td>Semestral</td>
+                </tr>
+                <tr>
+                    <td><strong>Ràtio d'Incidències</strong></td>
+                    <td>(Convocatòries amb INC-01 a INC-05 / Total convocatòries) × 100</td>
+                    <td>&le; 15%</td>
+                    <td>Anual</td>
+                </tr>
+                <tr>
+                    <td><strong>Compliment d'Avaluació Final</strong></td>
+                    <td>(Memòries i certificats tramitats en termini / Total baixes) × 100</td>
+                    <td>100%</td>
+                    <td>Continu</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 8. Registres de Qualitat -->
+        <h2 class="section-title">8. Registres de Qualitat i Custòdia Documental</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nom del Registre</th>
+                    <th>Format / Suport</th>
+                    <th>Codi / Ubicació</th>
+                    <th>Temps de Retenció</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pla de Treball de la Beca</td>
+                    <td>PDF / Millot</td>
+                    <td>Drive GIC / <code>Beques_PlansTreball</code></td>
+                    <td>5 anys</td>
+                </tr>
+                <tr>
+                    <td>Document d'Acceptació Signat</td>
+                    <td>Digital / Seu Electrònica</td>
+                    <td>Seu Electrònica UPC / SP</td>
+                    <td>Taula d'arxiu UPC</td>
+                </tr>
+                <tr>
+                    <td>Master Excel de Control de Becaris</td>
+                    <td>Full de càlcul</td>
+                    <td>Drive GIC / <code>Master_Becaris.xlsx</code></td>
+                    <td>Permanent</td>
+                </tr>
+                <tr>
+                    <td>Memòria Final i Avaluació (#60)</td>
+                    <td>PDF</td>
+                    <td>Drive GIC / <code>Avaluacions_Becaris</code></td>
+                    <td>3 anys</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 9. RGPD -->
+        <h2 class="section-title">9. Protecció de Dades i Confidencialitat (RGPD)</h2>
+        <div class="rgpd-box">
+            <strong>⚠️ Avís de Protecció de Dades i Línia Vermella IA:</strong>
+            <p>Les dades personals dels estudiants es tracten exclusivament per a la gestió académico-laboral de la beca d'aprenentatge. Està estrictament prohibit introduir dades personals identificables (NIF, noms reals, dades de salut) en entorns d'Intel·ligència Artificial o generadors externs no homologats. Els entorns de prova o les plantilles utilitzaran sempre dades fictícies evidents.</p>
+        </div>
+
+        <!-- 10. Històric de Revisions -->
+        <h2 class="section-title">10. Històric de Revisions</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:10%">Versió</th>
+                    <th style="width:15%">Data</th>
+                    <th>Descripció dels Canvis Realitzats</th>
+                    <th style="width:25%">Responsable del Canvi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>01</strong></td>
+                    <td>Octubre 2026</td>
+                    <td>Creació i formalització inicial del procediment sota l'estàndard ISO 9001:2015, integrant el circuit d'alta, gestió d'incidències i tancament[cite: 1].</td>
+                    <td>Copilot de Processos / Tècnic de Gestió</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>
