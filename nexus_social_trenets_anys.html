@@ -32,8 +32,9 @@ h1{font-size:20px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 14px}
 .antic .lab,.antic .w{opacity:.55}
 body.noAntic .antic,body.noNou .nou{display:none}
 .row{display:contents}
-.wg{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:96%}
-.wg .w,.wg .g{white-space:normal;text-align:center;max-width:100%}
+.wg{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:max-content}
+.wg .w,.wg .g{max-width:none;overflow:visible}
+.wg .w,.wg .g{white-space:nowrap;text-align:center}
 .ws{font-size:10px;color:var(--mut);background:var(--bg);padding:0 3px;text-align:center;line-height:1.2}
 @media print{
  :root{--bg:#fff;--fg:#1d1d1b;--mut:#666;--line:#ddd;--C:#2e8b57;--D:#7b4fa6;--B:#c8553d;--T:#b07d12}
@@ -64,10 +65,10 @@ const Q=['25-26 Q1','25-26 Q2','26-27 Q1','26-27 Q2 (possible)'];
 const D=[
 {k:'C',n:'Clima i sostenibilitat',r:[
  {id:'J0056',t:'Got retornable',e:'UPC Compromís social<br>línies: digitalització · adopció · disseny',
-  n:[[0,1,'TFM','1 · Cervantes, Molins'],[1,0.4,'Empresa · EPSEVG ×3','90 · Mir, Llorens, Díaz (coord. Berbegal)'],[1,1.6,'Sustainable Design · IS.UPC','10 · Segalàs'],[2,0,'Beca · InLab','2'],[2,1,'Empresa · EPSEVG ×5 grups','130 · Díaz + 6 professores'],[3,1,'?','',1]],ed:[[0,1],[0,2],[1,3],[1,4],[4,5]]},
+  n:[[0,1,'TFM','1 · Cervantes, Molins'],[1,0.4,'Empresa ×3 · EPSEVG','90 · Mir, Llorens, Díaz (coord. Berbegal)'],[1,1.6,'Sust. Design · IS.UPC','10 · Segalàs'],[2,0,'Beca · InLab','2'],[2,1,'Empresa ×5 · EPSEVG','130 · Díaz + 6 professores'],[3,1,'?','',1]],ed:[[0,1],[0,2],[1,3],[1,4],[4,5]]},
  {id:'J0061',t:'Sensors ambientals de baix cost',e:'Drone51 · el repte passa de tecnologia (sensors, dades) a aplicació (escoles, fàbriques, incendis)<br>coord. Sabaté (25-26) → Bragós (26-27)',
   n:[[1,0.5,'TEM · Telecos','15 · Alsina · dades'],[1,1.5,'TEM · Telecos','15 · Giménez · sensors'],[2,0,'INT EENG · Telecos','11 · Bermejo · escoles'],[2,1,'INT EENG · Telecos','8 · M. À. García · fàbriques'],[2,2,'INT EENG · Telecos','11 · Riu · incendis'],[3,0,'?','',1],[3,1,'?','',1],[3,2,'?','',1]],ed:[[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,5],[3,6],[4,7]]},
- {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social · 3 edicions en paral·lel · obert (relleu)',c:[0,[['Gestió Empreses TIC · EPSEVG','3 · Cuatrecasas'],['Gestió de projectes · ETSEIB','5 · Cremades'],['TEM · Telecos','5 · Alsina']],'p','g']},
+ {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social · 3 edicions en paral·lel · obert (relleu)',c:[0,[['Gest. TIC · EPSEVG','3 · Cuatrecasas'],['Gest. proj. · ETSEIB','5 · Cremades'],['TEM · Telecos','5 · Alsina']],'p','g']},
  {id:'NOU-06',t:'Boscos amb futur',e:'Fundació ResPir',p:1},
  {id:'NOU-08',t:'Escoltar el bosc',e:'Fundació ResPir',p:1},
  {id:'NOU-09',t:'Biodiversitat que podem observar',e:'Fundació ResPir',p:1},
@@ -76,8 +77,8 @@ const D=[
  {id:'NOU-13',t:'Comunitat energètica amb biogàs',e:'Fundació Planes Corts',p:1}]},
 {k:'D',n:'Desigualtats i gènere',r:[
  {id:'J0062',t:"IA per a l'assetjament a xarxes",e:'UPC Compromís social · coord. Bragós',c:[0,0,[['PAE · Telecos','14 · Fonollosa']],'g']},
- {id:'J0063',t:'Copa menstrual i lavabos',e:'UPC Compromís social',c:[0,0,[['Recerca-acció · IS.UPC','5 · Segalàs']],'g']},
- {id:'J0059',t:'NNK · Generador autònom',e:'NoNameKitchen',c:[0,[['Gestió de projectes · ETSEIB','6 · Cremades']],0,0],o:1},
+ {id:'J0063',t:'Copa menstrual i lavabos',e:'UPC Compromís social',c:[0,0,[['Rec.-acció · IS.UPC','5 · Segalàs']],'g']},
+ {id:'J0059',t:'NNK · Generador autònom',e:'NoNameKitchen',c:[0,[['Gest. proj. · ETSEIB','6 · Cremades']],0,0],o:1},
  {id:'J0060',t:'NNK · Visualitzador de rutes',e:'NoNameKitchen · coord. Bragós',c:[0,[['PAE · Telecos','6 · Umbert'],['PAE · Telecos','6 · Soneira']],0,0],o:1},
  {id:'NOU-01',t:'Tracking de roba amb RFID',e:'ASSIS',p:1},
  {id:'NOU-02',t:"Logística d'aliments sense llar",e:'ASSIS',p:1},
