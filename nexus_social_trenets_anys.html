@@ -67,7 +67,7 @@ const D=[
   n:[[0,1,'TFM','1 · Cervantes, Molins'],[1,0.4,'Empresa · EPSEVG ×3','90 · Mir, Llorens, Díaz (coord. Berbegal)'],[1,1.6,'Sustainable Design · IS.UPC','10 · Segalàs'],[2,0,'Beca · InLab','2'],[2,1,'Empresa · EPSEVG ×5 grups','130 · Díaz + 6 professores'],[3,1,'?','',1]],ed:[[0,1],[0,2],[1,3],[1,4],[4,5]]},
  {id:'J0061',t:'Sensors ambientals de baix cost',e:'Drone51 · el repte passa de tecnologia (sensors, dades) a aplicació (escoles, fàbriques, incendis)<br>coord. Sabaté (25-26) → Bragós (26-27)',
   n:[[1,0.5,'TEM · Telecos','15 · Alsina · dades'],[1,1.5,'TEM · Telecos','15 · Giménez · sensors'],[2,0,'INT EENG · Telecos','11 · Bermejo · escoles'],[2,1,'INT EENG · Telecos','8 · M. À. García · fàbriques'],[2,2,'INT EENG · Telecos','11 · Riu · incendis'],[3,0,'?','',1],[3,1,'?','',1],[3,2,'?','',1]],ed:[[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,5],[3,6],[4,7]]},
- {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social · 3 edicions en paral·lel',c:[0,[['Gestió Empreses TIC · EPSEVG','3 · Cuatrecasas'],['Gestió de projectes · ETSEIB','5 · Cremades'],['TEM · Telecos','5 · Alsina']],'x',0],o:1},
+ {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social · 3 edicions en paral·lel · obert (relleu)',c:[0,[['Gestió Empreses TIC · EPSEVG','3 · Cuatrecasas'],['Gestió de projectes · ETSEIB','5 · Cremades'],['TEM · Telecos','5 · Alsina']],'p','g']},
  {id:'NOU-06',t:'Boscos amb futur',e:'Fundació ResPir',p:1},
  {id:'NOU-08',t:'Escoltar el bosc',e:'Fundació ResPir',p:1},
  {id:'NOU-09',t:'Biodiversitat que podem observar',e:'Fundació ResPir',p:1},
@@ -107,7 +107,7 @@ D.forEach(b=>{const col=`var(--${b.k})`,band=el('div','band',b.n);band.style.set
    r.n.forEach(([q,l,t,sub,gh])=>{const w=wag(t,sub,gh);w.style.cssText=`position:absolute;left:${X(q)}%;top:${Y(l)}px;transform:translate(-50%,-11px)`;box.append(w)});
    row.append(box);g.append(row);return}
   const c=r.p?[0,0,0,'g']:r.c;
-  c.forEach((v,i)=>{const d=el('div','c'),dash=x=>x==='g';
+  c.forEach((v,i)=>{const d=el('div','c'),dash=x=>x==='g'||x==='p';
    if(i>0&&c[i-1]&&v&&!r.p){d.classList.add('inL');if(dash(v))d.classList.add('dash')}
    if(i<3&&v&&c[i+1]){d.classList.add('outR');if(dash(c[i+1]))d.classList.add('dashR')}
    if(Array.isArray(v))v.forEach(([l,s])=>d.append(wag(l,s)));
