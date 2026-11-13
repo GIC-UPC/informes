@@ -22,9 +22,6 @@ footer{padding:6px 16px;color:var(--mut);font-size:12px}
 <h1>Graf PDI–entitat · Nexus Social</h1>
 <label>Tipus <select id="ftip"><option value="">tots</option><option>repte</option><option>iniciativa</option></select></label>
 <label>Curs <select id="fcurs"><option value="">tots</option><option>2024-25</option><option>2025-26</option><option>2026-27</option></select></label>
-<label><input type="checkbox" id="fint"> amagar entitats internes</label>
-<label><input type="checkbox" id="fsol" checked> incloure sol·licituds no guanyadores</label>
-<label><input type="checkbox" id="fant" checked> antecedents 2024-25 (finalistes Premis CS)</label>
 <label><input type="checkbox" id="flab" checked> etiquetes</label>
 <label>Cerca <input id="fq" placeholder="nom…" size="12"></label>
 <div id="leg"><span><i style="background:var(--pdi)"></i>PDI</span><span><i style="background:var(--ext)"></i>entitat externa</span><span><i style="background:var(--int)"></i>entitat interna</span><span><i style="background:var(--hi);border-radius:0;height:3px"></i>vincle ≥2 cursos</span><span>— repte · - - iniciativa · ··· sol·licitud · -·- antecedent</span></div>
@@ -43,9 +40,9 @@ const col=d=>d.tipus_node==='PDI'?css('--pdi'):d.tipus_entitat==='interna'?css('
 const pos=new Map();
 let sim;
 function view(){
- const t=ftip.value,c=fcurs.value,hi=fint.checked;
+ const t=ftip.value,c=fcurs.value,hi=false;
  const nodeById=new Map(D.nodes.map(n=>[n.id,n]));
- const so=fsol.checked,an=fant.checked;
+ const so=true,an=true;
  let L=D.links.filter(l=>{const ex=+l.pes_n_reptes>0,sl=so&&+l.n_sollicituds>0,at=an&&!!l.codis_antecedent;if(!ex&&!sl&&!at)return false;
   const tp=(ex?l.tipus.split('|'):[]).concat(sl||at?['iniciativa']:[]),cu=(ex?l.cursos.split('|'):[]).concat(sl?['2025-26']:[]).concat(at?['2024-25']:[]);
   return(!t||tp.includes(t))&&(!c||cu.includes(c))&&!(hi&&nodeById.get(l.target).tipus_entitat==='interna')});
@@ -88,6 +85,6 @@ function hl(){const q=fq.value.trim().toLowerCase();
  gl.selectAll('line').attr('opacity',d=>keep.has(d.source.id)&&keep.has(d.target.id)&&(d.source.id.toLowerCase().includes(q)||d.target.id.toLowerCase().includes(q))?1:.06);}
 function show(e,h){tip.html(h).style('display','block').style('left',Math.min(e.clientX+14,innerWidth-350)+'px').style('top',(e.clientY+14)+'px')}
 function hide(){tip.style('display','none')}
-[ftip,fcurs,fint,fsol,fant].forEach(x=>x.onchange=view);flab.onchange=()=>gt.selectAll('text').style('display',flab.checked?null:'none');fq.oninput=hl;
+[ftip,fcurs].forEach(x=>x.onchange=view);flab.onchange=()=>gt.selectAll('text').style('display',flab.checked?null:'none');fq.oninput=hl;
 view();
 </script></body></html>
