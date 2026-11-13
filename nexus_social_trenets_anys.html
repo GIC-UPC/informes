@@ -32,6 +32,9 @@ h1{font-size:20px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 14px}
 .antic .lab,.antic .w{opacity:.55}
 body.noAntic .antic,body.noNou .nou{display:none}
 .row{display:contents}
+.wg{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:96%}
+.wg .w,.wg .g{white-space:normal;text-align:center;max-width:100%}
+.ws{font-size:10px;color:var(--mut);background:var(--bg);padding:0 3px;text-align:center;line-height:1.2}
 @media print{
  :root{--bg:#fff;--fg:#1d1d1b;--mut:#666;--line:#ddd;--C:#2e8b57;--D:#7b4fa6;--B:#c8553d;--T:#b07d12}
  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -42,7 +45,7 @@ body.noAntic .antic,body.noNou .nou{display:none}
 .tr path{fill:none;stroke:var(--a);stroke-width:3;vector-effect:non-scaling-stroke}
 </style></head><body>
 <h1>Nexus Social · Trenets per quadrimestre</h1>
-<p class="sub">Ús intern · taller de reptes 18/11/2026 · estat a 13/11/2026. El vagó indica que hi ha hagut una edició (no el nombre d'estudiants).</p>
+<p class="sub">Ús intern · dins el vagó: assignatura · escola; a sota: estudiants · PDI · taller de reptes 18/11/2026 · estat a 13/11/2026. El vagó indica que hi ha hagut una edició (no el nombre d'estudiants).</p>
 <div class="ctl">
 <label><input type="checkbox" id="a" checked> Mostra els antics</label>
 <label><input type="checkbox" id="n" checked> Mostra les propostes del taller</label>
@@ -55,16 +58,16 @@ body.noAntic .antic,body.noNou .nou{display:none}
 <script>
 // Impressió: ?A1 (per defecte) o ?A2 · vertical, una sola pàgina
 {const a2=/a2/i.test(location.search),s=document.createElement('style');
- s.textContent=`@page{size:${a2?'420mm 594mm':'594mm 841mm'};margin:10mm}:root{--z:${a2?1.27:1.8}}`;document.head.append(s);}
+ s.textContent=`@page{size:${a2?'420mm 594mm':'594mm 841mm'};margin:10mm}:root{--z:${a2?1.15:1.62}}`;document.head.append(s);}
 const Q=['25-26 Q1','25-26 Q2','26-27 Q1','26-27 Q2 (possible)'];
 // cel·la: 0 buida · [etiquetes] vagons · 'g' fantasma · 'x' final · 's' es divideix · 'b' branca
 const D=[
 {k:'C',n:'Clima i sostenibilitat',r:[
  {id:'J0056',t:'Got retornable',e:'UPC Compromís social<br>línies: digitalització · adopció · disseny',
-  n:[[0,1,'TFM ACV'],[1,1,'Empresa ×3'],[1,2,'Sustainable Design'],[2,0,'Beca InLab'],[2,1,'Empresa 5 grups'],[3,1,'?',1]],ed:[[0,1],[0,2],[1,3],[1,4],[4,5]]},
- {id:'J0061',t:'Sensors ambientals de baix cost',e:'Drone51 · es divideix en:<br>J0049 Escoles (+ AFA Cerdanyola)<br>NOU-19 Contaminació indoor<br>NOU-20 Gasos als boscos',
-  n:[[1,1,'MET ×2'],[2,0,'Escoles'],[2,1,'Indoor'],[2,2,'Boscos'],[3,0,'?',1],[3,1,'?',1],[3,2,'?',1]],ed:[[0,1],[0,2],[0,3],[1,4],[2,5],[3,6]]},
- {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social',c:[0,['3 assignatures'],'x',0],o:1},
+  n:[[0,1,'TFM','1 · Cervantes, Molins'],[1,0.4,'Empresa · EPSEVG ×3','90 · Mir, Llorens, Díaz (coord. Berbegal)'],[1,1.6,'Sustainable Design · IS.UPC','10 · Segalàs'],[2,0,'Beca · InLab','2'],[2,1,'Empresa · EPSEVG ×5 grups','130 · Díaz + 6 professores'],[3,1,'?','',1]],ed:[[0,1],[0,2],[1,3],[1,4],[4,5]]},
+ {id:'J0061',t:'Sensors ambientals de baix cost',e:'Drone51 · el repte passa de tecnologia (sensors, dades) a aplicació (escoles, fàbriques, incendis)<br>coord. Sabaté (25-26) → Bragós (26-27)',
+  n:[[1,0.5,'TEM · Telecos','15 · Alsina · dades'],[1,1.5,'TEM · Telecos','15 · Giménez · sensors'],[2,0,'INT EENG · Telecos','11 · Bermejo · escoles'],[2,1,'INT EENG · Telecos','8 · M. À. García · fàbriques'],[2,2,'INT EENG · Telecos','11 · Riu · incendis'],[3,0,'?','',1],[3,1,'?','',1],[3,2,'?','',1]],ed:[[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,5],[3,6],[4,7]]},
+ {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social · 3 edicions en paral·lel',c:[0,[['Gestió Empreses TIC · EPSEVG','3 · Cuatrecasas'],['Gestió de projectes · ETSEIB','5 · Cremades'],['TEM · Telecos','5 · Alsina']],'x',0],o:1},
  {id:'NOU-06',t:'Boscos amb futur',e:'Fundació ResPir',p:1},
  {id:'NOU-08',t:'Escoltar el bosc',e:'Fundació ResPir',p:1},
  {id:'NOU-09',t:'Biodiversitat que podem observar',e:'Fundació ResPir',p:1},
@@ -72,16 +75,16 @@ const D=[
  {id:'NOU-11',t:'Aules Que Cremen + estació meteo',e:'AulesQueCremen',p:1},
  {id:'NOU-13',t:'Comunitat energètica amb biogàs',e:'Fundació Planes Corts',p:1}]},
 {k:'D',n:'Desigualtats i gènere',r:[
- {id:'J0062',t:"IA per a l'assetjament a xarxes",e:'UPC Compromís social',c:[0,0,['PAE'],'g']},
- {id:'J0063',t:'Copa menstrual i lavabos',e:'UPC Compromís social',c:[0,0,['Recerca-acció'],'g']},
- {id:'J0059',t:'NNK · Carregador autònom',e:'NoNameKitchen',c:[0,['Gestió de projectes'],0,0],o:1},
- {id:'J0060',t:'NNK · Visualitzador de rutes',e:'NoNameKitchen',c:[0,['PAE ×2'],0,0],o:1},
+ {id:'J0062',t:"IA per a l'assetjament a xarxes",e:'UPC Compromís social · coord. Bragós',c:[0,0,[['PAE · Telecos','14 · Fonollosa']],'g']},
+ {id:'J0063',t:'Copa menstrual i lavabos',e:'UPC Compromís social',c:[0,0,[['Recerca-acció · IS.UPC','5 · Segalàs']],'g']},
+ {id:'J0059',t:'NNK · Generador autònom',e:'NoNameKitchen',c:[0,[['Gestió de projectes · ETSEIB','6 · Cremades']],0,0],o:1},
+ {id:'J0060',t:'NNK · Visualitzador de rutes',e:'NoNameKitchen · coord. Bragós',c:[0,[['PAE · Telecos','6 · Umbert'],['PAE · Telecos','6 · Soneira']],0,0],o:1},
  {id:'NOU-01',t:'Tracking de roba amb RFID',e:'ASSIS',p:1},
  {id:'NOU-02',t:"Logística d'aliments sense llar",e:'ASSIS',p:1},
  {id:'NOU-03',t:'Aliments i retorn de carmanyoles',e:'FFiT',p:1}]},
 {k:'B',n:'Benestar i salut',r:[
- {id:'J0057',t:'Disseny frugal per usabilitat',e:'Frugal4Health',c:[0,0,['Usabilitat'],'g']},
- {id:'J0055',t:'Eines relacionals gent gran',e:'ASTEbcn',c:[['Usabilitat'],0,0,0],o:1},
+ {id:'J0057',t:'Disseny frugal per usabilitat',e:'Frugal4Health',c:[0,0,[['Usabilitat · EPSEVG','? · Díaz']],'g']},
+ {id:'J0055',t:'Eines relacionals gent gran',e:'ASTEbcn',c:[[['Usabilitat · EPSEVG','18 · Díaz']],0,0,0],o:1},
  {id:'NOU-12',t:"Prevenció d'addiccions",e:'Dept. Salut',p:1},
  {id:'NOU-17',t:'Activitat física i salut mental',e:'Sport2Live',p:1},
  {id:'NOU-18',t:'App per a professionals',e:'Associació Tramuntana',p:1}]},
@@ -90,27 +93,26 @@ const D=[
  {id:'NOU-14',t:"Telecomunicacions a la vinya d'alçada",e:'Fundació Planes Corts',p:1},
  {id:'NOU-15',t:'Plantes aromàtiques i medicinals',e:'Fundació Planes Corts',p:1}]}];
 const g=document.getElementById('g'),el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const wag=(lab,sub,gh)=>{const w=el('span','wg');w.append(el('span',gh?'g':'w',lab));if(sub)w.append(el('span','ws',sub));return w};
 g.append(el('div','h','Repte · entitat'));Q.forEach(q=>g.append(el('div','h',q)));
 D.forEach(b=>{const col=`var(--${b.k})`,band=el('div','band',b.n);band.style.setProperty('--a',col);g.append(band);
  if(b.note){const n=el('div','note',b.note);g.append(n)}
  b.r.forEach(r=>{const row=el('div','row'+(r.o?' antic':'')+(r.p?' nou':''));row.style.setProperty('--a',col);
   row.append(el('div','lab',`<b>${r.id} · ${r.t}</b><small>${r.e}${r.o?' · antic':''}${r.p?' · proposta del taller':''}</small>`));
-  if(r.n){const H=24+3*36,X=q=>q*25+12.5,Y=l=>22+l*36,box=el('div','tr');box.style.height=H+'px';
+  if(r.n){const L=Math.max(...r.n.map(x=>x[1])),X=q=>q*25+12.5,Y=l=>26+l*52,H=Y(L)+40,box=el('div','tr');box.style.height=H+'px';
    let s=`<svg viewBox="0 0 100 ${H}" preserveAspectRatio="none">`;
    r.ed.forEach(([a,b])=>{const A=r.n[a],B=r.n[b],x1=X(A[0]),y1=Y(A[1]),x2=X(B[0]),y2=Y(B[1]),m=(x1+x2)/2;
-    s+=`<path d="M${x1} ${y1}C${m} ${y1},${m} ${y2},${x2} ${y2}"${B[3]?' stroke-dasharray="6 5"':''}/>`});
+    s+=`<path d="M${x1} ${y1}C${m} ${y1},${m} ${y2},${x2} ${y2}"${B[4]?' stroke-dasharray="6 5"':''}/>`});
    box.innerHTML=s+'</svg>';
-   r.n.forEach(([q,l,t,gh])=>{const sp=el('span',gh?'g':'w',t);sp.style.cssText=`position:absolute;left:${X(q)}%;top:${Y(l)}px;transform:translate(-50%,-50%)`;box.append(sp)});
+   r.n.forEach(([q,l,t,sub,gh])=>{const w=wag(t,sub,gh);w.style.cssText=`position:absolute;left:${X(q)}%;top:${Y(l)}px;transform:translate(-50%,-11px)`;box.append(w)});
    row.append(box);g.append(row);return}
   const c=r.p?[0,0,0,'g']:r.c;
   c.forEach((v,i)=>{const d=el('div','c'),dash=x=>x==='g';
    if(i>0&&c[i-1]&&v&&!r.p){d.classList.add('inL');if(dash(v))d.classList.add('dash')}
    if(i<3&&v&&c[i+1]){d.classList.add('outR');if(dash(c[i+1]))d.classList.add('dashR')}
-   if(Array.isArray(v))v.forEach(l=>d.append(el('span','w',l)));
-   else if(v==='g')d.append(el('span','g',r.p?'taller':'?'));
+   if(Array.isArray(v))v.forEach(([l,s])=>d.append(wag(l,s)));
+   else if(v==='g')d.append(wag(r.p?'taller':'?','',1));
    else if(v==='x')d.append(el('span','x','✗'));
-   else if(v==='s')d.append(el('span','sp','es divideix ↓'));
-   else if(v==='b')d.append(el('span','br','↳'));
    row.append(d)});g.append(row)})});
 const t=(id,cl)=>document.getElementById(id).onchange=e=>document.body.classList.toggle(cl,!e.target.checked);
 t('a','noAntic');t('n','noNou');
