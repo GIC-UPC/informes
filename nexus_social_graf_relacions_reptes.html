@@ -48,12 +48,15 @@ const zoom=d3.zoom().scaleExtent([.3,4]).on('zoom',e=>root.attr('transform',e.tr
 function fit(){const ns=gn.selectAll('circle').data();if(!ns.length)return;
  const x0=d3.min(ns,d=>d.x)-20,x1=d3.max(ns,d=>d.x)+150,y0=d3.min(ns,d=>d.y)-20,y1=d3.max(ns,d=>d.y)+20;
  svg.call(zoom.transform,d3.zoomIdentity);svg.attr('viewBox',`${x0} ${y0} ${x1-x0} ${y1-y0}`)}
-addEventListener('beforeprint',fit);
+function portrait(){if(!sim)return;sim.stop();const W=svg.node().clientWidth,H=svg.node().clientHeight;
+ sim.force('x',d3.forceX(W/2).strength(.09)).force('y',d3.forceY(H/2).strength(.05)).alpha(1);
+ for(let i=0;i<400;i++)sim.tick();ticked();fit()}
+addEventListener('beforeprint',portrait);
 const gl=root.append('g'),gn=root.append('g'),gt=root.append('g');
 const tip=d3.select('#tip');
 const col=d=>d.tipus_node==='PDI'?css('--pdi'):d.tipus_entitat==='interna'?css('--int'):css('--ext');
 const pos=new Map();
-let sim;
+let sim,ticked=()=>{};
 function view(){
  const t=ftip.value,c=fcurs.value,hi=false;
  const nodeById=new Map(D.nodes.map(n=>[n.id,n]));
@@ -89,8 +92,9 @@ function view(){
  sim=d3.forceSimulation(N).force('link',d3.forceLink(L).id(d=>d.id).distance(45).strength(.7))
   .force('charge',d3.forceManyBody().strength(-90)).force('x',d3.forceX(W/2).strength(.06)).force('y',d3.forceY(H/2).strength(.08))
   .force('col',d3.forceCollide().radius(d=>r(d)+3))
-  .on('end',fit).on('tick',()=>{lk.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
-   nd.attr('cx',d=>d.x).attr('cy',d=>d.y);tx.attr('x',d=>d.x).attr('y',d=>d.y);N.forEach(n=>pos.set(n.id,{x:n.x,y:n.y}))});
+  .on('end',fit).on('tick',()=>ticked());
+ ticked=function(){lk.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+   nd.attr('cx',d=>d.x).attr('cy',d=>d.y);tx.attr('x',d=>d.x).attr('y',d=>d.y);N.forEach(n=>pos.set(n.id,{x:n.x,y:n.y}))}
  hl();
 }
 function hl(){const q=fq.value.trim().toLowerCase();
