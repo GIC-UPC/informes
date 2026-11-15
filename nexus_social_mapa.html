@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nexus Social UPC · Reptes i iniciatives per àmbit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1d1d1b;--mute:#666;--line:#d4d4d0}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,sans-serif;color:var(--ink);background:#fff;font-size:15px}
+.wrap{max-width:1680px;margin:0 auto;padding:24px 28px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin:0}
+.sub{color:var(--mute);margin:6px 0 0;font-size:15px}
+.ctl button{font:inherit;font-size:14px;border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;margin-left:4px}
+.ctl button.on{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.col{border:1.5px solid var(--line);border-top:10px solid var(--c);border-radius:0 0 12px 12px;padding:14px 14px 12px;display:flex;flex-direction:column}
+.col h2{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:0;color:var(--c)}
+.desc{font-size:12.5px;color:var(--mute);margin:3px 0 10px;min-height:2.6em}
+.conv{display:flex;align-items:baseline;gap:8px;background:#f3f3f0;border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:13px}
+.conv b{font-family:'Space Grotesk',sans-serif;font-size:26px;line-height:1}
+.conv .arr{font-size:20px;color:var(--mute)}
+.band{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);margin:12px 0 6px;border-top:1px solid var(--line);padding-top:8px}
+.sc{font-size:12.5px;font-weight:700;color:var(--c);margin:8px 0 4px}
+.card{border:1.5px solid var(--ink);border-radius:8px;padding:6px 9px;margin:0 0 6px;background:#fff}
+.card.R0{border-style:dashed}
+.card.RC{border-style:dashed;border-color:var(--c)}
+.card.ID,.card.TC{border:1px dotted #999;color:#777}
+.card .t{font-weight:600;font-size:14px;display:flex;gap:6px;align-items:baseline}
+.card .m{font-size:12px;color:var(--mute);margin-top:1px}
+.card .rel{font-size:12px;color:var(--c);font-weight:600;margin-top:2px}
+.ll{font-size:10.5px;font-weight:700;border:1px solid var(--c);color:var(--c);border-radius:4px;padding:0 4px;margin-left:auto;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;background:#fafaf8}
+.chip.rel{border-color:var(--c);color:var(--c);font-weight:600}
+.src{font-size:11px;color:var(--mute);margin:8px 0 4px}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--mute);margin-top:14px;align-items:center}
+.legend .card{display:inline-block;margin:0;padding:1px 8px;font-size:12px}
+footer{font-size:12px;color:var(--mute);margin-top:10px}
+.hideR .reptes,.hideI .inis{display:none}
+@media print{
+ @page{size:841mm 594mm;margin:14mm}
+ body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .wrap{max-width:none;padding:0;zoom:1.75}
+ .ctl{display:none}
+}
+.half{display:inline-block;width:.8em;height:.8em;border-radius:50%;border:1.5px solid currentColor;background:linear-gradient(90deg,currentColor 50%,transparent 50%);vertical-align:-1px}
+
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+<header>
+ <div>
+  <h1>Nexus Social UPC · reptes i iniciatives</h1>
+  <p class="sub">Per àmbit de la Convo NS · reptes d'assignatura vigents i iniciatives 2026 (Convo NS i AGAUR Impacte) · estat a 15/11/2026</p>
+ </div>
+ <div class="ctl">
+  <button data-v="all" class="on">Tot</button><button data-v="R">Només reptes</button><button data-v="I">Només iniciatives</button>
+ </div>
+</header>
+<div class="grid" id="grid"></div>
+<div class="legend">
+ <span><span class="card R1">●</span> repte amb estudiants a l'aula</span>
+ <span><span class="card R0">★</span> repte nou (taller 18/11)</span>
+ <span><span class="card RC"><span class="half"></span></span> en construcció</span>
+ <span><span class="card ID">idea</span> idea / tancat</span>
+ <span>Living lab: <b>UPC</b> campus i comunitat · <b>ResPir</b> finca de Bellver · <b>Estamariu</b> el poble</span>
+ <span>Conversió = reptes d'assignatura vigents ← iniciatives 2026 de l'àmbit</span>
+</div>
+<footer>Gabinet d'Innovació i Comunitat (GIC) · Nexus Social. La classificació de les iniciatives per àmbit és provisional. Un repte és la pregunta d'una entitat que espera resposta d'una assignatura, un TFE o un hackathon.</footer>
+</div>
+
+<!-- DADES: editar aquí. Separador ;  tipus R=repte I=iniciativa · cl A/S/D/T · estat R1 ● R0 ★ RC ◐ PA pausa ID idea TC tancat · per a I, sub = convocatòria -->
+<script type="text/csv" id="dades">
+id;tipus;cl;sub;estat;nom;impulsora;ll;rel
+J0056;R;A;Circularitat;R1;Got retornable;UPC Compromís Social;UPC;
+J0058;R;A;Circularitat;R1;Smart Recircula (relleu?);UPC Compromís Social;UPC;
+J0063;R;A;Circularitat;R1;Copa menstrual;UPC Compromís Social;UPC;
+D51-INC;R;A;Boscos i incendis;R1;Incendis forestals;Drone51;ResPir;
+NOU-06;R;A;Boscos i incendis;R0;Boscos i carboni;ResPir;ResPir;
+NOU-08;R;A;Boscos i incendis;R0;Escoltar el bosc (sensors);ResPir;ResPir;
+NOU-09;R;A;Biodiversitat;R0;Fauna observable;ResPir;ResPir;
+NOU-10;R;A;Educació climàtica;R0;El bosc a l'aula;ResPir;ResPir;
+D51-ESC;R;S;Aules saludables;R1;Escoles: aire i calor;Drone51;;↔ Convo: sensors a Cerdanyola
+NOU-11;R;S;Aules saludables;RC;Aules Que Cremen;xarxa de docents AQC;;← Convo: estació agroclimàtica
+NOU-12;R;S;Salut mental i digital;R0;Addiccions;Dept. de Salut;;
+NOU-17;R;S;Salut mental i digital;R0;Rellotge esportiu;Sport2Live;;
+NOU-18;R;S;Salut mental i digital;R0;App de dol per suïcidi;Tramuntana;;
+J0057;R;S;Usabilitat;R1;Disseny frugal;Frugal4Health;;
+J0055;R;S;Tancats;TC;ASTE: eines relacionals;ASTE;;→ Convo: exergames
+J0062;R;D;Digital i gènere;R1;Assetjament IA a xarxes;UPC Compromís Social;UPC;
+D51-FAB;R;D;Salut laboral global;PA;Fàbriques (en pausa);UPC Compromís Social;;
+ASSIS;R;D;Alimentació;ID;Necessitats d'ASSIS;ASSIS;;
+NOU-03;R;D;Alimentació;ID;Carmanyoles FFiT;FFiT;;
+NOU-16;R;D;Educació i accés;ID;Perfil social dels centres UPC;UPC;;
+J0059;R;D;Tancats;TC;NNK: carregador;NoNameKitchen;;
+J0060;R;D;Tancats;TC;NNK: visualitzador;NoNameKitchen;;
+NOU-13;R;T;Rural i despoblament;R0;Biogàs Estamariu;Planes Corts;Estamariu;
+NOU-14;R;T;Rural i despoblament;R0;Vinya d'alçada;Planes Corts;Estamariu;
+NOU-15;R;T;Rural i despoblament;R0;Aromàtiques i medicinals;Planes Corts;Estamariu;
+NOU-07;R;T;Rural i despoblament;R0;Paisatge Cerdanya;ResPir;ResPir;
+NS03;I;A;Convo NS 2026;;Biodigestor per al lleure;;;
+NS05;I;A;Convo NS 2026;;Refugi Sonor;;;
+NS08;I;A;Convo NS 2026;;IA i ciència ciutadana;;;
+NS20;I;A;Convo NS 2026;;UPC ecoRacing;;;
+NS28;I;A;Convo NS 2026;;Carbons activats CO₂;;;
+NS30;I;A;Convo NS 2026;;Trash to Cash;;;
+NS31;I;A;Convo NS 2026;;Estació agroclimàtica;;;→ Aules Que Cremen
+NS33;I;A;Convo NS 2026;;Futurs (Im)possibles;;;
+NS40;I;A;Convo NS 2026;;Bio-mapatge de la palla;;;
+NS09;I;S;Convo NS 2026;;SOCIAL-TEL (MUVITY);;;
+NS12;I;S;Convo NS 2026;;Xarxa Rehab-Lab;;;
+NS16;I;S;Convo NS 2026;;SPAST-SENSE;;;
+NS27;I;S;Convo NS 2026;;El pes dels castells;;;
+NS29;I;S;Convo NS 2026;;Express My Health;;;
+NS32;I;S;Convo NS 2026;;Ecology of Care;;;
+NS34;I;S;Convo NS 2026;;Exergames gent gran;;;← ASTE
+NS39;I;S;Convo NS 2026;;Sensors escoles Cerdanyola;;;↔ Drone51 Escoles
+NS02;I;D;Convo NS 2026;;AVITECH AI;;;
+NS04;I;D;Convo NS 2026;;WayHer;;;
+NS07;I;D;Convo NS 2026;;Dones grans Lavern;;;
+NS10;I;D;Convo NS 2026;;TRIA vocacions;;;
+NS11;I;D;Convo NS 2026;;STEM-Kids;;;
+NS13;I;D;Convo NS 2026;;EEBE 3D-Day;;;
+NS18;I;D;Convo NS 2026;;NAVILEX;;;
+NS21;I;D;Convo NS 2026;;Innove;;;
+NS22;I;D;Convo NS 2026;;Sensellarisme i clima;;;
+NS36;I;D;Convo NS 2026;;DESTAPIA Berga;;;
+NS37;I;D;Convo NS 2026;;SATI natural;;;
+NS38;I;D;Convo NS 2026;;Pobresa energètica i hídrica;;;
+NS19;I;T;Convo NS 2026;;Playing the system;;;
+NS23;I;T;Convo NS 2026;;CARES mobilitat;;;
+NS24;I;T;Convo NS 2026;;MOBIM;;;
+NS25;I;T;Convo NS 2026;;Sentiu el Guix;;;
+NS26;I;T;Convo NS 2026;;GAIA Alpens;;;
+J0002;I;A;Impacte 2026;;TRANS-RETEX;;;
+J0003;I;A;Impacte 2026;;Passaport digital TIC;;;
+J0005;I;A;Impacte 2026;;PURH2;;;
+J0007;I;A;Impacte 2026;;microEMBONET;;;
+J0016;I;A;Impacte 2026;;IA i ciència ciutadana;;;
+J0021;I;A;Impacte 2026;;Menjamòbils;;;
+J0022;I;A;Impacte 2026;;Gall fer;;;
+J0001;I;S;Impacte 2026;;SENS-VR;;;
+J0006;I;S;Impacte 2026;;MUVITY;;;
+J0009;I;S;Impacte 2026;;Universitat +55;;;
+J0010;I;S;Impacte 2026;;SPAST-SENSE;;;
+J0012;I;S;Impacte 2026;;Baixa visió en xarxa;;;
+J0014;I;S;Impacte 2026;;ITSV salut visual;;;
+J0017;I;S;Impacte 2026;;Alteracions visuals infants;;;
+J0020;I;S;Impacte 2026;;Alcohol i mort sobtada;;;
+J0013;I;D;Impacte 2026;;ALiMENTA;;;
+J0018;I;D;Impacte 2026;;CIRC-VEG;;;
+J0019;I;D;Impacte 2026;;La teva idea és ciència!;;;
+J0011;I;T;Impacte 2026;;Rectories en transició;;;
+</script>
+<script>
+const CL={A:['Sostenibilitat ambiental','Canvi climàtic, economia circular, residus i biodiversitat','#2E7D4F'],
+S:['Salut i benestar','Autonomia, cures, soledat, salut comunitària i tecnologies de suport','#B0520A'],
+D:['Reducció de desigualtats','Inclusió social, bretxa digital, accessibilitat, inserció laboral i gènere','#6B3FA0'],
+T:['Desenvolupament territorial','Cohesió social, zones rurals, mobilitat i serveis comunitaris','#7A5230']};
+const SYM={R1:'●',R0:'★',RC:'<span class="half"></span>',PA:'●',ID:'',TC:''};
+const VIVA=['R1','R0','RC','PA'];
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const lines=document.getElementById('dades').textContent.trim().split('\n');
+const H=lines[0].split(';');
+const rows=lines.slice(1).filter(l=>l.trim()).map(l=>{const v=l.split(';');const o={};H.forEach((h,i)=>o[h]=(v[i]||'').trim());return o});
+const g=document.getElementById('grid');
+for(const k of ['A','S','D','T']){
+ const [nom,desc,c]=CL[k];
+ const R=rows.filter(r=>r.tipus==='R'&&r.cl===k), I=rows.filter(r=>r.tipus==='I'&&r.cl===k);
+ const nv=R.filter(r=>VIVA.includes(r.estat)).length;
+ let h=`<h2>${nom}</h2><p class="desc">${desc}</p>`;
+ h+=`<div class="conv"><b>${I.length}</b> iniciatives <span class="arr">→</span> <b>${nv}</b> reptes</div>`;
+ h+=`<div class="reptes"><p class="band">Reptes d'assignatura</p>`;
+ const subs=[...new Set(R.map(r=>r.sub))];
+ for(const s of subs){
+  h+=`<p class="sc">${esc(s)}</p>`;
+  for(const r of R.filter(x=>x.sub===s)){
+   const sym=SYM[r.estat]||'';
+   const ll=r.ll?`<span class="ll">${esc(r.ll)}</span>`:'';
+   const m=r.estat==='ID'?'idea':r.estat==='TC'?'tancat':esc(r.impulsora);
+   h+=`<div class="card ${r.estat}"><div class="t">${sym?sym+' ':''}${esc(r.nom)}${ll}</div><div class="m">${m}</div>${r.rel?`<div class="rel">${esc(r.rel)}</div>`:''}</div>`;
+  }
+ }
+ h+=`</div><div class="inis"><p class="band">Iniciatives 2026</p>`;
+ for(const s of [...new Set(I.map(r=>r.sub))]){
+  h+=`<p class="src">${esc(s)}</p><div class="chips">`+I.filter(x=>x.sub===s).map(r=>`<span class="chip${r.rel?' rel':''}">${esc(r.nom)}${r.rel?' '+esc(r.rel):''}</span>`).join('')+`</div>`;
+ }
+ h+=`</div>`;
+ const d=document.createElement('section');d.className='col';d.style.setProperty('--c',c);d.innerHTML=h;g.appendChild(d);
+}
+document.querySelectorAll('.ctl button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.ctl button').forEach(x=>x.classList.toggle('on',x===b));
+ const a=document.getElementById('app');a.classList.toggle('hideI',b.dataset.v==='R');a.classList.toggle('hideR',b.dataset.v==='I');
+});
+const q=new URLSearchParams(location.search);
+if(q.has('A2')){const st=document.createElement('style');st.textContent='@media print{@page{size:594mm 420mm;margin:10mm}.wrap{zoom:1.25}}';document.head.appendChild(st);}
+if(q.get('v')==='R')document.querySelector('[data-v=R]').click();
+if(q.get('v')==='I')document.querySelector('[data-v=I]').click();
+</script>
+</body>
+</html>
