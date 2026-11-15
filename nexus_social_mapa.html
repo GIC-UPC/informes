@@ -17,11 +17,15 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin
 .sub{color:var(--mute);margin:6px 0 0;font-size:15px}
 .ctl button{font:inherit;font-size:14px;border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;margin-left:4px}
 .ctl button.on{background:var(--ink);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:16px}
+.cell{border-left:1.5px solid var(--line);border-right:1.5px solid var(--line);padding:0 14px}
+.cell.top{border-top:10px solid var(--c);padding-top:14px}
+.cell.bot{border-bottom:1.5px solid var(--line);border-radius:0 0 12px 12px;padding-bottom:12px}
 .col{border:1.5px solid var(--line);border-top:10px solid var(--c);border-radius:0 0 12px 12px;padding:14px 14px 12px;display:flex;flex-direction:column}
-.col h2{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:0;color:var(--c)}
+.cell h2{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:0;color:var(--c)}
 .desc{font-size:12.5px;color:var(--mute);margin:3px 0 10px;min-height:2.6em}
-.conv{display:flex;align-items:baseline;gap:8px;background:#f3f3f0;border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:13px}
+.cell h2{margin-top:0}
+.conv{display:flex;align-items:baseline;gap:8px;background:#f3f3f0;border-radius:8px;padding:8px 10px;margin-bottom:4px;font-size:13px}
 .conv b{font-family:'Space Grotesk',sans-serif;font-size:26px;line-height:1}
 .conv .arr{font-size:20px;color:var(--mute)}
 .band{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);margin:12px 0 6px;border-top:1px solid var(--line);padding-top:8px}
@@ -42,6 +46,7 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin
 .legend .card{display:inline-block;margin:0;padding:1px 8px;font-size:12px}
 footer{font-size:12px;color:var(--mute);margin-top:10px}
 .hideR .reptes,.hideI .inis{display:none}
+.hideI .reptes{border-bottom:1.5px solid var(--line);border-radius:0 0 12px 12px;padding-bottom:12px}
 @media print{
  @page{size:841mm 594mm;margin:14mm}
  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -70,7 +75,7 @@ footer{font-size:12px;color:var(--mute);margin-top:10px}
  <span><span class="card RC"><span class="half"></span></span> en construcció</span>
  <span><span class="card ID">idea</span> idea / tancat</span>
  <span>Living lab: <b>UPC</b> campus i comunitat · <b>ResPir</b> finca de Bellver · <b>Estamariu</b> el poble</span>
- <span>Conversió = reptes d'assignatura vigents ← iniciatives 2026 de l'àmbit</span>
+ 
 </div>
 <footer>Gabinet d'Innovació i Comunitat (GIC) · Nexus Social. La classificació de les iniciatives per àmbit és provisional. Un repte és la pregunta d'una entitat que espera resposta d'una assignatura, un TFE o un hackathon.</footer>
 </div>
@@ -86,13 +91,13 @@ NOU-06;R;A;Boscos i incendis;R0;Boscos i carboni;ResPir;ResPir;
 NOU-08;R;A;Boscos i incendis;R0;Escoltar el bosc (sensors);ResPir;ResPir;
 NOU-09;R;A;Biodiversitat;R0;Fauna observable;ResPir;ResPir;
 NOU-10;R;A;Educació climàtica;R0;El bosc a l'aula;ResPir;ResPir;
-D51-ESC;R;S;Aules saludables;R1;Escoles: aire i calor;Drone51;;↔ Convo: sensors a Cerdanyola
-NOU-11;R;S;Aules saludables;RC;Aules Que Cremen;xarxa de docents AQC;;← Convo: estació agroclimàtica
+D51-ESC;R;S;Aules saludables;R1;Escoles: aire i calor;Drone51;;
+NOU-11;R;S;Aules saludables;RC;Aules Que Cremen;xarxa de docents AQC;;
 NOU-12;R;S;Salut mental i digital;R0;Addiccions;Dept. de Salut;;
 NOU-17;R;S;Salut mental i digital;R0;Rellotge esportiu;Sport2Live;;
 NOU-18;R;S;Salut mental i digital;R0;App de dol per suïcidi;Tramuntana;;
 J0057;R;S;Usabilitat;R1;Disseny frugal;Frugal4Health;;
-J0055;R;S;Tancats;TC;ASTE: eines relacionals;ASTE;;→ Convo: exergames
+J0055;R;S;Tancats;TC;ASTE: eines relacionals;ASTE;;
 J0062;R;D;Digital i gènere;R1;Assetjament IA a xarxes;UPC Compromís Social;UPC;
 D51-FAB;R;D;Salut laboral global;PA;Fàbriques (en pausa);UPC Compromís Social;;
 ASSIS;R;D;Alimentació;ID;Necessitats d'ASSIS;ASSIS;;
@@ -110,7 +115,7 @@ NS08;I;A;Convo NS 2026;;IA i ciència ciutadana;;;
 NS20;I;A;Convo NS 2026;;UPC ecoRacing;;;
 NS28;I;A;Convo NS 2026;;Carbons activats CO₂;;;
 NS30;I;A;Convo NS 2026;;Trash to Cash;;;
-NS31;I;A;Convo NS 2026;;Estació agroclimàtica;;;→ Aules Que Cremen
+NS31;I;A;Convo NS 2026;;Estació agroclimàtica;;;
 NS33;I;A;Convo NS 2026;;Futurs (Im)possibles;;;
 NS40;I;A;Convo NS 2026;;Bio-mapatge de la palla;;;
 NS09;I;S;Convo NS 2026;;SOCIAL-TEL (MUVITY);;;
@@ -119,8 +124,7 @@ NS16;I;S;Convo NS 2026;;SPAST-SENSE;;;
 NS27;I;S;Convo NS 2026;;El pes dels castells;;;
 NS29;I;S;Convo NS 2026;;Express My Health;;;
 NS32;I;S;Convo NS 2026;;Ecology of Care;;;
-NS34;I;S;Convo NS 2026;;Exergames gent gran;;;← ASTE
-NS39;I;S;Convo NS 2026;;Sensors escoles Cerdanyola;;;↔ Drone51 Escoles
+NS34;I;S;Convo NS 2026;;Exergames gent gran;;;
 NS02;I;D;Convo NS 2026;;AVITECH AI;;;
 NS04;I;D;Convo NS 2026;;WayHer;;;
 NS07;I;D;Convo NS 2026;;Dones grans Lavern;;;
@@ -170,15 +174,14 @@ const lines=document.getElementById('dades').textContent.trim().split('\n');
 const H=lines[0].split(';');
 const rows=lines.slice(1).filter(l=>l.trim()).map(l=>{const v=l.split(';');const o={};H.forEach((h,i)=>o[h]=(v[i]||'').trim());return o});
 const g=document.getElementById('grid');
-for(const k of ['A','S','D','T']){
+const K=['A','S','D','T'], cells={h:[],r:[],i:[]};
+for(const k of K){
  const [nom,desc,c]=CL[k];
  const R=rows.filter(r=>r.tipus==='R'&&r.cl===k), I=rows.filter(r=>r.tipus==='I'&&r.cl===k);
  const nv=R.filter(r=>VIVA.includes(r.estat)).length;
- let h=`<h2>${nom}</h2><p class="desc">${desc}</p>`;
- h+=`<div class="conv"><b>${I.length}</b> iniciatives <span class="arr">→</span> <b>${nv}</b> reptes</div>`;
- h+=`<div class="reptes"><p class="band">Reptes d'assignatura</p>`;
- const subs=[...new Set(R.map(r=>r.sub))];
- for(const s of subs){
+ cells.h.push([c,`<h2>${nom}</h2><p class="desc">${desc}</p><div class="conv"><b>${nv}</b> reptes &nbsp;·&nbsp; <b>${I.length}</b> iniciatives</div>`]);
+ let h=`<p class="band">Reptes d'assignatura</p>`;
+ for(const s of [...new Set(R.map(r=>r.sub))]){
   h+=`<p class="sc">${esc(s)}</p>`;
   for(const r of R.filter(x=>x.sub===s)){
    const sym=SYM[r.estat]||'';
@@ -187,12 +190,15 @@ for(const k of ['A','S','D','T']){
    h+=`<div class="card ${r.estat}"><div class="t">${sym?sym+' ':''}${esc(r.nom)}${ll}</div><div class="m">${m}</div>${r.rel?`<div class="rel">${esc(r.rel)}</div>`:''}</div>`;
   }
  }
- h+=`</div><div class="inis"><p class="band">Iniciatives 2026</p>`;
+ cells.r.push([c,h]);
+ h=`<p class="band">Iniciatives</p>`;
  for(const s of [...new Set(I.map(r=>r.sub))]){
   h+=`<p class="src">${esc(s)}</p><div class="chips">`+I.filter(x=>x.sub===s).map(r=>`<span class="chip${r.rel?' rel':''}">${esc(r.nom)}${r.rel?' '+esc(r.rel):''}</span>`).join('')+`</div>`;
  }
- h+=`</div>`;
- const d=document.createElement('section');d.className='col';d.style.setProperty('--c',c);d.innerHTML=h;g.appendChild(d);
+ cells.i.push([c,h]);
+}
+for(const [row,cls] of [['h','top'],['r','reptes'],['i','inis bot']]){
+ for(const [c,h] of cells[row]){const d=document.createElement('section');d.className='cell '+cls;d.style.setProperty('--c',c);d.innerHTML=h;g.appendChild(d);}
 }
 document.querySelectorAll('.ctl button').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.ctl button').forEach(x=>x.classList.toggle('on',x===b));
