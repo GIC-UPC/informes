@@ -70,12 +70,9 @@ footer{font-size:12px;color:var(--mute);margin-top:10px}
 </header>
 <div class="grid" id="grid"></div>
 <div class="legend">
- <span><span class="card R1">●</span> repte amb estudiants a l'aula</span>
- <span><span class="card R0">★</span> repte nou (taller 18/11)</span>
- <span><span class="card RC"><span class="half"></span></span> en construcció</span>
- <span><span class="card ID">idea</span> idea / tancat</span>
+ <span><span class="card R1">en marxa</span> amb estudiants a l'aula</span>
+ <span><span class="card R0">per començar</span> repte nou</span>
  <span>Living lab: <b>UPC</b> campus i comunitat · <b>ResPir</b> finca de Bellver · <b>Estamariu</b> el poble</span>
- 
 </div>
 <footer>Gabinet d'Innovació i Comunitat (GIC) · Nexus Social. La classificació de les iniciatives per àmbit és provisional. Un repte és la pregunta d'una entitat que espera resposta d'una assignatura, un TFE o un hackathon.</footer>
 </div>
@@ -92,19 +89,13 @@ NOU-08;R;A;Boscos i incendis;R0;Escoltar el bosc (sensors);ResPir;ResPir;
 NOU-09;R;A;Biodiversitat;R0;Fauna observable;ResPir;ResPir;
 NOU-10;R;A;Educació climàtica;R0;El bosc a l'aula;ResPir;ResPir;
 D51-ESC;R;S;Aules saludables;R1;Escoles: aire i calor;Drone51;;
-NOU-11;R;S;Aules saludables;RC;Aules Que Cremen;xarxa de docents AQC;;
+NOU-11;R;S;Aules saludables;R0;Aules Que Cremen;xarxa de docents AQC;;
 NOU-12;R;S;Salut mental i digital;R0;Addiccions;Dept. de Salut;;
 NOU-17;R;S;Salut mental i digital;R0;Rellotge esportiu;Sport2Live;;
 NOU-18;R;S;Salut mental i digital;R0;App de dol per suïcidi;Tramuntana;;
 J0057;R;S;Usabilitat;R1;Disseny frugal;Frugal4Health;;
-J0055;R;S;Tancats;TC;ASTE: eines relacionals;ASTE;;
 J0062;R;D;Digital i gènere;R1;Assetjament IA a xarxes;UPC Compromís Social;UPC;
 D51-FAB;R;D;Salut laboral global;PA;Fàbriques (en pausa);UPC Compromís Social;;
-ASSIS;R;D;Alimentació;ID;Necessitats d'ASSIS;ASSIS;;
-NOU-03;R;D;Alimentació;ID;Carmanyoles FFiT;FFiT;;
-NOU-16;R;D;Educació i accés;ID;Perfil social dels centres UPC;UPC;;
-J0059;R;D;Tancats;TC;NNK: carregador;NoNameKitchen;;
-J0060;R;D;Tancats;TC;NNK: visualitzador;NoNameKitchen;;
 NOU-13;R;T;Rural i despoblament;R0;Biogàs Estamariu;Planes Corts;Estamariu;
 NOU-14;R;T;Rural i despoblament;R0;Vinya d'alçada;Planes Corts;Estamariu;
 NOU-15;R;T;Rural i despoblament;R0;Aromàtiques i medicinals;Planes Corts;Estamariu;
@@ -154,7 +145,7 @@ const CL={A:['Sostenibilitat ambiental','Canvi climàtic, economia circular, res
 S:['Salut i benestar','Autonomia, cures, soledat, salut comunitària i tecnologies de suport','#B0520A'],
 D:['Reducció de desigualtats','Inclusió social, bretxa digital, accessibilitat, inserció laboral i gènere','#6B3FA0'],
 T:['Desenvolupament territorial','Cohesió social, zones rurals, mobilitat i serveis comunitaris','#7A5230']};
-const SYM={R1:'●',R0:'★',RC:'<span class="half"></span>',PA:'●',ID:'',TC:''};
+const SYM={};
 const VIVA=['R1','R0','RC','PA'];
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const lines=document.getElementById('dades').textContent.trim().split('\n');
