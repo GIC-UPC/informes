@@ -63,34 +63,34 @@ body.noAntic .antic,body.noNou .nou{display:none}
 const Q=['25-26 Q1','25-26 Q2','26-27 Q1','26-27 Q2 (possible)'];
 // cel·la: 0 buida · [etiquetes] vagons · 'g' fantasma · 'x' final · 's' es divideix · 'b' branca
 const D=[
-{k:'C',n:'Clima i sostenibilitat',r:[
+{k:'C',n:'Sostenibilitat ambiental',r:[
  {id:'J0056',t:'Got retornable',e:'UPC Compromís social<br>línies: digitalització · adopció · disseny',
   n:[[0,1,'TFM','1 · Cervantes, Molins'],[1,0.4,'Empresa ×3 · EPSEVG','90 · Mir, Llorens, Díaz (coord. Berbegal)'],[1,1.6,'Sust. Design · IS.UPC','10 · Segalàs'],[2,0,'Beca · InLab','2'],[2,1,'Empresa ×5 · EPSEVG','150 · Díaz + 4 PDI (noms pendents)'],[3,1,'?','',1]],ed:[[0,1],[0,2],[1,3],[1,4],[4,5]]},
- {id:'J0061',t:'Sensors ambientals de baix cost',e:'Drone51 · el repte passa de tecnologia (sensors, dades) a aplicació (escoles, fàbriques, incendis)<br>coord. Sabaté (25-26) → Bragós (26-27)',
-  n:[[1,0.5,'TEM · Telecos','15 · Alsina · dades'],[1,1.5,'TEM · Telecos','15 · Giménez · sensors'],[2,0,'INT · Telecos','11 · Bermejo · escoles'],[2,1,'INT · Telecos','8 · M. À. García · fàbriques'],[2,2,'INT · Telecos','11 · Riu · incendis'],[3,0,'?','',1],[3,1,'?','',1],[3,2,'?','',1]],ed:[[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,5],[3,6],[4,7]]},
+ {id:'J0061',t:'Sensors ambientals de baix cost',e:'Drone51 · coord. Sabaté · es divideix en 3 reptes (26-27)',c:[0,[['TEM · Telecos','15 · Alsina · dades'],['TEM · Telecos','15 · Giménez · sensors']],'s',0]},
+ {id:'NOU-20',t:'↳ Gasos als boscos (incendis)',e:'Drone51 · living lab: Fund. ResPir · coord. Bragós · ve de J0061',c:[0,'b',[['INT · Telecos','11 · Riu']],'g']},
  {id:'J0058',t:'Smart UPC Recircula',e:'UPC Compromís social · 3 edicions en paral·lel · obert (relleu)',c:[0,[['Gest. TIC · EPSEVG','3 · Cuatrecasas'],['Gest. proj. · ETSEIB','5 · Cremades'],['TEM · Telecos','5 · Alsina']],'p','g']},
- {id:'NOU-06',t:'Boscos amb futur',e:'Fundació ResPir',p:1},
- {id:'NOU-08',t:'Escoltar el bosc',e:'Fundació ResPir',p:1},
- {id:'NOU-09',t:'Biodiversitat que podem observar',e:'Fundació ResPir',p:1},
- {id:'NOU-10',t:"El bosc entra a l'aula",e:'Fundació ResPir',p:1},
- {id:'NOU-11',t:'Aules Que Cremen + estació meteo',e:'AulesQueCremen',p:1},
- {id:'NOU-13',t:'Comunitat energètica amb biogàs',e:'Fundació Planes Corts',p:1}]},
-{k:'D',n:'Desigualtats i gènere',r:[
+ {id:'NOU-08/09/10',t:'Santa Magdalena, el bosc com a laboratori',e:'Fundació ResPir · sensors · fauna · bosc a l\'aula',p:1},
+ {id:'NOU-06',t:'El bosc com a embornal de carboni',e:'Fundació ResPir',p:1},
+ {id:'NOU-11',t:'Aules Que Cremen + estació meteo',e:'AulesQueCremen · ve de J0048 Estació agroclimàtica (Convo NS 2026)',p:1}]},
+{k:'D',n:'Reducció de desigualtats',r:[
  {id:'J0062',t:"IA per a l'assetjament a xarxes",e:'UPC Compromís social · coord. Bragós',c:[0,0,[['PAE · Telecos','14 · Fonollosa']],'g']},
+ {id:'NOU-19',t:'↳ Fàbriques i salut laboral',e:'UPC Compromís social (provisional) · en pausa · ve de J0061',c:[0,'b',[['INT · Telecos','8 · M. À. García']],0]},
  {id:'J0063',t:'Copa menstrual i lavabos',e:'UPC Compromís social',c:[0,0,[['Rec.-acció · IS.UPC','5 · Segalàs']],'g']},
  {id:'J0059',t:'NNK · Generador autònom',e:'NoNameKitchen',c:[0,[['Gest. proj. · ETSEIB','6 · Cremades']],0,0],o:1},
  {id:'J0060',t:'NNK · Visualitzador de rutes',e:'NoNameKitchen · coord. Bragós',c:[0,[['PAE · Telecos','6 · Umbert'],['PAE · Telecos','6 · Soneira']],0,0],o:1},
  {id:'NOU-01',t:'Tracking de roba amb RFID',e:'ASSIS',p:1},
  {id:'NOU-02',t:"Logística d'aliments sense llar",e:'ASSIS',p:1},
  {id:'NOU-03',t:'Aliments i retorn de carmanyoles',e:'FFiT',p:1}]},
-{k:'B',n:'Benestar i salut',r:[
+{k:'B',n:'Salut i benestar',r:[
+ {id:'J0049',t:'↳ Sensors a les escoles',e:'Drone51 · coord. Bragós · ve de J0061',c:[0,'b',[['INT · Telecos','11 · Bermejo']],'g']},
  {id:'J0057',t:'Disseny frugal per usabilitat',e:'Frugal4Health',c:[0,0,[['Usabilitat · EPSEVG','17 · Díaz']],'g']},
  {id:'J0055',t:'Eines relacionals gent gran',e:'ASTEbcn',c:[[['Usabilitat · EPSEVG','18 · Díaz']],0,0,0],o:1},
  {id:'NOU-12',t:"Prevenció d'addiccions",e:'Dept. Salut',p:1},
  {id:'NOU-17',t:'Activitat física i salut mental',e:'Sport2Live',p:1},
  {id:'NOU-18',t:'App per a professionals',e:'Associació Tramuntana',p:1}]},
-{k:'T',n:'Territori i urbanisme',note:'Cap repte actiu: només propostes.',r:[
+{k:'T',n:'Desenvolupament territorial',note:'Cap repte actiu: només propostes.',r:[
  {id:'NOU-07',t:'Paisatge com a infraestructura social',e:'Fundació ResPir',p:1},
+ {id:'NOU-13',t:'Comunitat energètica amb biogàs',e:'Fundació Planes Corts · living lab: Estamariu',p:1},
  {id:'NOU-14',t:"Telecomunicacions a la vinya d'alçada",e:'Fundació Planes Corts',p:1},
  {id:'NOU-15',t:'Plantes aromàtiques i medicinals',e:'Fundació Planes Corts',p:1}]}];
 const g=document.getElementById('g'),el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
@@ -114,6 +114,8 @@ D.forEach(b=>{const col=`var(--${b.k})`,band=el('div','band',b.n);band.style.set
    if(Array.isArray(v))v.forEach(([l,s])=>d.append(wag(l,s)));
    else if(v==='g')d.append(wag(r.p?'taller':'?','',1));
    else if(v==='x')d.append(el('span','x','✗'));
+   else if(v==='s')d.append(el('span','sp','es divideix ↘'));
+   else if(v==='b')d.append(el('span','br','↳'));
    row.append(d)});g.append(row)})});
 const t=(id,cl)=>document.getElementById(id).onchange=e=>document.body.classList.toggle(cl,!e.target.checked);
 t('a','noAntic');t('n','noNou');
