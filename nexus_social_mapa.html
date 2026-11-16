@@ -32,6 +32,7 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin
 .sc{font-size:12.5px;font-weight:700;color:var(--c);margin:8px 0 4px}
 .card{border:1.5px solid var(--ink);border-radius:8px;padding:6px 9px;margin:0 0 6px;background:#fff}
 .card.R0{border:2px dashed #1d1d1b;background:#FFE45C;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.card.RO{border:2px solid #1d1d1b;background:#FFE45C;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .legend .card.R0{border-color:#1d1d1b;background:#FFE45C}
 .card.PA,.card.TC{background:#ececec;color:#888;border:1.5px solid #bbb;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card.TC{border:2px dotted #999}
@@ -76,8 +77,9 @@ footer{font-size:12px;color:var(--mute);margin-top:10px}
 </header>
 <div class="grid" id="grid"></div>
 <div class="legend">
- <span><span class="card R1">actiu</span> amb estudiants al Q1 2026-27</span>
- <span><span class="card R0">oferta</span> per al Q2 2026-27 o el Q1 2027-28</span>
+ <span><span class="card R0">oferta nova</span> per al Q2 2026-27 o el Q1 2027-28</span>
+ <span><span class="card RO">actiu i s'ofereix</span> té estudiants al Q1 i busca més per al Q2</span>
+ <span><span class="card R1">actiu</span> amb estudiants al Q1, sense places noves</span>
  <span><span class="card PA">stand by</span> fet; s'implementa o stand by per part de l'entitat · s'ofereix com a material docent</span>
  <span><span class="card TC">tancat</span> retornat a l'entitat, sense demanda per continuar</span>
  <span>Living lab: <b>UPC</b> campus i comunitat · <b>ResPir</b> finca de Bellver · <b>Estamariu</b> el poble</span>
@@ -90,17 +92,17 @@ footer{font-size:12px;color:var(--mute);margin-top:10px}
 id;tipus;cl;sub;estat;nom;impulsora;ll;rel
 RPT02;R;A;Circularitat;R1;Got retornable;Gabinet d'Innovació i Comunitat UPC;UPC;trenet: TFM → Empresa → InLab · Q1 26-27: 150 est. · sense places noves: la innovació es prova
 RPT03;R;A;Circularitat;PA;Smart Recircula: contenidors que avisen i separar millor;Gabinet d'Innovació i Comunitat UPC;UPC;3 assignatures el 25-26 (13 est.) · 2 grups proposen el mateix pilot · s'ofereix com a material docent
-RPT06;R;A;Boscos;R1;Incendis: sentir el foc abans que es vegi;Drone51;ResPir;ve de Drone51 (RPT05) · trenet: SilvaNet (25-26) → INT (26-27) · Q1 26-27: 11 est. · s'ofereix també per al Q2
+RPT06;R;A;Boscos;RO;Incendis: sentir el foc abans que es vegi;Drone51;ResPir;ve de Drone51 (RPT05) · trenet: SilvaNet (25-26) → INT (26-27) · Q1 26-27: 11 est. · s'ofereix també per al Q2
 RPT05;R;A;Sensors (origen);TC;Drone51: sensors ambientals de baix cost (25-26);Drone51;;es divideix en Incendis (RPT06), Escoles (RPT07) i Fàbriques (RPT08)
 RPT15;R;A;Boscos;R0;Santa Magdalena, el bosc com a laboratori (sensors, fauna, aula);ResPir;ResPir;
-RPT07;R;S;Aules saludables;R1;Escoles: quin aire es respira a l'aula?;Drone51;;ve de Drone51 (RPT05) · trenet: aire de la ciutat (25-26) → aula (26-27) · Q1 26-27: 11 est. · s'ofereix també per al Q2
+RPT07;R;S;Aules saludables;RO;Escoles: quin aire es respira a l'aula?;Drone51;;ve de Drone51 (RPT05) · trenet: aire de la ciutat (25-26) → aula (26-27) · Q1 26-27: 11 est. · s'ofereix també per al Q2
 RPT12;R;S;Salut mental i digital;R0;Drogues, pantalles i campus;Dept. de Salut;;
 RPT13;R;S;Salut mental i digital;R0;Rellotge esportiu;Sport2Live;;
 RPT14;R;S;Salut mental i digital;R0;App de dol per suïcidi;Tramuntana;;
 RPT01;R;S;Soledat i gent gran;TC;ASTE: eines relacionals per a gent gran (25-26);ASTE;;genera Soledat no desitjada (RPT10)
-RPT10;R;S;Soledat i gent gran;R1;Soledat no desitjada: solucions frugals;Hospital del Mar · Consorci Alt Penedès-Garraf (via Frugal4Health);;ve d'ASTE (RPT01) · trenet: gent gran (25-26) → soledat (26-27) · Q1 26-27: 17 est. (EPSEVG) · s'ofereix per al Q2 · potser cal fabricar
-RPT09;R;D;Digital i gènere;R1;IA local contra l'assetjament;Gabinet d'Innovació i Comunitat UPC;UPC;Q1 26-27: 14 est. (ETSETB) · s'ofereix · necessita un servidor (~3.000 €)
-RPT08;R;D;Salut laboral;R1;Fàbriques: mesurar el que respira qui treballa (busca entitat);Gabinet d'Innovació i Comunitat UPC (provisional);;ve de Drone51 (RPT05) · trenet: aparcaments (25-26) → fàbriques (26-27) · Q1 26-27: 8 est. · busca entitat per al Q2; sense entitat no es farà
+RPT10;R;S;Soledat i gent gran;RO;Soledat no desitjada: solucions frugals;Hospital del Mar · Consorci Alt Penedès-Garraf (via Frugal4Health);;ve d'ASTE (RPT01) · trenet: gent gran (25-26) → soledat (26-27) · Q1 26-27: 17 est. (EPSEVG) · s'ofereix per al Q2 · potser cal fabricar
+RPT09;R;D;Digital i gènere;RO;IA local contra l'assetjament;Gabinet d'Innovació i Comunitat UPC;UPC;Q1 26-27: 14 est. (ETSETB) · s'ofereix · necessita un servidor (~3.000 €)
+RPT08;R;D;Salut laboral;RO;Fàbriques: mesurar el que respira qui treballa (busca entitat);Gabinet d'Innovació i Comunitat UPC (provisional);;ve de Drone51 (RPT05) · trenet: aparcaments (25-26) → fàbriques (26-27) · Q1 26-27: 8 est. · busca entitat per al Q2; sense entitat no es farà
 RPT11;R;D;Equitat menstrual;R1;Equitat menstrual i lavabos inclusius;Gabinet d'Innovació i Comunitat UPC;UPC;Q1 26-27: 5 est. (màster IS.UPC) · sense places noves: la innovació es prova
 RPT04;R;D;Migració;PA;Rutes migratòries: visualitzador i energia;NoNameKitchen;;2 edicions 25-26 (visualitzador · generador d'energia) · stand by per part de l'entitat · s'ofereix com a material docent
 RPT17;R;T;Un poble que viu del que té;R0;Biogàs i comunitat energètica;Planes Corts;Estamariu;
@@ -152,7 +154,7 @@ S:['Salut i benestar','Autonomia, cures, soledat, salut comunitària i tecnologi
 D:['Reducció de desigualtats','Inclusió social, bretxa digital, accessibilitat, inserció laboral i gènere','#6B3FA0'],
 T:['Desenvolupament territorial','Cohesió social, zones rurals, mobilitat i serveis comunitaris','#7A5230']};
 const SYM={};
-const VIVA=['R1','R0','RC'];
+const VIVA=['R1','RO','R0','RC'];
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const lines=document.getElementById('dades').textContent.trim().split('\n');
 const H=lines[0].split(';');
@@ -165,7 +167,7 @@ for(const k of K){
  const nv=R.filter(r=>VIVA.includes(r.estat)).length;
  cells.h.push([c,`<h2>${nom}</h2><p class="desc">${desc}</p>`]);
  let h=`<p class="band">Reptes d'assignatura</p>`;
- const ORD={R0:0,R1:1,RC:1,PA:2,TC:3,ID:4};
+ const ORD={R0:0,RO:1,R1:2,RC:2,PA:3,TC:4,ID:5};
  const SUB=new URLSearchParams(location.search).has('sub');
  const subs=SUB?[...new Set(R.map(r=>r.sub))]:[null];
  for(const s of subs){
