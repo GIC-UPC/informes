@@ -164,9 +164,12 @@ for(const k of K){
  const nv=R.filter(r=>VIVA.includes(r.estat)).length;
  cells.h.push([c,`<h2>${nom}</h2><p class="desc">${desc}</p><div class="conv"><b>${nv}</b> reptes &nbsp;·&nbsp; <b>${I.length}</b> iniciatives</div>`]);
  let h=`<p class="band">Reptes d'assignatura</p>`;
- for(const s of [...new Set(R.map(r=>r.sub))]){
-  h+=`<p class="sc">${esc(s)}</p>`;
-  for(const r of R.filter(x=>x.sub===s)){
+ const ORD={R0:0,R1:1,RC:1,PA:2,TC:3,ID:4};
+ const SUB=new URLSearchParams(location.search).has('sub');
+ const subs=SUB?[...new Set(R.map(r=>r.sub))]:[null];
+ for(const s of subs){
+  if(SUB)h+=`<p class="sc">${esc(s)}</p>`;
+  for(const r of R.filter(x=>!SUB||x.sub===s).sort((a,b)=>(ORD[a.estat]??9)-(ORD[b.estat]??9))){
    const sym=SYM[r.estat]||'';
    const ll=r.ll?`<span class="ll">${esc(r.ll)}</span>`:'';
    const m=r.estat==='ID'?'idea':r.estat==='TC'?'tancat · '+esc(r.impulsora):r.estat==='PA'?'stand by · '+esc(r.impulsora):esc(r.impulsora);
