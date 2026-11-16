@@ -33,11 +33,12 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin
 .card{border:1.5px solid var(--ink);border-radius:8px;padding:6px 9px;margin:0 0 6px;background:#fff}
 .card.R0{border:2px dashed var(--c);background:color-mix(in srgb,var(--c) 16%,#fff);-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .legend .card.R0{border-color:#777;background:#eee8dc}
-.card.PA{background:#ececec;color:#888;border-color:#ccc}
-.card.PA .m,.card.PA .rel{color:#888}
+.card.PA,.card.TC{background:#ececec;color:#888;border:1.5px solid #bbb;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.card.TC{border:2px dotted #999}
+.card.PA .m,.card.PA .rel,.card.TC .m,.card.TC .rel{color:#888}
 .cod{font-size:.72em;font-weight:600;color:#888;letter-spacing:.02em}
 .card.RC{border-style:dashed;border-color:var(--c)}
-.card.ID,.card.TC{border:1px dotted #999;color:#777}
+.card.ID{border:1px dotted #999;color:#777}
 .card .t{font-weight:600;font-size:14px;display:flex;gap:6px;align-items:baseline}
 .card .m{font-size:12px;color:var(--mute);margin-top:1px}
 .card .rel{font-size:12px;color:var(--c);font-weight:600;margin-top:2px}
