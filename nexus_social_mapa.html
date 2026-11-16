@@ -39,6 +39,7 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin
 .cod{font-size:.72em;font-weight:600;color:#888;letter-spacing:.02em}
 .card.RC{border-style:dashed;border-color:var(--c)}
 .card.ID{border:1px dotted #999;color:#777}
+.card.gap{margin-top:14px}
 .card .t{font-weight:600;font-size:14px;display:flex;gap:6px;align-items:baseline}
 .card .m{font-size:12px;color:var(--mute);margin-top:1px}
 .card .rel{font-size:12px;color:var(--c);font-weight:600;margin-top:2px}
@@ -169,11 +170,13 @@ for(const k of K){
  const subs=SUB?[...new Set(R.map(r=>r.sub))]:[null];
  for(const s of subs){
   if(SUB)h+=`<p class="sc">${esc(s)}</p>`;
+  let pg=null;
   for(const r of R.filter(x=>!SUB||x.sub===s).sort((a,b)=>(ORD[a.estat]??9)-(ORD[b.estat]??9))){
    const sym=SYM[r.estat]||'';
    const ll=r.ll?`<span class="ll">${esc(r.ll)}</span>`:'';
    const m=r.estat==='ID'?'idea':r.estat==='TC'?'tancat · '+esc(r.impulsora):r.estat==='PA'?'stand by · '+esc(r.impulsora):esc(r.impulsora);
-   h+=`<div class="card ${r.estat}"><div class="t"><span class="cod">${esc(r.id)}</span> ${sym?sym+' ':''}${esc(r.nom)}${ll}</div><div class="m">${m}</div>${r.rel?`<div class="rel">${esc(r.rel)}</div>`:''}</div>`;
+   const g=ORD[r.estat]??9, gap=pg!==null&&g!==pg?' gap':''; pg=g;
+   h+=`<div class="card ${r.estat}${gap}"><div class="t"><span class="cod">${esc(r.id)}</span> ${sym?sym+' ':''}${esc(r.nom)}${ll}</div><div class="m">${m}</div>${r.rel?`<div class="rel">${esc(r.rel)}</div>`:''}</div>`;
   }
  }
  cells.r.push([c,h]);
