@@ -152,9 +152,9 @@ function buildA3(){
   'José M. Cabrera':[17.5,0.5],'Fund. iSocial':[23,1.5],'Ampans':[24,-2.8],'Rafael Vidal':[28,5],'Aj. Castelldefels':[31.5,9.5],'Elisabet Burjons':[33.5,14.5]};
  N.forEach(d=>{const p=UM[d.id];if(p){d.fx=-115+p[0]*4.3;d.fy=62+p[1]*4.3}});
  const LY={'Fund. Mies van der Rohe':[0,0],'Pere Fuertes':[1.5,2.5],'Assoc. Alba':[3.6,3],'Martí Obiols':[3,7],'Aj. Agramunt':[1,6.5]};
- N.forEach(d=>{const p=LY[d.id];if(p){d.fx=45+p[0]*9.5;d.fy=38+p[1]*8.5}});
- const SG={'Aj. Alpens':[0,-.6],'ADR':[.4,1.9],'Júlia Beltran':[3,.5],'Bisbat de Vic':[6.5,0]};
- N.forEach(d=>{const p=SG[d.id];if(p){d.fx=-128+p[0]*10;d.fy=-62+p[1]*9}});
+ N.forEach(d=>{const p=LY[d.id];if(p){d.fx=45+p[0]*9.5;d.fy=18+p[1]*8.5}});
+ const SG={'Aj. Alpens':[.6,0],'ADR':[-1.9,.4],'Júlia Beltran':[-.5,3],'Bisbat de Vic':[0,6.5]};
+ N.forEach(d=>{const p=SG[d.id];if(p){d.fx=-138+p[0]*10;d.fy=-88+p[1]*9}});
  const CY={'M. Mar Carrió':[0,0],'Assoc. CATESCO':[-4,1],'Fund. SJD':[4,-1],'Aj. Terrassa':[.8,3.5],'Joan Antoni López':[1.6,7.2]};
  N.forEach(d=>{const p=CY[d.id];if(p){d.fx=-100+p[0]*7.5;d.fy=-8+p[1]*7}});
  const MAIN=new Set(big[0]);
@@ -195,7 +195,8 @@ function buildA3(){
    g.append('text').attr('x',pos[e][0]).attr('y',pos[e][1]+5.2).attr('text-anchor','middle').attr('font-size',FS).text(e)});
  });
  if(CARP){const lg=pl.querySelector('.ft'),box=document.createElement('div');box.className='expl';
-  box.innerHTML=`<p><b>Les constel·lacions.</b> ${a3l.textContent}</p><p><b>Sistemes binaris.</b> ${a3r.textContent}</p>`;
+  box.innerHTML=`<p><b>Les constel·lacions de l'altra pàgina</b> són la xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles, en ${big.length} constel·lacions (${inBig.size} estrelles). El Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A l'esquerra, la Fletxa i el Cigne (a qui encara li falta Deneb); a baix, l'Ossa Major i la Lira. En vermell, els vincles que es repeteixen en 2 cursos o més.</p><p><b>Els sistemes binaris de sobre</b> són ${small.length} parelles PDI–entitat (i algun trio) que encara no formen constel·lació. Cada una és una constel·lació per fer: un altre PDI, una altra assignatura, una altra entitat.</p>`;
+  pl.querySelector('h2').remove();pr.querySelector('h2').remove();
   box.append(lg);box.append(a3f);a3l.remove();a3r.remove();pr.append(box)}
  const br=sr.node().getBBox();sr.attr('viewBox',`${br.x-1} ${br.y-1} ${br.width+2} ${br.height+2}`);
 }
