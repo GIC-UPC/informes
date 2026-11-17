@@ -26,6 +26,10 @@ body{margin:0;font-family:Inter,sans-serif;color:var(--ink);background:#e9e9e6}
 .rp.PA,.rp.TC{background:#ececec;color:#888;border-color:#bbb}
 .rp.TC{border:2.5px dotted #999}
 .rp.PA .m,.rp.TC .m,.rp.PA .rel,.rp.TC .rel{color:#888}
+.grp{width:142mm;border:2.5px dashed var(--c);border-radius:6mm;padding:4mm;display:flex;flex-direction:column;gap:3mm;background:color-mix(in srgb,var(--c) 6%,#fff)}
+.grp .gk{font-size:12pt;font-weight:700;color:var(--c);letter-spacing:.03em}
+.grp .rp{width:auto;padding:3mm 5mm}
+.grp .rp .t{font-size:21pt}
 .in{max-width:100mm;border-radius:999px;padding:3mm 6mm;background:color-mix(in srgb,var(--c) 13%,#fff);font-size:16pt;line-height:1.2}
 .in small{display:block;font-size:11pt;color:#666;margin-top:.5mm}
 .ec{width:120mm;border:2px solid var(--c);border-radius:4mm;padding:3.5mm 5mm;background:#fff}
@@ -47,6 +51,7 @@ S:['Salut i benestar','Autonomia, cures, soledat, salut comunitària i tecnologi
 D:['Reducció de desigualtats','Inclusió social, bretxa digital, accessibilitat, inserció laboral i gènere','#6B3FA0'],
 T:['Desenvolupament territorial','Cohesió social, zones rurals, mobilitat i serveis comunitaris','#7A5230']};
 const OFERTA=['R0','RO'];
+const FITXA={RPT17:'Estamariu, un poble que viu del que té',RPT18:'Estamariu, un poble que viu del que té',RPT19:'Estamariu, un poble que viu del que té'};
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 // pseudoaleatori determinista per id (la disposició no canvia en recarregar)
 function rnd(str,k){let h=2166136261^k;for(const ch of str){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return ((h>>>0)%1000)/1000}
@@ -65,8 +70,16 @@ fetch('nexus_social_mapa.html').then(r=>r.text()).then(html=>{
    items.push(r);
   }
   items.sort((a,b)=>rnd(a.id,7)-rnd(b.id,7)); // barrejats
+  // reptes que comparteixen fitxa: un sol element agrupat
+  const grp={};const items2=[];
+  for(const r of items){const g=FITXA[r.id];if(g){if(!grp[g]){grp[g]={tipus:'G',id:g,nom:g,fills:[]};items2.push(grp[g])}grp[g].fills.push(r)}else items2.push(r)}
   let h='';
-  for(const r of items){
+  const card=r=>{const chip=OFERTA.includes(r.estat)?'<div class="chip">Oferta Q2 26-27 · Q1 27-28</div>':'';
+    const m=r.estat==='TC'?'tancat · '+esc(r.impulsora):r.estat==='PA'?'stand by · '+esc(r.impulsora):esc(r.impulsora);
+    return `${chip}<div class="cod">${esc(r.id)}</div><div class="t">${esc(r.nom)}</div><div class="m">${m}${r.ll?' · living lab '+esc(r.ll):''}</div>`};
+  for(const r of items2){
+   if(r.tipus==='G'){
+    h+=`<div class="it grp" style="${jit(r.id)}"><div class="gk">Una fitxa · ${esc(r.nom)}</div>${r.fills.map(x=>`<div class="rp ${x.estat}">${card(x)}</div>`).join('')}</div>`;continue}
    if(r.tipus==='R'){
     const chip=OFERTA.includes(r.estat)?'<div class="chip">Oferta Q2 26-27 · Q1 27-28</div>':'';
     const m=r.estat==='TC'?'tancat · '+esc(r.impulsora):r.estat==='PA'?'stand by · '+esc(r.impulsora):esc(r.impulsora);
