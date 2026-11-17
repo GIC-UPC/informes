@@ -53,7 +53,7 @@ S:['Salut i benestar','Autonomia, cures, soledat, salut comunitària i tecnologi
 D:['Reducció de desigualtats','Inclusió social, bretxa digital, accessibilitat, inserció laboral i gènere','#6B3FA0'],
 T:['Desenvolupament territorial','Cohesió social, zones rurals, mobilitat i serveis comunitaris','#7A5230']};
 const OFERTA=['R0','RO'];
-const FITXA={RPT17:'Estamariu, un poble que viu del que té',RPT18:'Estamariu, un poble que viu del que té',RPT19:'Estamariu, un poble que viu del que té'};
+const FITXA={RPT15:'ResPir: el bosc de Santa Magdalena com a laboratori',RPT21:'ResPir: el bosc de Santa Magdalena com a laboratori',RPT22:'ResPir: el bosc de Santa Magdalena com a laboratori',RPT17:'Estamariu, un poble que viu del que té',RPT18:'Estamariu, un poble que viu del que té',RPT19:'Estamariu, un poble que viu del que té'};
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
 // pseudoaleatori determinista per id (la disposició no canvia en recarregar)
 function rnd(str,k){let h=2166136261^k;for(const ch of str){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return ((h>>>0)%1000)/1000}
@@ -81,7 +81,7 @@ fetch('nexus_social_mapa.html').then(r=>r.text()).then(html=>{
     return `${chip}<div class="cod">${esc(r.id)}</div><div class="t">${esc(r.nom)}</div><div class="m">${m}${r.ll?' · living lab '+esc(r.ll):''}</div>`};
   for(const r of items2){
    if(r.tipus==='G'){
-    h+=`<div class="it grp" style="${jit(r.id)}"><div class="gk">Una fitxa · ${esc(r.nom)}</div>${r.fills.map(x=>`<div class="rp ${x.estat}">${card(x)}</div>`).join('')}</div>`;continue}
+    h+=`<div class="it grp" style="${jit(r.id)}"><div class="gk">Una fitxa · ${esc(r.nom)}</div>${r.fills.sort((x,y)=>x.id.localeCompare(y.id)).map(x=>`<div class="rp ${x.estat}">${card(x)}</div>`).join('')}</div>`;continue}
    if(r.tipus==='R'){
     const chip=OFERTA.includes(r.estat)?'<div class="chip">Oferta Q2 26-27 · Q1 27-28</div>':'';
     const m=r.estat==='TC'?'tancat · '+esc(r.impulsora):r.estat==='PA'?'stand by · '+esc(r.impulsora):esc(r.impulsora);
