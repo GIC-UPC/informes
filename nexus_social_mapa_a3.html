@@ -92,6 +92,18 @@ ${k==='T'?'<span><span class="sw" style="border:2px solid '+c+'"></span>ecosiste
  document.getElementById('wrap').innerHTML=out;
  // si un àmbit no hi cap, s'encongeix una mica fins que hi cap
  document.querySelectorAll('.cloud').forEach(c=>{let z=1;while(c.scrollHeight>c.clientHeight+2&&z>0.7){z-=0.03;c.style.zoom=z}});
+ // ?A4: els 4 A3 en un sol A4 vertical (2×2), escala 1/(2·√2)
+ if(new URLSearchParams(location.search).has('A4')){
+  const w=document.getElementById('wrap');
+  w.innerHTML=`<div class="a4"><div class="g">${w.innerHTML}</div></div>`;
+  const st=document.createElement('style');
+  st.textContent=`.a4{width:210mm;height:297mm;background:#fff;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.a4 .g{display:grid;grid-template-columns:297mm 297mm;width:594mm;zoom:0.35355}
+.a4 .page{box-shadow:none;border:.6mm solid #fff}
+@page{size:210mm 297mm;margin:0}
+@media print{.a4{box-shadow:none}.a4 .page{break-after:auto}}`;
+  document.head.appendChild(st);
+ }
 }).catch(e=>{document.getElementById('wrap').textContent='No s\'han pogut carregar les dades: '+e});
 </script>
 </body>
