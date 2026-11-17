@@ -20,15 +20,14 @@ body{margin:0;font-family:Inter,sans-serif;color:var(--ink);background:#e9e9e6}
 .sec:nth-child(2){margin-top:auto}
 .sl{margin:0;font-size:12pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c);border-bottom:1.5px solid var(--c);padding-bottom:1.5mm}
 .blk{display:flex;flex-wrap:wrap;gap:5mm;align-items:flex-start}
-.blk>.rp.PA,.blk>.rp.TC{align-self:stretch}
 .br{flex-basis:100%;height:0}
 .it{}
-.rp{width:138mm;border:2.5px solid var(--ink);border-radius:4mm;padding:4mm 5mm;background:#fff}
+.rp{width:134mm;display:flex;flex-direction:column;justify-content:center;border:2.5px solid var(--ink);border-radius:4mm;padding:4mm 5mm;background:#fff}
 .rp .cod{font-size:12pt;font-weight:700;color:#888}
 .rp .t{font-family:'Space Grotesk',sans-serif;font-size:25pt;font-weight:700;line-height:1.12;margin:1mm 0 1.5mm}
 .rp .m{font-size:14pt;color:#444}
 .rp .rel{font-size:10.5pt;color:var(--c);font-weight:600;margin-top:1.5mm}
-.chip{display:inline-block;background:var(--y);border:1.5px solid var(--ink);border-radius:999px;padding:.8mm 3.5mm;font-size:13pt;font-weight:700;margin-bottom:1.5mm}
+.chip{display:inline-block;align-self:flex-start;background:var(--y);border:1.5px solid var(--ink);border-radius:999px;padding:.8mm 3.5mm;font-size:13pt;font-weight:700;margin-bottom:1.5mm}
 .rp.PA,.rp.TC{background:#ececec;color:#888;border-color:#bbb}
 .rp.TC,.rp.PA{border:2.5px dotted #999}
 .rp.PA .m,.rp.TC .m,.rp.PA .rel,.rp.TC .rel{color:#888}
@@ -111,6 +110,18 @@ ${k==='T'?'<span><span class="sw" style="border:2px solid '+c+'"></span>ecosiste
 </section>`;
  }
  document.getElementById('wrap').innerHTML=out;
+ // ordre màxim: títols d'una línia si cap (fins a 19 pt) i targetes de la mateixa alçada per full
+ document.querySelectorAll('.page').forEach(p=>{
+  // una sola mida de títol per full: la més petita que fa cabre en una línia els que hi poden cabre (mínim 19 pt)
+  const ts=[...p.querySelectorAll('.rp .t')];let fsMin=25;
+  ts.forEach(t=>{let fs=25;const lh=()=>parseFloat(getComputedStyle(t).lineHeight);
+   while(t.scrollHeight>lh()*1.4&&fs>19){fs-=1;t.style.fontSize=fs+'pt'}
+   if(t.scrollHeight<=lh()*1.4)fsMin=Math.min(fsMin,fs);});
+  ts.forEach(t=>{t.style.fontSize=fsMin+'pt'});
+  for(const sel of ['.rp','.in']){const els=[...p.querySelectorAll(sel)];
+   const hmax=Math.max(0,...els.map(e=>e.getBoundingClientRect().height));
+   els.forEach(e=>{e.style.height=hmax+'px'})}
+ });
  // si un àmbit no hi cap, s'encongeix una mica fins que hi cap
  document.querySelectorAll('.cloud').forEach(c=>{let z=1;while(c.scrollHeight>c.clientHeight+2&&z>0.7){z-=0.03;c.style.zoom=z}});
  // ?A4p: un A4 per àmbit (A3 al 70,7 %)
