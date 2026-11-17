@@ -35,7 +35,7 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:34px;line-height:1.05;margin
 .card.RO{border:2px solid #1d1d1b;background:#FFE45C;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .legend .card.R0{border-color:#1d1d1b;background:#FFE45C}
 .card.PA,.card.TC{background:#ececec;color:#888;border:1.5px solid #bbb;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.card.TC{border:2px dotted #999}
+.card.TC,.card.PA{border:2px dotted #999}
 .card.PA .m,.card.PA .rel,.card.TC .m,.card.TC .rel{color:#888}
 .cod{font-size:.72em;font-weight:600;color:#888;letter-spacing:.02em}
 .card.RC{border-style:dashed;border-color:var(--c)}
@@ -80,8 +80,7 @@ footer{font-size:12px;color:var(--mute);margin-top:10px}
  <span><span class="card R0">oferta nova</span> per al Q2 2026-27 o el Q1 2027-28</span>
  <span><span class="card RO">actiu i s'ofereix</span> té estudiants al Q1 i busca més per al Q2</span>
  <span><span class="card R1">actiu</span> amb estudiants al Q1, sense places noves</span>
- <span><span class="card PA">stand by</span> fet; s'implementa o espera recursos · s'ofereix com a material docent</span>
- <span><span class="card TC">tancat</span> retornat a l'entitat, sense demanda per continuar</span>
+ <span><span class="card TC">tancat</span> fet; ara no s'hi poden afegir estudiants</span>
  <span>Living lab: <b>UPC</b> campus i comunitat · <b>ResPir</b> finca de Bellver · <b>Estamariu</b> el poble</span>
 </div>
 <footer>Gabinet d'Innovació i Comunitat (GIC) · Nexus Social. La classificació de les iniciatives per àmbit és provisional. Un repte és la pregunta d'una entitat que espera resposta d'una assignatura, un TFE o un hackathon.</footer>
@@ -172,7 +171,7 @@ for(const k of K){
  const nv=R.filter(r=>VIVA.includes(r.estat)).length;
  cells.h.push([c,`<h2>${nom}</h2><p class="desc">${desc}</p>`]);
  let h=`<p class="band">Reptes d'assignatura</p>`;
- const ORD={R0:0,RO:1,R1:2,RC:2,PA:3,TC:4,ID:5};
+ const ORD={R0:0,RO:1,R1:2,RC:2,PA:3,TC:3,ID:5};
  const SUB=new URLSearchParams(location.search).has('sub');
  const subs=SUB?[...new Set(R.map(r=>r.sub))]:[null];
  for(const s of subs){
@@ -181,7 +180,7 @@ for(const k of K){
   for(const r of R.filter(x=>!SUB||x.sub===s).sort((a,b)=>(ORD[a.estat]??9)-(ORD[b.estat]??9))){
    const sym=SYM[r.estat]||'';
    const ll=r.ll?`<span class="ll">${esc(r.ll)}</span>`:'';
-   const m=r.estat==='ID'?'idea':r.estat==='TC'?'tancat · '+esc(r.impulsora):r.estat==='PA'?'stand by · '+esc(r.impulsora):esc(r.impulsora);
+   const m=r.estat==='ID'?'idea':(r.estat==='TC'||r.estat==='PA')?'tancat · '+esc(r.impulsora):r.estat==='R1'?esc(r.impulsora)+' · sense places noves al Q2':esc(r.impulsora);
    const g=ORD[r.estat]??9, gap=pg!==null&&g!==pg?' gap':''; pg=g;
    h+=`<div class="card ${r.estat}${gap}"><div class="t"><span class="cod">${esc(r.id)}</span> ${sym?sym+' ':''}${esc(r.nom)}${ll}</div><div class="m">${m}</div>${r.rel?`<div class="rel">${esc(r.rel)}</div>`:''}</div>`;
   }
