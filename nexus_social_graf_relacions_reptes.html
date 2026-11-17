@@ -139,7 +139,7 @@ function buildA3(){
  const inBig=new Set(big.flat());
  const dash=l=>+l.pes_n_reptes===0&&!+l.n_sollicituds?'2.4 .9 .6 .9':+l.pes_n_reptes===0?'.4 1':l.tipus==='iniciativa'?'1.6 1':null;
  const nP=[...adj.keys()].filter(x=>nodeById.get(x).tipus_node==='PDI').length;
- a3l.textContent=`Xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles. Aquí, les ${big.length} constel·lacions (${inBig.size} estrelles): el Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A baix, l'Ossa Major i la Lira. En vermell, els vincles que es repeteixen en 2 cursos o més.`;
+ a3l.textContent=`Xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles. Aquí, les ${big.length} constel·lacions (${inBig.size} estrelles): el Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A l'esquerra, la Fletxa i el Cigne (a qui encara li falta Deneb); a baix, l'Ossa Major i la Lira. En vermell, els vincles que es repeteixen en 2 cursos o més.`;
  a3r.textContent=`${small.length} parelles PDI–entitat (i algun trio) que encara no formen constel·lació. Cada una és una constel·lació per fer: un altre PDI, una altra assignatura, una altra entitat.`;
  a3f.textContent="Curs: reptes per edició (2025-27) · guanyadors Impacte i Convo NS al 2026-27 · sol·licituds Convo no guanyadores al 2025-26 · finalistes Premis CS 2025 al 2024-25. Programa Nexus Social UPC · Gabinet d'Innovació i Comunitat UPC · 17/11/2026";
  // esquerra: forces
@@ -151,6 +151,10 @@ function buildA3(){
  N.forEach(d=>{const p=UM[d.id];if(p){d.fx=-115+p[0]*4.3;d.fy=62+p[1]*4.3}});
  const LY={'Fund. Mies van der Rohe':[0,0],'Pere Fuertes':[1.5,2.5],'Assoc. Alba':[3.6,3],'Martí Obiols':[3,7],'Aj. Agramunt':[1,6.5]};
  N.forEach(d=>{const p=LY[d.id];if(p){d.fx=45+p[0]*9.5;d.fy=38+p[1]*8.5}});
+ const SG={'Aj. Alpens':[0,-.6],'ADR':[.4,1.9],'Júlia Beltran':[3,.5],'Bisbat de Vic':[6.5,0]};
+ N.forEach(d=>{const p=SG[d.id];if(p){d.fx=-128+p[0]*10;d.fy=-62+p[1]*9}});
+ const CY={'M. Mar Carrió':[0,0],'Assoc. CATESCO':[-4,1],'Fund. SJD':[4,-1],'Aj. Terrassa':[.8,3.5],'Joan Antoni López':[1.6,7.2]};
+ N.forEach(d=>{const p=CY[d.id];if(p){d.fx=-100+p[0]*7.5;d.fy=-8+p[1]*7}});
  const MAIN=new Set(big[0]);
  const s=d3.forceSimulation(N).force('link',d3.forceLink(BL).id(d=>d.id).distance(19).strength(.8)).force('charge',d3.forceManyBody().strength(-50))
   .force('x',d3.forceX(d=>MAIN.has(d.id)?12:0).strength(.2)).force('y',d3.forceY(d=>MAIN.has(d.id)?-30:0).strength(.13)).force('col',d3.forceCollide().radius(d=>r(d)+(MAIN.has(d.id)?6.5:4.2))).stop();
