@@ -118,7 +118,7 @@ ${k==='T'?'<span><span class="sw" style="border:2px solid '+c+'"></span>ecosiste
    while(t.scrollHeight>lh()*1.4&&fs>19){fs-=1;t.style.fontSize=fs+'pt'}
    if(t.scrollHeight<=lh()*1.4)fsMin=Math.min(fsMin,fs);});
   ts.forEach(t=>{t.style.fontSize=fsMin+'pt'});
-  for(const sel of ['.rp','.in']){const els=[...p.querySelectorAll(sel)];
+  for(const sel of ['.rp','.in','.ec']){const els=[...p.querySelectorAll(sel)];
    const hmax=Math.max(0,...els.map(e=>e.getBoundingClientRect().height));
    els.forEach(e=>{e.style.height=hmax+'px'})}
  });
