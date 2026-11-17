@@ -164,7 +164,7 @@ function buildA3(){
   const P=c.filter(x=>nodeById.get(x).tipus_node==='PDI').sort(),E=c.filter(x=>nodeById.get(x).tipus_node!=='PDI').sort();
   const row=a=>{const w=a.map(cw),sx=Math.max(...w)+4;return{w:sx*a.length,xs:a.map((_,i)=>(i-(a.length-1)/2)*sx)}};
   const rp=row(P),re=row(E),w=Math.max(rp.w,re.w),h=17;
-  return{c,P,E,rp,re,w,h,r:Math.hypot(w/2,h/2)*.9}});
+  return{c,P,E,rp,re,w,h,r:Math.hypot(w/2,h/2)*.84}});
  const si=d3.forceSimulation(IS).force('x',d3.forceX(0).strength(.06)).force('y',d3.forceY(0).strength(.035))
   .force('col',d3.forceCollide().radius(d=>d.r+1.5).iterations(4)).stop();
  for(let i=0;i<500;i++)si.tick();
