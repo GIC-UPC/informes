@@ -147,7 +147,7 @@ function buildA3(){
  const deg={};BL.forEach(l=>{deg[l.source]=(deg[l.source]||0)+1;deg[l.target]=(deg[l.target]||0)+1});
  const r=d=>1.4+Math.sqrt(deg[d.id])*1.1;
  const s=d3.forceSimulation(N).force('link',d3.forceLink(BL).id(d=>d.id).distance(19).strength(.8)).force('charge',d3.forceManyBody().strength(-50))
-  .force('x',d3.forceX(0).strength(.08)).force('y',d3.forceY(0).strength(.045)).force('col',d3.forceCollide().radius(d=>r(d)+4.2)).stop();
+  .force('x',d3.forceX(0).strength(.2)).force('y',d3.forceY(0).strength(.13)).force('col',d3.forceCollide().radius(d=>r(d)+4.2)).stop();
  for(let i=0;i<600;i++)s.tick();
  const sl=d3.select('#s3l');
  sl.append('g').selectAll('line').data(BL).join('line').attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y)
@@ -156,22 +156,23 @@ function buildA3(){
  sl.append('g').selectAll('text').data(N).join('text').attr('x',d=>d.x+r(d)+.8).attr('y',d=>d.y+1).text(d=>d.id)
   .attr('font-size',d=>deg[d.id]>3?3.8:3.1).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill','#1d1d1b').attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',.7);
  const bb=sl.node().getBBox();sl.attr('viewBox',`${bb.x-2} ${bb.y-2} ${bb.width+4} ${bb.height+4}`);
- // dreta: illes en 2 columnes
- const sr=d3.select('#s3r'),RH=5.4,GAP=2.6,CW=96,colH=[0,0];
- small.forEach(c=>{
+ // dreta: arxipèlag
+ const sr=d3.select('#s3r'),FS=2.9,cw=s=>s.length*FS*.52,IS=small.map(c=>{
   const P=c.filter(x=>nodeById.get(x).tipus_node==='PDI').sort(),E=c.filter(x=>nodeById.get(x).tipus_node!=='PDI').sort();
-  const h=Math.max(P.length,E.length)*RH,k=0,x0=k*CW,y0=colH[k];colH[k]+=h+GAP;
-  const py=(i,n)=>y0+(i+.5)*RH+(Math.max(P.length,E.length)-n)*RH/2,pos={};
-  P.forEach((p,i)=>pos[p]=[x0+46,py(i,P.length)]);E.forEach((e,i)=>pos[e]=[x0+52,py(i,E.length)]);
-  const g=sr.append('g');
-  L.filter(l=>c.includes(l.source)).forEach(l=>g.append('line').attr('x1',pos[l.source][0]).attr('y1',pos[l.source][1]).attr('x2',pos[l.target][0]).attr('y2',pos[l.target][1])
-   .attr('stroke',l.vincle_2_cursos==='sí'?C.hi:C.line).attr('stroke-width',.4).attr('stroke-dasharray',dash(l)));
-  P.forEach(p=>{g.append('circle').attr('cx',pos[p][0]).attr('cy',pos[p][1]).attr('r',1.1).attr('fill',C.pdi);
-   g.append('text').attr('x',pos[p][0]-2).attr('y',pos[p][1]+1).attr('text-anchor','end').attr('font-size',2.8).text(p)});
-  E.forEach(e=>{g.append('circle').attr('cx',pos[e][0]).attr('cy',pos[e][1]).attr('r',1.1).attr('fill',C.ent);
-   g.append('text').attr('x',pos[e][0]+2).attr('y',pos[e][1]+1).attr('font-size',2.8).text(e)});
-  const ls=L.filter(l=>c.includes(l.source)),cd=[...new Set(ls.flatMap(l=>[l.codis,l.codis_sollicitud,l.codis_antecedent].join('|').split('|').filter(x=>x)))];
-  g.append('title').text(cd.join(', '));
+  const row=a=>{const w=a.map(cw),sx=Math.max(...w)+4;return{w:sx*a.length,xs:a.map((_,i)=>(i-(a.length-1)/2)*sx)}};
+  const rp=row(P),re=row(E),w=Math.max(rp.w,re.w),h=17;
+  return{c,P,E,rp,re,w,h,r:Math.hypot(w/2,h/2)*.8}});
+ const si=d3.forceSimulation(IS).force('x',d3.forceX(0).strength(.06)).force('y',d3.forceY(0).strength(.035))
+  .force('col',d3.forceCollide().radius(d=>d.r+1.5).iterations(4)).stop();
+ for(let i=0;i<500;i++)si.tick();
+ IS.forEach(o=>{const g=sr.append('g').attr('transform',`translate(${o.x},${o.y})`),pos={};
+  o.P.forEach((p,i)=>pos[p]=[o.rp.xs[i],-3]);o.E.forEach((e,i)=>pos[e]=[o.re.xs[i],4]);
+  L.filter(l=>o.c.includes(l.source)).forEach(l=>g.append('line').attr('x1',pos[l.source][0]).attr('y1',pos[l.source][1]).attr('x2',pos[l.target][0]).attr('y2',pos[l.target][1])
+   .attr('stroke',l.vincle_2_cursos==='sí'?C.hi:C.line).attr('stroke-width',.45).attr('stroke-dasharray',dash(l)));
+  o.P.forEach(p=>{g.append('circle').attr('cx',pos[p][0]).attr('cy',pos[p][1]).attr('r',1.2).attr('fill',C.pdi);
+   g.append('text').attr('x',pos[p][0]).attr('y',pos[p][1]-2.2).attr('text-anchor','middle').attr('font-size',FS).text(p)});
+  o.E.forEach(e=>{g.append('circle').attr('cx',pos[e][0]).attr('cy',pos[e][1]).attr('r',1.2).attr('fill',C.ent);
+   g.append('text').attr('x',pos[e][0]).attr('y',pos[e][1]+4.4).attr('text-anchor','middle').attr('font-size',FS).text(e)});
  });
  const br=sr.node().getBBox();sr.attr('viewBox',`${br.x-1} ${br.y-1} ${br.width+2} ${br.height+2}`);
 }
