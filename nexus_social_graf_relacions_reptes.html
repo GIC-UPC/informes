@@ -122,9 +122,9 @@ view();
 @media screen{.a3 body{background:#888}.a3 #a3{margin:10px auto;box-shadow:0 2px 10px rgba(0,0,0,.3)}}
 </style>
 <div id="a3"><div class="fold"></div>
-<div class="pan" style="left:12mm"><h2>La xarxa PDI–entitat · Nexus Social</h2><p id="a3l"></p><svg id="s3l"></svg>
+<div class="pan" style="left:12mm"><h2>Les constel·lacions</h2><p id="a3l"></p><svg id="s3l"></svg>
 <div class="ft"><span style="color:#2563eb">●</span> PDI &nbsp; <span style="color:#16a34a">●</span> entitat &nbsp; — repte &nbsp; - - iniciativa &nbsp; ··· sol·licitud Convo NS &nbsp; -·- finalista Premis CS &nbsp; <span style="color:#dc2626">━</span> vincle en ≥2 cursos · gruix = nombre de reptes/iniciatives</div></div>
-<div class="pan" style="left:222mm"><h2>Les illes</h2><p id="a3r"></p><svg id="s3r"></svg>
+<div class="pan" style="left:222mm"><h2>Sistemes binaris</h2><p id="a3r"></p><svg id="s3r"></svg>
 <div class="ft" id="a3f"></div></div></div>
 <script>
 function buildA3(){
@@ -139,8 +139,8 @@ function buildA3(){
  const inBig=new Set(big.flat());
  const dash=l=>+l.pes_n_reptes===0&&!+l.n_sollicituds?'2.4 .9 .6 .9':+l.pes_n_reptes===0?'.4 1':l.tipus==='iniciativa'?'1.6 1':null;
  const nP=[...adj.keys()].filter(x=>nodeById.get(x).tipus_node==='PDI').length;
- a3l.textContent=`${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles. Aquí, els ${big.length} grups connectats (${inBig.size} nodes): el Compromís Social UPC és el centre, i hi ha pocs ponts cap al territori.`;
- a3r.textContent=`${small.length} parelles o grups de 3 que encara no toquen ningú més. Cada illa és una oportunitat de connexió: un altre PDI, una altra assignatura, una altra entitat.`;
+ a3l.textContent=`Xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles. Aquí, les ${big.length} constel·lacions (${inBig.size} estrelles): el Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A baix a l'esquerra, l'Ossa Major.`;
+ a3r.textContent=`${small.length} parelles PDI–entitat (i algun trio) que encara no formen constel·lació. Cada una és una constel·lació per fer: un altre PDI, una altra assignatura, una altra entitat.`;
  a3f.textContent="Curs: reptes per edició (2025-27) · guanyadors Impacte i Convo NS al 2026-27 · sol·licituds Convo no guanyadores al 2025-26 · finalistes Premis CS 2025 al 2024-25. Programa Nexus Social UPC · Gabinet d'Innovació i Comunitat UPC · 17/11/2026";
  // esquerra: forces
  const N=big.flat().map(id=>Object.assign({},nodeById.get(id))),BL=L.filter(l=>inBig.has(l.source));
@@ -159,7 +159,7 @@ function buildA3(){
  sl.append('g').selectAll('text').data(N).join('text').attr('x',d=>d.x+r(d)+.8).attr('y',d=>d.y+1).text(d=>d.id)
   .attr('font-size',d=>deg[d.id]>3?3.8:3.1).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill','#1d1d1b').attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',.7);
  const bb=sl.node().getBBox();sl.attr('viewBox',`${bb.x-2} ${bb.y-2} ${bb.width+4} ${bb.height+4}`);
- // dreta: arxipèlag
+ // dreta: sistemes binaris
  const sr=d3.select('#s3r'),FS=2.9,cw=s=>s.length*FS*.52,IS=small.map(c=>{
   const P=c.filter(x=>nodeById.get(x).tipus_node==='PDI').sort(),E=c.filter(x=>nodeById.get(x).tipus_node!=='PDI').sort();
   const row=a=>{const w=a.map(cw),sx=Math.max(...w)+4;return{w:sx*a.length,xs:a.map((_,i)=>(i-(a.length-1)/2)*sx)}};
