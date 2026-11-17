@@ -139,7 +139,7 @@ function buildA3(){
  const inBig=new Set(big.flat());
  const dash=l=>+l.pes_n_reptes===0&&!+l.n_sollicituds?'2.4 .9 .6 .9':+l.pes_n_reptes===0?'.4 1':l.tipus==='iniciativa'?'1.6 1':null;
  const nP=[...adj.keys()].filter(x=>nodeById.get(x).tipus_node==='PDI').length;
- a3l.textContent=`Xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles. Aquí, les ${big.length} constel·lacions (${inBig.size} estrelles): el Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A baix a l'esquerra, l'Ossa Major.`;
+ a3l.textContent=`Xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles. Aquí, les ${big.length} constel·lacions (${inBig.size} estrelles): el Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A baix, l'Ossa Major i la Lira. En vermell, els vincles que es repeteixen en 2 cursos o més.`;
  a3r.textContent=`${small.length} parelles PDI–entitat (i algun trio) que encara no formen constel·lació. Cada una és una constel·lació per fer: un altre PDI, una altra assignatura, una altra entitat.`;
  a3f.textContent="Curs: reptes per edició (2025-27) · guanyadors Impacte i Convo NS al 2026-27 · sol·licituds Convo no guanyadores al 2025-26 · finalistes Premis CS 2025 al 2024-25. Programa Nexus Social UPC · Gabinet d'Innovació i Comunitat UPC · 17/11/2026";
  // esquerra: forces
@@ -149,15 +149,24 @@ function buildA3(){
  const UM={'Josep M. Font Llagunes':[0,0],'Fund. Ictus':[0,7],'Massimo Cenciarini':[9,8.5],'Fund. Inst. Guttmann':[10,2],
   'José M. Cabrera':[17.5,0.5],'Fund. iSocial':[23,1.5],'Ampans':[24,-2.8],'Rafael Vidal':[28,5],'Aj. Castelldefels':[31.5,9.5],'Elisabet Burjons':[33.5,14.5]};
  N.forEach(d=>{const p=UM[d.id];if(p){d.fx=-115+p[0]*4.3;d.fy=62+p[1]*4.3}});
+ const LY={'Fund. Mies van der Rohe':[0,0],'Pere Fuertes':[1.5,2.5],'Assoc. Alba':[3.6,3],'Martí Obiols':[3,7],'Aj. Agramunt':[1,6.5]};
+ N.forEach(d=>{const p=LY[d.id];if(p){d.fx=45+p[0]*9.5;d.fy=38+p[1]*8.5}});
+ const MAIN=new Set(big[0]);
  const s=d3.forceSimulation(N).force('link',d3.forceLink(BL).id(d=>d.id).distance(19).strength(.8)).force('charge',d3.forceManyBody().strength(-50))
-  .force('x',d3.forceX(0).strength(.2)).force('y',d3.forceY(0).strength(.13)).force('col',d3.forceCollide().radius(d=>r(d)+4.2)).stop();
+  .force('x',d3.forceX(d=>MAIN.has(d.id)?12:0).strength(.2)).force('y',d3.forceY(d=>MAIN.has(d.id)?-30:0).strength(.13)).force('col',d3.forceCollide().radius(d=>r(d)+(MAIN.has(d.id)?6.5:4.2))).stop();
  for(let i=0;i<600;i++)s.tick();
  const sl=d3.select('#s3l');
  sl.append('g').selectAll('line').data(BL).join('line').attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y)
   .attr('stroke',d=>d.vincle_2_cursos==='sí'?C.hi:C.line).attr('stroke-width',d=>.35+(Math.max(+d.pes_n_reptes,1)-1)*.5).attr('stroke-dasharray',dash);
  sl.append('g').selectAll('circle').data(N).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',r).attr('fill',d=>d.tipus_node==='PDI'?C.pdi:C.ent).attr('stroke','#fff').attr('stroke-width',.3);
- sl.append('g').selectAll('text').data(N).join('text').attr('x',d=>d.x+r(d)+.8).attr('y',d=>d.y+1).text(d=>d.id)
-  .attr('font-size',d=>deg[d.id]>3?3.8:3.1).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill','#1d1d1b').attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',.7);
+ const fs=d=>deg[d.id]>3?3.8:3.1,placed=[];
+ [...N].sort((p,q)=>deg[q.id]-deg[p.id]).forEach(d=>{const w=d.id.length*fs(d)*.55,h=fs(d),R=r(d)+.8;
+  const C=[[d.x+R,d.y+1,'start'],[d.x-R,d.y+1,'end'],[d.x+R*.6,d.y-R-.4,'start'],[d.x+R*.6,d.y+R+h,'start'],[d.x-R*.6,d.y-R-.4,'end'],[d.x-R*.6,d.y+R+h,'end'],[d.x,d.y-R-.4,'middle'],[d.x,d.y+R+h,'middle']];
+  const box=c=>{const x0=c[2]==='start'?c[0]:c[2]==='end'?c[0]-w:c[0]-w/2;return[x0,c[1]-h*.85,x0+w,c[1]+h*.2]};
+  const hit=b=>placed.some(p=>b[0]<p[2]&&b[2]>p[0]&&b[1]<p[3]&&b[3]>p[1])||N.some(o=>o!==d&&o.x>b[0]-r(o)&&o.x<b[2]+r(o)&&o.y>b[1]-r(o)&&o.y<b[3]+r(o));
+  let c=C.find(c=>!hit(box(c)))||C[0];d.lx=c[0];d.ly=c[1];d.la=c[2];placed.push(box(c))});
+ sl.append('g').selectAll('text').data(N).join('text').attr('x',d=>d.lx).attr('y',d=>d.ly).attr('text-anchor',d=>d.la).text(d=>d.id)
+  .attr('font-size',fs).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill','#1d1d1b').attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',.7);
  const bb=sl.node().getBBox();sl.attr('viewBox',`${bb.x-2} ${bb.y-2} ${bb.width+4} ${bb.height+4}`);
  // dreta: sistemes binaris
  const sr=d3.select('#s3r'),FS=2.9,cw=s=>s.length*FS*.52,IS=small.map(c=>{
