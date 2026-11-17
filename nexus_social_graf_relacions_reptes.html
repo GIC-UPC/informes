@@ -109,7 +109,8 @@ function hide(){tip.style('display','none')}
 view();
 </script>
 <style>
-#a3{display:none;width:420mm;height:297mm;position:relative;background:#fff;color:#1d1d1b;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+#a3{display:none;width:420mm;height:297mm;position:relative;background:#fff;color:#1d1d1b;font-family:Arial,Helvetica,"Liberation Sans",sans-serif}
+#a3 svg text{font-family:Arial,Helvetica,"Liberation Sans",sans-serif}
 .a3 header,.a3 svg#g,.a3 footer,.a3 #tip{display:none!important}
 .a3 body{margin:0;padding:0}
 .a3 #a3{display:block}
@@ -180,7 +181,10 @@ function buildA3(){
   const row=a=>{const w=a.map(cw),sx=Math.max(...w)+4;return{w:sx*a.length,xs:a.map((_,i)=>(i-(a.length-1)/2)*sx)}};
   const rp=row(P),re=row(E),w=Math.max(rp.w,re.w),h=19;
   return{c,P,E,rp,re,w,h,r:Math.hypot(w/2,h/2)*.84}});
- const si=d3.forceSimulation(IS).force('x',d3.forceX(0).strength(.07)).force('y',d3.forceY(0).strength(.02))
+ const ord=[...IS].sort((p,q)=>q.w-p.w),mix=[];while(ord.length){mix.push(ord.shift());if(ord.length)mix.push(ord.pop())}
+ const NC=3,jit=k=>Math.sin(k*12.9898)*43758.5453%1;
+ mix.forEach((o,k)=>{const row=Math.floor(k/NC),col=k%NC;o.tx=(col-1)*68+(row%2?12:-12)+jit(k)*10;o.ty=row*26+jit(k+7)*6;o.x=o.tx;o.y=o.ty});
+ const si=d3.forceSimulation(IS).force('x',d3.forceX(d=>d.tx).strength(.35)).force('y',d3.forceY(d=>d.ty).strength(.35))
   .force('col',d3.forceCollide().radius(d=>d.r+1.5).iterations(4)).stop();
  for(let i=0;i<500;i++)si.tick();
  const ANG=[0,20,-25,35,-15,30,-35,10,-20,25];
