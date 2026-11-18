@@ -133,7 +133,7 @@ view();
 <div class="ft" id="a3f"></div></div></div>
 <script>
 function buildA3(){
- document.documentElement.classList.add('a3');if(DIAPO)document.documentElement.classList.add('dp');if(sim)sim.stop();
+ const K=DIAPO?1.35:1;document.documentElement.classList.add('a3');if(DIAPO)document.documentElement.classList.add('dp');if(sim)sim.stop();
  if(CARP){pl.style.left='222mm';pr.style.left='12mm';logo.style.display='block'}
  const C={pdi:'#2A5699',ent:'#16a34a',line:'#9aa1ab',hi:'#dc2626'};
  const nodeById=new Map(D.nodes.map(n=>[n.id,n]));
@@ -151,7 +151,7 @@ function buildA3(){
  // esquerra: forces
  const N=big.flat().map(id=>Object.assign({},nodeById.get(id))),BL=L.filter(l=>inBig.has(l.source));
  const deg={};BL.forEach(l=>{deg[l.source]=(deg[l.source]||0)+1;deg[l.target]=(deg[l.target]||0)+1});
- const r=d=>1.4+Math.sqrt(deg[d.id])*1.1;
+ const r=d=>(1.4+Math.sqrt(deg[d.id])*1.1)*K;
  const UM={'Josep M. Font Llagunes':[0,0],'Fund. Ictus':[0,7],'Massimo Cenciarini':[9,8.5],'Fund. Inst. Guttmann':[10,2],
   'José M. Cabrera':[17.5,0.5],'Fund. iSocial':[23,1.5],'Ampans':[24,-2.8],'Rafael Vidal':[28,5],'Aj. Castelldefels':[31.5,9.5],'Elisabet Burjons':[33.5,14.5]};
  N.forEach(d=>{const p=UM[d.id];if(p){d.fx=-115+p[0]*4.3;d.fy=80+p[1]*4.6}});
@@ -162,14 +162,14 @@ function buildA3(){
  const CY={'M. Mar Carrió':[0,0],'Assoc. CATESCO':[-4,1],'Fund. SJD':[4,-1],'Aj. Terrassa':[.8,3.5],'Joan Antoni López':[1.6,7.2]};
  N.forEach(d=>{const p=CY[d.id];if(p){d.fx=-100+p[0]*7.5;d.fy=-4+p[1]*8}});
  const MAIN=new Set(big[0]);
- const s=d3.forceSimulation(N).force('link',d3.forceLink(BL).id(d=>d.id).distance(19).strength(.8)).force('charge',d3.forceManyBody().strength(-50))
-  .force('x',d3.forceX(d=>MAIN.has(d.id)?12:0).strength(.2)).force('y',d3.forceY(d=>MAIN.has(d.id)?-18:0).strength(.08)).force('col',d3.forceCollide().radius(d=>r(d)+(MAIN.has(d.id)?6.5:4.2))).stop();
+ const s=d3.forceSimulation(N).force('link',d3.forceLink(BL).id(d=>d.id).distance(19*K).strength(.8)).force('charge',d3.forceManyBody().strength(-50*K))
+  .force('x',d3.forceX(d=>MAIN.has(d.id)?12:0).strength(.2)).force('y',d3.forceY(d=>MAIN.has(d.id)?-18:0).strength(.08)).force('col',d3.forceCollide().radius(d=>r(d)+(MAIN.has(d.id)?6.5:4.2)*K)).stop();
  for(let i=0;i<600;i++)s.tick();
  const sl=d3.select('#s3l');
  sl.append('g').selectAll('line').data(BL).join('line').attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y)
   .attr('stroke',d=>d.vincle_2_cursos==='sí'?C.hi:C.line).attr('stroke-width',d=>.35+(Math.max(+d.pes_n_reptes,1)-1)*.5).attr('stroke-dasharray',dash);
  sl.append('g').selectAll('circle').data(N).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',r).attr('fill',d=>d.tipus_node==='PDI'?C.pdi:C.ent).attr('stroke','#fff').attr('stroke-width',.3);
- const fs=d=>deg[d.id]>3?3.8:3.1,placed=[];
+ const fs=d=>(deg[d.id]>3?3.8:3.1)*K,placed=[];
  [...N].sort((p,q)=>deg[q.id]-deg[p.id]).forEach(d=>{const w=d.id.length*fs(d)*.58+1,h=fs(d)+.6,R=r(d)+.8;
   const C=[[d.x+R,d.y+1,'start'],[d.x-R,d.y+1,'end'],[d.x+R*.6,d.y-R-.4,'start'],[d.x+R*.6,d.y+R+h,'start'],[d.x-R*.6,d.y-R-.4,'end'],[d.x-R*.6,d.y+R+h,'end'],[d.x,d.y-R-.4,'middle'],[d.x,d.y+R+h,'middle']];
   const box=c=>{const x0=c[2]==='start'?c[0]:c[2]==='end'?c[0]-w:c[0]-w/2;return[x0,c[1]-h*.85,x0+w,c[1]+h*.2]};
@@ -179,10 +179,10 @@ function buildA3(){
   .attr('font-size',fs).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill','#1d1d1b').attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',.7);
  const bb=sl.node().getBBox(),tp=CARP?22:0;sl.attr('viewBox',`${bb.x-2} ${bb.y-2-tp} ${bb.width+4} ${bb.height+4+tp}`);
  // dreta: sistemes binaris
- const sr=d3.select('#s3r'),FS=3.5,cw=s=>s.length*FS*.52,IS=small.map(c=>{
+ const sr=d3.select('#s3r'),FS=3.5*K,cw=s=>s.length*FS*.52,IS=small.map(c=>{
   const P=c.filter(x=>nodeById.get(x).tipus_node==='PDI').sort(),E=c.filter(x=>nodeById.get(x).tipus_node!=='PDI').sort();
   const row=a=>{const w=a.map(cw),sx=Math.max(...w)+4;return{w:sx*a.length,xs:a.map((_,i)=>(i-(a.length-1)/2)*sx)}};
-  const rp=row(P),re=row(E),w=Math.max(rp.w,re.w),h=19;
+  const rp=row(P),re=row(E),w=Math.max(rp.w,re.w),h=19*K;
   return{c,P,E,rp,re,w,h,r:Math.hypot(w/2,h/2)*.84}});
  const ord=[...IS].sort((p,q)=>q.w-p.w),mix=[];while(ord.length){mix.push(ord.shift());if(ord.length)mix.push(ord.pop())}
  const NC=3,jit=k=>Math.sin(k*12.9898)*43758.5453%1;
@@ -190,24 +190,24 @@ function buildA3(){
  let OB=[];
  if(DIAPO){const cb=sl.node().getBBox(),H=cb.height*1.06,W=H*16/9,cx=cb.x+cb.width/2,cy=cb.y+cb.height/2;
   OB=N.map(d=>{const lw=d.id.length*fs(d)*.58,lx=d.la==='start'?d.lx+lw/2:d.la==='end'?d.lx-lw/2:d.lx,x=(d.x+lx)/2,y=(d.y+d.ly)/2;
-   return{fx:x,fy:y,x,y,r:Math.abs(lx-d.x)/2+lw*.32+3,ob:1}});
-  const cols=10,rows=5,cells=[];for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const x=cx-W/2+(i+.5)*W/cols,y=cy-H/2+(j+.5)*H/rows;
+   return{fx:x,fy:y,x,y,r:Math.abs(lx-d.x)/2+lw*.4+4.5,ob:1}});
+  const cols=9,rows=5,cells=[];for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const x=cx-W/2+(i+.5+(j%2?.35:-.15)+jit(i*7+j)*.6)*W/cols,y=cy-H/2+(j+.5+jit(i*3+j*11)*.7)*H/rows;
    cells.push({x,y,dmin:Math.min(...N.map(d=>Math.hypot(d.x-x,d.y-y)))})}
   cells.sort((a,b)=>b.dmin-a.dmin);
-  mix.forEach((o,k)=>{const c=cells[k%cells.length];o.tx=c.x+jit(k)*6;o.ty=c.y+jit(k+3)*4;o.x=o.tx;o.y=o.ty})}
- const si=d3.forceSimulation(IS.concat(OB)).force('x',d3.forceX(d=>d.tx||0).strength(DIAPO?.08:.35)).force('y',d3.forceY(d=>d.ty||0).strength(DIAPO?.08:.35))
+  mix.forEach((o,k)=>{const c=cells[k%cells.length];o.tx=c.x+jit(k)*14;o.ty=c.y+jit(k+3)*10;o.x=o.tx;o.y=o.ty})}
+ const si=d3.forceSimulation(IS.concat(OB)).force('x',d3.forceX(d=>d.tx||0).strength(DIAPO?.18:.35)).force('y',d3.forceY(d=>d.ty||0).strength(DIAPO?.18:.35))
   .force('col',d3.forceCollide().radius(d=>d.r+1.5).iterations(4)).stop();
  for(let i=0;i<500;i++)si.tick();
  const ANG=[0,20,-25,35,-15,30,-35,10,-20,25];
  IS.forEach((o,k)=>{const g=(DIAPO?sl:sr).append('g').attr('transform',`translate(${o.x},${o.y})`),pos={},an=ANG[k%ANG.length]*Math.min(1,32/o.w)*Math.PI/180,
   rot=(x,y)=>[x*Math.cos(an)-y*Math.sin(an),x*Math.sin(an)+y*Math.cos(an)];
-  o.P.forEach((p,i)=>pos[p]=rot(o.rp.xs[i],-3.5));o.E.forEach((e,i)=>pos[e]=rot(o.re.xs[i],4.5));
+  o.P.forEach((p,i)=>pos[p]=rot(o.rp.xs[i],-3.5*K));o.E.forEach((e,i)=>pos[e]=rot(o.re.xs[i],4.5*K));
   L.filter(l=>o.c.includes(l.source)).forEach(l=>g.append('line').attr('x1',pos[l.source][0]).attr('y1',pos[l.source][1]).attr('x2',pos[l.target][0]).attr('y2',pos[l.target][1])
    .attr('stroke',l.vincle_2_cursos==='sí'?C.hi:C.line).attr('stroke-width',.45).attr('stroke-dasharray',dash(l)));
-  o.P.forEach(p=>{g.append('circle').attr('cx',pos[p][0]).attr('cy',pos[p][1]).attr('r',1.2).attr('fill',C.pdi);
-   g.append('text').attr('x',pos[p][0]).attr('y',pos[p][1]-2.6).attr('text-anchor','middle').attr('font-size',FS).text(p)});
-  o.E.forEach(e=>{g.append('circle').attr('cx',pos[e][0]).attr('cy',pos[e][1]).attr('r',1.2).attr('fill',C.ent);
-   g.append('text').attr('x',pos[e][0]).attr('y',pos[e][1]+5.2).attr('text-anchor','middle').attr('font-size',FS).text(e)});
+  o.P.forEach(p=>{g.append('circle').attr('cx',pos[p][0]).attr('cy',pos[p][1]).attr('r',1.2*K).attr('fill',C.pdi);
+   g.append('text').attr('x',pos[p][0]).attr('y',pos[p][1]-2.6*K).attr('text-anchor','middle').attr('font-size',FS).text(p)});
+  o.E.forEach(e=>{g.append('circle').attr('cx',pos[e][0]).attr('cy',pos[e][1]).attr('r',1.2*K).attr('fill',C.ent);
+   g.append('text').attr('x',pos[e][0]).attr('y',pos[e][1]+5.2*K).attr('text-anchor','middle').attr('font-size',FS).text(e)});
  });
  if(CARP){const lg=pl.querySelector('.ft'),box=document.createElement('div');box.className='expl';
   box.innerHTML=`<p><b>Les constel·lacions de l'altra pàgina</b> són la xarxa PDI–entitat del Nexus Social: ${nP} PDI i ${adj.size-nP} entitats, unides per ${L.length} vincles, en ${big.length} constel·lacions (${inBig.size} estrelles). El Compromís Social UPC n'és el centre, i hi ha pocs ponts cap al territori. A l'esquerra, la Fletxa i el Cigne (a qui encara li falta Deneb); a baix, l'Ossa Major i la Lira. En vermell, els vincles que es repeteixen en 2 cursos o més.</p><p><b>Els sistemes binaris de sobre</b> són ${small.length} parelles PDI–entitat (i algun trio) que encara no formen constel·lació. Cada una és una constel·lació per fer: un altre PDI, una altra assignatura, una altra entitat.</p>`;
