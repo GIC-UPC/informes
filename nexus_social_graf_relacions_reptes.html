@@ -119,7 +119,8 @@ view();
 .pan svg{flex:1;width:100%;height:auto;min-height:0}
 .pan .ft{font-size:7pt;color:#777;margin-top:2mm}
 .expl{margin-top:3mm;padding-top:3mm;border-top:.3mm solid #ddd}.expl p{font-size:8.5pt;color:#444;margin:0 0 1.5mm}.expl .ft{margin-top:1.5mm}
-.dp #a3{width:338.67mm;height:190.5mm;margin:0!important;box-shadow:none!important}.dp body{background:#fff}
+.dp #a3{width:338.67mm;height:190.5mm;margin:0!important;box-shadow:none!important;background:#05070F!important}.dp body{background:#05070F}
+.dp #a3 svg text{fill:#E8ECF4}
 .dp .fold,.dp #pr,.dp #pl h2,.dp #pl p,.dp #pl .ft,.dp #logo{display:none!important}
 .dp #pl{left:0;top:0;width:338.67mm;height:190.5mm}
 .fold{position:absolute;left:210mm;top:6mm;bottom:6mm;border-left:.3mm dashed #ccc}
@@ -135,7 +136,7 @@ view();
 function buildA3(){
  const K=DIAPO?1.35:1;document.documentElement.classList.add('a3');if(DIAPO)document.documentElement.classList.add('dp');if(sim)sim.stop();
  if(CARP){pl.style.left='222mm';pr.style.left='12mm';logo.style.display='block'}
- const C={pdi:'#2A5699',ent:'#16a34a',line:'#9aa1ab',hi:'#dc2626'};
+ const C=DIAPO?{pdi:'#6EA8FF',ent:'#3DDC84',line:'#8494B2',hi:'#FF5A5A',bg:'#05070F',tx:'#E8ECF4'}:{pdi:'#2A5699',ent:'#16a34a',line:'#9aa1ab',hi:'#dc2626',bg:'#fff',tx:'#1d1d1b'};
  const nodeById=new Map(D.nodes.map(n=>[n.id,n]));
  const L=D.links.map(l=>Object.assign({},l));
  const adj=new Map();L.forEach(l=>{[l.source,l.target].forEach(x=>{if(!adj.has(x))adj.set(x,new Set())});adj.get(l.source).add(l.target);adj.get(l.target).add(l.source)});
@@ -168,7 +169,7 @@ function buildA3(){
  const sl=d3.select('#s3l');
  sl.append('g').selectAll('line').data(BL).join('line').attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y)
   .attr('stroke',d=>d.vincle_2_cursos==='sí'?C.hi:C.line).attr('stroke-width',d=>.35+(Math.max(+d.pes_n_reptes,1)-1)*.5).attr('stroke-dasharray',dash);
- sl.append('g').selectAll('circle').data(N).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',r).attr('fill',d=>d.tipus_node==='PDI'?C.pdi:C.ent).attr('stroke','#fff').attr('stroke-width',.3);
+ sl.append('g').selectAll('circle').data(N).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',r).attr('fill',d=>d.tipus_node==='PDI'?C.pdi:C.ent).attr('stroke',C.bg).attr('stroke-width',.3);
  const fs=d=>(deg[d.id]>3?3.8:3.1)*K,placed=[];
  [...N].sort((p,q)=>deg[q.id]-deg[p.id]).forEach(d=>{const w=d.id.length*fs(d)*.58+1,h=fs(d)+.6,R=r(d)+.8;
   const C=[[d.x+R,d.y+1,'start'],[d.x-R,d.y+1,'end'],[d.x+R*.6,d.y-R-.4,'start'],[d.x+R*.6,d.y+R+h,'start'],[d.x-R*.6,d.y-R-.4,'end'],[d.x-R*.6,d.y+R+h,'end'],[d.x,d.y-R-.4,'middle'],[d.x,d.y+R+h,'middle']];
@@ -176,7 +177,7 @@ function buildA3(){
   const hit=b=>placed.some(p=>b[0]<p[2]&&b[2]>p[0]&&b[1]<p[3]&&b[3]>p[1])||N.some(o=>o!==d&&o.x>b[0]-r(o)&&o.x<b[2]+r(o)&&o.y>b[1]-r(o)&&o.y<b[3]+r(o));
   let c=C.find(c=>!hit(box(c)))||C[0];d.lx=c[0];d.ly=c[1];d.la=c[2];placed.push(box(c))});
  sl.append('g').selectAll('text').data(N).join('text').attr('x',d=>d.lx).attr('y',d=>d.ly).attr('text-anchor',d=>d.la).text(d=>d.id)
-  .attr('font-size',fs).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill','#1d1d1b').attr('paint-order','stroke').attr('stroke','#fff').attr('stroke-width',.7);
+  .attr('font-size',fs).attr('font-weight',d=>deg[d.id]>3?600:400).attr('fill',C.tx).attr('paint-order','stroke').attr('stroke',C.bg).attr('stroke-width',.7);
  const bb=sl.node().getBBox(),tp=CARP?22:0;sl.attr('viewBox',`${bb.x-2} ${bb.y-2-tp} ${bb.width+4} ${bb.height+4+tp}`);
  // dreta: sistemes binaris
  const sr=d3.select('#s3r'),FS=3.5*K,cw=s=>s.length*FS*.52,IS=small.map(c=>{
